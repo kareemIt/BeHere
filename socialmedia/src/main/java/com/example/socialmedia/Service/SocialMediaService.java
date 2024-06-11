@@ -2,6 +2,7 @@ package com.example.socialmedia.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,17 @@ public class SocialMediaService {
     public void deleteExpiredPosts() {
         List<Post> expiredPosts = postRepository.findAllByExpirationTimeBefore(new Date());
         postRepository.deleteAll(expiredPosts);
+    }
+
+    public Post getAPost(Long id){
+        Optional<Post> optionaPost = postRepository.findById(id);
+        Post Post = optionaPost.get();
+        return Post;
+    }
+    public User getAUser(Long id){
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.get();
+        return user;
     }
 
     public List<Post> getAllPosts(){

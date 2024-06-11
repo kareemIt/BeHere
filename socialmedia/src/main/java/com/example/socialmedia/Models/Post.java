@@ -19,7 +19,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    private long id;
+    private Long id;
 
     @Column(name = "content", nullable = false)
     private String content;
@@ -37,6 +37,11 @@ public class Post {
     private User user;
 
 
+    public  Date calculateExpirationTime() {
+        long currentTimeInMillis = this.dateCreated.getTime();
+        long expirationTimeInMillis = currentTimeInMillis + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
+        return new Date(expirationTimeInMillis);
+    }
     public Long getId() {
         return id;
     }
@@ -75,5 +80,15 @@ public class Post {
 
     public void setExpirationTime(Date expirationTime) {
         this.expirationTime = expirationTime;
+    }
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id= " + id +
+                ", content= '" + content + '\'' +
+                ", dateCreated= " + dateCreated +
+                ", expirationTime= " + expirationTime +
+                ", user= " + user.getUsername() +  // Assuming User has a getUsername() method
+                '}';
     }
 }

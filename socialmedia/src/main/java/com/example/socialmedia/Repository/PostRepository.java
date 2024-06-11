@@ -11,10 +11,14 @@ import com.example.socialmedia.Models.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
+    @Override
     Optional<Post> findById(Long id);
+    @Override
     List<Post> findAll();
     @SuppressWarnings("unchecked")
+    @Override
     Post save(Post post);
     List<Post> findAllByExpirationTimeBefore(Date date);
+    @Override
     void deleteById(Long id);
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.socialmedia.Controller.SocialMediaController;
+import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
 
 @Service
@@ -15,7 +16,6 @@ public class UserCreationService {
     private SocialMediaController socialMediaController;
 
     public void createUser() {
-        System.out.println("Started process");
         User user = new User();
         user.setBio("test");
         user.setDateCreated(new Date());
@@ -24,9 +24,18 @@ public class UserCreationService {
         user.setUsername("testTest");
         user.setPassword("password");
 
-        System.out.println(user);
-        System.out.println("Finished process");
-
         socialMediaController.createUser(user);
+    }
+
+    public void createPost() {
+        Post post = new Post();
+        post.setContent("test");
+        post.setDateCreated(new Date());
+        post.setId(1L);
+        User user = socialMediaController.getUser(1L);
+        post.setUser(user);
+        post.setExpirationTime(post.calculateExpirationTime());
+
+        socialMediaController.createPost(post);
     }
 }

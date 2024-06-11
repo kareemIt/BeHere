@@ -17,7 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    private long id;
+    private Long id;
     
     @Column(name = "username", nullable = false)
     private String username;
@@ -82,5 +82,16 @@ public class User {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "id= " + id +
+                ", username= '" + username + '\'' +
+                ", email= '" + email + '\'' +
+                ", password= '" + password + '\'' +
+                ", bio= '" + bio + '\'' +
+                ", dateCreated= " + dateCreated +
+                '}';
     }
 }
