@@ -1,6 +1,5 @@
 package com.example.socialmedia.Repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,5 +16,4 @@ import com.example.socialmedia.Models.User;
         User save(User user);
         void deleteById(Long id);
         
-        List<User> findAllByExpirationTimeBefore(Date date);
     }

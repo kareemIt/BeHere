@@ -1,15 +1,15 @@
 package com.example.socialmedia.Service;
 
-import com.example.socialmedia.Models.Post;
-import com.example.socialmedia.Models.User;
-import com.example.socialmedia.Repository.PostRepository;
-import com.example.socialmedia.Repository.UserRepository;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import com.example.socialmedia.Models.Post;
+import com.example.socialmedia.Models.User;
+import com.example.socialmedia.Repository.PostRepository;
+import com.example.socialmedia.Repository.UserRepository;
 
 @Service
 public class SocialMediaService {
@@ -20,12 +20,11 @@ public class SocialMediaService {
     @Autowired
     private PostRepository postRepository;
 
-    public User createUser(String username, String email, String password, String bio) {
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setBio(bio);
+    public User createUser(User user) {
+        user.setUsername(user.getUsername());
+        user.setEmail(user.getEmail());
+        user.setPassword(user.getPassword());
+        user.setBio(user.getBio());
         user.setDateCreated(new Date());
         return userRepository.save(user);
     }

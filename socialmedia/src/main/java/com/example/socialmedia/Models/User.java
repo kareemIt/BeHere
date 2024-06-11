@@ -2,22 +2,39 @@ package com.example.socialmedia.Models;
 
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id", nullable = false, updatable = false)
+    private long id;
+    
+    @Column(name = "username", nullable = false)
     private String username;
+    
+    @Column(name = "email", nullable = false)
     private String email;
+    
+    @Column(name = "password", nullable = false)
     private String password;
+    
+    @Column(name = "bio")
     private String bio;
-    private Date dateCreated;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_created", nullable = false)
+    private Date dateCreated = new Date();
+    
 
     public Long getId() {
         return id;

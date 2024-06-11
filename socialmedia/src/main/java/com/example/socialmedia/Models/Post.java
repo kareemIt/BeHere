@@ -1,29 +1,40 @@
 package com.example.socialmedia.Models;
 
-
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
+@Table(name = "post")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id", nullable = false, updatable = false)
+    private long id;
+
+    @Column(name = "content", nullable = false)
+    private String content;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_created", nullable = false, updatable = false)
+    private Date dateCreated = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expiration_time", nullable = false)
+    private Date expirationTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    private String content;
-    private Date dateCreated;
-    private Date expirationTime;
 
 
     public Long getId() {

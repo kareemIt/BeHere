@@ -22,7 +22,7 @@ public class SocialMediaController {
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
-        return socialMediaService.createUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getBio());
+        return socialMediaService.createUser(user);
     }
 
     @GetMapping("/posts")
