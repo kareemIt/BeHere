@@ -11,6 +11,7 @@ import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
 @ComponentScan(basePackages = { "com.example.socialmedia" })
+
 public class SocialmediaApplication {
 
      @Autowired
