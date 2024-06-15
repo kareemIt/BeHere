@@ -1,0 +1,29 @@
+*{
+    font-size: 1rem;
+}
+
+.form{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.heading{
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.container{
+    border: solid;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+}
+input{
+    margin: 3px;
+    width: 50%;
+    align-self: center;
+}
+.title{
+    text-align: center;
+    margin-bottom: 1rem;
+}

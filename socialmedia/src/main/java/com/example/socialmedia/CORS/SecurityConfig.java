@@ -12,22 +12,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @SuppressWarnings("removal")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable() // Disable CSRF for simplicity, do not use this in production without understanding the implications
+            .csrf(csrf -> csrf.disable()) // Disable CSRF protection for simplicity; handle this properly in production
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/api/users/**").permitAll() // Allow unauthenticated access to /api/users
+                    .requestMatchers("/api/**").permitAll() // Permit access to /api/users/** without authentication
                     .anyRequest().authenticated() // All other requests require authentication
             );
 
         return http.build();
     }
+    
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder BCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

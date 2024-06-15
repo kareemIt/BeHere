@@ -6,13 +6,16 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
 import com.example.socialmedia.Repository.PostRepository;
 import com.example.socialmedia.Repository.UserRepository;
 
 @Service
+@Transactional
 public class SocialMediaService {
 
     @Autowired
@@ -22,6 +25,10 @@ public class SocialMediaService {
     private PostRepository postRepository;
 
     public User createUser(User user) {
+        Optional<User> userDB = userRepository.findByUsername(user.getUsername());
+        if(userDB.isPresent()){
+            throw new UserAlreadyExistsException("User with username " + user.getUsername() + " already exists.");
+        }
         user.setUsername(user.getUsername());
         user.setEmail(user.getEmail());
         user.setPassword(user.getPassword());

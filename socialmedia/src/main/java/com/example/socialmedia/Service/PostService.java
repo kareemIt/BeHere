@@ -15,7 +15,6 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-
     public void checkPostDate(Post post) {
         Date currentDate = new Date();
         long diffInMillies = Math.abs(currentDate.getTime() - post.getDateCreated().getTime());

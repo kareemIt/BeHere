@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
+import com.example.socialmedia.Models.LoginRequest;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
 import com.example.socialmedia.Service.PostService;
 import com.example.socialmedia.Service.SocialMediaService;
+import com.example.socialmedia.Service.UserService;
 
 @RestController
 @RequestMapping("/api")
@@ -27,18 +30,39 @@ public class SocialMediaController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return socialMediaService.getAllUsers();
     }
+
     @GetMapping("/user")
     public User getUser(Long id) {
         return socialMediaService.getAUser(id);
     }
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
-        return socialMediaService.createUser(user);
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        try {
+            User createdUser = socialMediaService.createUser(user);
+            return ResponseEntity.ok(createdUser);
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login") // Updated endpoint mapping
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+
+        if (userService.authenticateUser(username, password)) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
     }
 
     @GetMapping("/posts")

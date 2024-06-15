@@ -19,5 +19,6 @@ import com.example.socialmedia.Models.User;
         User save(User user);
         @Override
         void deleteById(Long id);
+        Optional<User> findByUsername(String username);
         
     }
