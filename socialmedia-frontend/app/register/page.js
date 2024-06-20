@@ -12,7 +12,6 @@ const Login = () => {
 
 
   const handleSubmit = async (e) => {
-    console.log("hit2")
     e.preventDefault();
     const response = await fetch('http://localhost:8080/api/users', {
       method: 'POST',

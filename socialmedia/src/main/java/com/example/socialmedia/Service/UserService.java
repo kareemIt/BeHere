@@ -19,7 +19,6 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public boolean authenticateUser(String username, String password) {
-        System.out.println("hit2");
         Optional<User> user = userRepository.findByUsername(username);
         if (user != null) {
             // Use bcrypt to verify password

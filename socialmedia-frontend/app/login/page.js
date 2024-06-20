@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from './style.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-
+  // const router = useRouter();
 
   const handleSubmit = async (e) => {
-    console.log("hit")
     e.preventDefault();
     const response = await fetch('http://localhost:8080/api/login', {
       method: 'POST',
@@ -23,9 +22,10 @@ const Login = () => {
     });
 
     if (response.ok) {
-      setMessage('User Login successfully');
+      setMessage('Login successful');
+      // router.push('/home'); // Redirect to the home page
     } else {
-      setMessage('Error creating user');
+      setMessage('Invalid credentials');
     }
   };
 
@@ -53,7 +53,7 @@ const Login = () => {
           </Link>
         </form>
         {message && <p>{message}</p>}
-      </div >
+      </div>
     </div>
   );
 };

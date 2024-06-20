@@ -3,7 +3,7 @@
     "configurations": [
 
         {
-            "command": "npm run start",
+            "command": "npm run dev",
             "name": "Frontend",
             "cwd": "${workspaceFolder}/socialmedia-frontend",
             "request": "launch",

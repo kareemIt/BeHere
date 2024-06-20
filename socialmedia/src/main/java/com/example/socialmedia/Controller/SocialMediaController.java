@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,9 @@ public class SocialMediaController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -46,6 +50,8 @@ public class SocialMediaController {
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
+            // Hash the password before saving the user
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             User createdUser = socialMediaService.createUser(user);
             return ResponseEntity.ok(createdUser);
         } catch (UserAlreadyExistsException e) {
@@ -53,7 +59,7 @@ public class SocialMediaController {
         }
     }
 
-    @PostMapping("/login") // Updated endpoint mapping
+    @PostMapping("/login") 
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
