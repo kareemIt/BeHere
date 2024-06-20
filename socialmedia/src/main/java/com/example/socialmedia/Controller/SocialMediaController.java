@@ -50,7 +50,6 @@ public class SocialMediaController {
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            // Hash the password before saving the user
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             User createdUser = socialMediaService.createUser(user);
             return ResponseEntity.ok(createdUser);
