@@ -52,9 +52,9 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">Login</button>
+          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">Setup Account</button>
           <Link href="/Routes/login">
-            <button>Setup Account</button>
+            <button>login</button>
           </Link>
         </form>
         {message && <p>{message}</p>}
