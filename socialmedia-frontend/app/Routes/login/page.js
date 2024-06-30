@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './style.css';
+import { useState, useContext } from 'react';
+import UserContext from '../../context/UserContext'; 
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const { setUserId } = useContext(UserContext); 
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -22,8 +24,9 @@ const Login = () => {
     });
 
     if (response.ok) {
-      setMessage('Login successful');
-      router.push('/Routes/home'); 
+      const userId= response.json();
+      setUserId(userId);
+      router.push('/routes/home');
     } else {
       setMessage('Invalid credentials');
     }
@@ -48,7 +51,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit">Login</button>
-          <Link href="/Routes/register">
+          <Link href="/routes/register">
             <button>Register</button>
           </Link>
         </form>

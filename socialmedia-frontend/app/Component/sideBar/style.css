@@ -1,0 +1,21 @@
+/* Example CSS to ensure images are visible */
+
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: baseline;
+}
+.sideBar{
+  background-color: grey;
+  height: 400px;
+  width: 200px;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.icon:hover{
+  color: blue;
+}
+

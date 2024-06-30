@@ -59,12 +59,14 @@ public class SocialMediaController {
     }
 
     @PostMapping("/login") 
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
 
         if (userService.authenticateUser(username, password)) {
-            return ResponseEntity.ok("Login successful");
+            User user = socialMediaService.getAUser(username); 
+            Long userId = user.getId(); 
+            return ResponseEntity.ok(userId);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }

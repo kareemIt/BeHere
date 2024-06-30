@@ -62,6 +62,12 @@ public class SocialMediaService {
         User user = optionalUser.get();
         return user;
     }
+    public User getAUser(String username){
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = optionalUser.get();
+        return user;
+
+    }
 
     public List<Post> getAllPosts(){
         List<Post> AllPosts = postRepository.findAll();
