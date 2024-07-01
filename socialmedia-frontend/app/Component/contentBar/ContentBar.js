@@ -7,19 +7,9 @@ import { useRouter } from 'next/navigation';
 import styles from './style.css';
 import UserContext from '../../context/UserContext';
 
-const ForYouPage = () => {
+const NavBar = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
-
-  const getPosts = async () =>{
-    const response = await fetch('http://localhost:8080/api/', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-  }
 
   return (
     <div className='navBar'>
@@ -29,4 +19,4 @@ const ForYouPage = () => {
   );
 };
 
-export default ForYouPage;
+export default NavBar;

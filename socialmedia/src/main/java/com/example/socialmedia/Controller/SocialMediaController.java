@@ -1,5 +1,6 @@
 package com.example.socialmedia.Controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
 import com.example.socialmedia.Models.LoginRequest;
 import com.example.socialmedia.Models.Post;
+import com.example.socialmedia.Models.PostRequest;
 import com.example.socialmedia.Models.User;
-import com.example.socialmedia.Service.PostService;
 import com.example.socialmedia.Service.SocialMediaService;
 import com.example.socialmedia.Service.UserService;
 
@@ -28,8 +29,6 @@ public class SocialMediaController {
     @Autowired
     private SocialMediaService socialMediaService;
 
-    @Autowired
-    private PostService postService;
 
     @Autowired
     private UserService userService;
@@ -69,7 +68,7 @@ public class SocialMediaController {
             return ResponseEntity.ok(userId);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
+    }
     }
 
     @GetMapping("/posts")
@@ -78,11 +77,25 @@ public class SocialMediaController {
     }
 
     @PostMapping("/posts")
-    public Post createPost(@RequestBody Post post) {
-        postService.checkPostDate(post);
-        return socialMediaService.createPost(post.getUser().getId(), post.getContent());
-    }
+    public ResponseEntity<?> createPost(@RequestBody PostRequest postRequest) {
+        Long userId = postRequest.getUserId();
+        String content = postRequest.getContent();
+    
+        Post existingPost = socialMediaService.getAPost(userId);
+        if (existingPost != null) {
+            Date expiredDate = existingPost.getExpirationTime();
+            if (!existingPost.expiredPost(expiredDate)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Post already created today");
+            }
+        }
 
+        Post newPost = socialMediaService.createPost(userId, content);
+        if (newPost != null) {
+            return ResponseEntity.ok(newPost);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create post");
+        }
+    }
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

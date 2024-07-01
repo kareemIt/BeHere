@@ -13,6 +13,8 @@ import com.example.socialmedia.Models.Post;
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Override
     Optional<Post> findById(Long id);
+    Optional<Post> findByUserId(Long id);
+    Optional<Post> findFirstByUserIdAndCreatedDate(Long userId, Date createdDate);
     @Override
     List<Post> findAll();
     @SuppressWarnings("unchecked")

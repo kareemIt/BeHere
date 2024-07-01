@@ -53,7 +53,7 @@ public class SocialMediaService {
     }
 
     public Post getAPost(Long id){
-        Optional<Post> optionaPost = postRepository.findById(id);
+        Optional<Post> optionaPost = postRepository.findByUserId(id);
         Post Post = optionaPost.get();
         return Post;
     }
@@ -76,6 +76,11 @@ public class SocialMediaService {
     public List<User> getAllUsers(){
         List<User> allUsers = userRepository.findAll();
         return allUsers;
+    }
+
+    public boolean postExistsForUserToday(Long userId) {
+        Optional<Post> post = postRepository.findFirstByUserIdAndCreatedDate(userId, new Date());
+        return post.isPresent();
     }
 
 }

@@ -9,6 +9,7 @@ import UserContext from '../../context/UserContext';
 import NavBar from '../../component/navBar/NavBar';
 import SideBar from '../../component/sideBar/SideBar';
 import MakePost from '../../component/makePost/MakePost';
+import ContentBar from '../../component/contentBar/ContentBar';
 
 const Home = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const Home = () => {
   return (
     <div>
       <NavBar/>
+      <ContentBar/>
       <SideBar/>
       <MakePost/>
       <h1>Welcome to My Social Media App</h1>

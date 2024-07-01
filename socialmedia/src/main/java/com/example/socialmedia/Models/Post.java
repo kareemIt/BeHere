@@ -42,6 +42,10 @@ public class Post {
         long expirationTimeInMillis = currentTimeInMillis + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
         return new Date(expirationTimeInMillis);
     }
+
+    public boolean expiredPost(Date expiredDate) {
+        return expiredDate.before(new Date());
+    }
     public Long getId() {
         return id;
     }

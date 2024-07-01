@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-// import styles from './style.css';
+import styles from './style.css';
 import UserContext from '../../context/UserContext';
 
 const NavBar = () => {
