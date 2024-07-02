@@ -10,6 +10,7 @@ import NavBar from '../../component/navBar/NavBar';
 import SideBar from '../../component/sideBar/SideBar';
 import MakePost from '../../component/makePost/MakePost';
 import ContentBar from '../../component/contentBar/ContentBar';
+import ForYouPage from '../../component/FYP/ForYouPage';
 
 const Home = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const Home = () => {
       <ContentBar/>
       <SideBar/>
       <MakePost/>
+      <ForYouPage/>
       <h1>Welcome to My Social Media App</h1>
       <p>hello {userId}</p>
 

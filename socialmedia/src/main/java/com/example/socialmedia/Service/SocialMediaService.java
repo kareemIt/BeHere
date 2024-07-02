@@ -79,7 +79,7 @@ public class SocialMediaService {
     }
 
     public boolean postExistsForUserToday(Long userId) {
-        Optional<Post> post = postRepository.findFirstByUserIdAndCreatedDate(userId, new Date());
+        Optional<Post> post = postRepository.findFirstByUserIdAndDateCreated(userId, new Date());
         return post.isPresent();
     }
 

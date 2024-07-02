@@ -14,7 +14,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Override
     Optional<Post> findById(Long id);
     Optional<Post> findByUserId(Long id);
-    Optional<Post> findFirstByUserIdAndCreatedDate(Long userId, Date createdDate);
+    Optional<Post> findFirstByUserIdAndDateCreated(Long userId, Date dateCreated);
     @Override
     List<Post> findAll();
     @SuppressWarnings("unchecked")
