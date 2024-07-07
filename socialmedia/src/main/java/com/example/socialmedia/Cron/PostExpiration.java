@@ -12,7 +12,7 @@ public class PostExpiration {
     @Autowired
     private SocialMediaService socialMediaService;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void archivePosts() {
         socialMediaService.archiveExpiredPosts();
     }

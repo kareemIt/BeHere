@@ -24,7 +24,7 @@ const Login = () => {
     });
 
     if (response.ok) {
-      const userId= response.json();
+      const userId= await response.json();
       setUserId(userId);
       router.push('/routes/home');
     } else {

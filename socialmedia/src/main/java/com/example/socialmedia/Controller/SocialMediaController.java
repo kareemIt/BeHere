@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,8 +44,8 @@ public class SocialMediaController {
         return socialMediaService.getAllUsers();
     }
 
-    @GetMapping("/user")
-    public User getUser(Long id) {
+    @GetMapping("/user/{id}")
+    public User getUser(@PathVariable Long id) {
         return socialMediaService.getAUser(id);
     }
 
@@ -84,6 +85,7 @@ public class SocialMediaController {
                 post.getUser().getUsername(),
                 post.getRemainingHours()
         )).collect(Collectors.toList());
+         //archieved check here skip it before getting
 
         return ResponseEntity.ok(postResponses);
     }
@@ -92,6 +94,7 @@ public class SocialMediaController {
     public ResponseEntity<?> createPost(@RequestBody PostRequest postRequest) {
         Long userId = postRequest.getUserId();
         String content = postRequest.getContent();
+        //archieved check before posting
 
         Optional<Post> existingPostOptional = Optional.ofNullable(socialMediaService.getAPost(userId));
 
