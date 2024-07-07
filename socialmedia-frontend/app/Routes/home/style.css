@@ -1,0 +1,12 @@
+.homeContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.contentContainer{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: auto;
+    height: 200px;
+}

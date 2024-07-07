@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useState, useContext} from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-// import styles from './style.css';
+import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import  { currentDate as getCurrentDate, expirationDate as getExpirationDate } from "../../utils/date"
 
@@ -34,7 +34,7 @@ const MakePost = () => {
     }
   }
   return (
-    <div>
+    <div className='createPost'>
       <input type="text"
         value={content}
         onChange={(e) => setContent(e.target.value)}

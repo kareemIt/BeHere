@@ -1,6 +1,7 @@
 package com.example.socialmedia.Models;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,11 +37,19 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "archived", nullable = false)
+    private boolean archived = false;
 
     public  Date calculateExpirationTime() {
         long currentTimeInMillis = this.dateCreated.getTime();
         long expirationTimeInMillis = currentTimeInMillis + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
         return new Date(expirationTimeInMillis);
+    }
+
+    public long getRemainingHours() {
+        Date now = new Date();
+        long diffInMillis = expirationTime.getTime() - now.getTime();
+        return TimeUnit.MILLISECONDS.toHours(diffInMillis);
     }
 
     public boolean expiredPost(Date expiredDate) {
@@ -85,6 +94,16 @@ public class Post {
     public void setExpirationTime(Date expirationTime) {
         this.expirationTime = expirationTime;
     }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public boolean getArchived() {
+        return archived;
+    }
+
+
     @Override
     public String toString() {
         return "Post{" +
@@ -92,7 +111,8 @@ public class Post {
                 ", content= '" + content + '\'' +
                 ", dateCreated= " + dateCreated +
                 ", expirationTime= " + expirationTime +
-                ", user= " + user.getUsername() +  // Assuming User has a getUsername() method
+                ", user= " + user.getUsername() + 
+                ", archived= " + archived +
                 '}';
     }
 }

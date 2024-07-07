@@ -26,7 +26,7 @@ public class SocialMediaService {
 
     public User createUser(User user) {
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
-        if(userDB.isPresent()){
+        if (userDB.isPresent()) {
             throw new UserAlreadyExistsException("User with username " + user.getUsername() + " already exists.");
         }
         user.setUsername(user.getUsername());
@@ -52,28 +52,29 @@ public class SocialMediaService {
         postRepository.deleteAll(expiredPosts);
     }
 
-    public Post getAPost(Long id){
-        Optional<Post> optionaPost = postRepository.findByUserId(id);
-        Post Post = optionaPost.get();
-        return Post;
+    public Post getAPost(Long userId) {
+        return postRepository.findFirstByUserIdAndDateCreated(userId, new Date()).orElse(null);
     }
-    public User getAUser(Long id){
+
+    public User getAUser(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         User user = optionalUser.get();
         return user;
     }
-    public User getAUser(String username){
+
+    public User getAUser(String username) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.get();
         return user;
 
     }
 
-    public List<Post> getAllPosts(){
+    public List<Post> getAllPosts() {
         List<Post> AllPosts = postRepository.findAll();
         return AllPosts;
     }
-    public List<User> getAllUsers(){
+
+    public List<User> getAllUsers() {
         List<User> allUsers = userRepository.findAll();
         return allUsers;
     }
@@ -81,6 +82,15 @@ public class SocialMediaService {
     public boolean postExistsForUserToday(Long userId) {
         Optional<Post> post = postRepository.findFirstByUserIdAndDateCreated(userId, new Date());
         return post.isPresent();
+    }
+
+    public void archiveExpiredPosts() {
+        Date now = new Date();
+        List<Post> postsToArchive = postRepository.findAllByExpirationTimeBeforeAndArchivedFalse(now);
+        for (Post post : postsToArchive) {
+            post.setArchived(true);
+            postRepository.save(post);
+        }
     }
 
 }

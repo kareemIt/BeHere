@@ -16,7 +16,7 @@ const NavBar = () => {
       <h1>BeHere</h1>
       <input
         placeholder='Search'></input>
-      <Link href="/Routes/login" >
+      <Link href="/routes/login" >
         <button>LogOut</button>
       </Link>
     </div>

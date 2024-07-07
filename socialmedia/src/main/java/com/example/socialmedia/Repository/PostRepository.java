@@ -21,6 +21,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Override
     Post save(Post post);
     List<Post> findAllByExpirationTimeBefore(Date date);
+    List<Post> findAllByExpirationTimeBeforeAndArchivedFalse(Date expirationTime);
     @Override
     void deleteById(Long id);
 }

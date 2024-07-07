@@ -1,11 +1,11 @@
 "use client";
 
 import React from 'react';
-import { useEffect, useState, useContext} from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-// import styles from './style.css';
-import UserContext from '../../context/UserContext'; 
+import styles from './style.css';
+import UserContext from '../../context/UserContext';
 import NavBar from '../../component/navBar/NavBar';
 import SideBar from '../../component/sideBar/SideBar';
 import MakePost from '../../component/makePost/MakePost';
@@ -18,12 +18,15 @@ const Home = () => {
 
   return (
     <div>
-      <NavBar/>
-      <ContentBar/>
-      <SideBar/>
-      <MakePost/>
-      <ForYouPage/>
-      <h1>Welcome to My Social Media App</h1>
+      <NavBar />
+      <ContentBar />
+      <div className='homeContainer'>   
+        <SideBar />
+        <div className='contentContainer'>
+        <MakePost />
+        <ForYouPage />
+        </div>
+      </div>
       <p>hello {userId}</p>
 
     </div>

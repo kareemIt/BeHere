@@ -1,3 +1,8 @@
-.NavBar{
-    background: red;
+.post-container{
+    border: 2px solid black;
+    height: 50px;
+    width: 800px;
+    margin: auto;
+    text-align: left;
+    margin-bottom: 1rem;
 }
