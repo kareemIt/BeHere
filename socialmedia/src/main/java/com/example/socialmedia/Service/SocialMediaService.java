@@ -44,12 +44,19 @@ public class SocialMediaService {
         post.setContent(content);
         post.setDateCreated(new Date());
         post.setExpirationTime(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)); // 24 hours from now
+        post.setArchived(false);
         return postRepository.save(post);
     }
 
     public void deleteExpiredPosts() {
-        List<Post> expiredPosts = postRepository.findAllByExpirationTimeBefore(new Date());
-        postRepository.deleteAll(expiredPosts);
+        Date now = new Date();
+        List<Post> expiredPosts = postRepository.findAllByExpirationTimeBefore(now);
+        if (expiredPosts.isEmpty()) {
+            System.out.println("No expired posts to delete.");
+        } else {
+            postRepository.deleteAll(expiredPosts);
+            System.out.println("Deleted " + expiredPosts.size() + " expired posts.");
+        }
     }
 
     public Post getAPost(Long userId) {
@@ -58,25 +65,38 @@ public class SocialMediaService {
 
     public User getAUser(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.get();
-        return user;
+        return optionalUser.orElse(null);
     }
 
     public User getAUser(String username) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
-        User user = optionalUser.get();
-        return user;
+        return optionalUser.orElse(null);
+    }
 
+    public Post getActivePost(Long userId) {
+        Date now = new Date();
+        Optional<Post> optionalPost = postRepository.findFirstByUserIdAndDateCreatedAndArchivedFalse(userId, now);
+        return optionalPost.orElse(null);
     }
 
     public List<Post> getAllPosts() {
-        List<Post> AllPosts = postRepository.findAll();
-        return AllPosts;
+        return postRepository.findAll();
+    }
+
+    public List<Post> getAllActivePosts() {
+        return postRepository.findAllByExpirationTimeAfterAndArchivedFalse(new Date());
+    }
+
+    public List<Post> getAllArchivedPosts() {
+        return postRepository.findAllByArchivedTrue();
+    }
+    public List<Post> getUserActivePosts(Long userId) {
+        Date now = new Date();
+        return postRepository.findByUserIdAndExpirationTimeAfterAndArchivedFalse(userId, now);
     }
 
     public List<User> getAllUsers() {
-        List<User> allUsers = userRepository.findAll();
-        return allUsers;
+        return userRepository.findAll();
     }
 
     public boolean postExistsForUserToday(Long userId) {
@@ -85,8 +105,7 @@ public class SocialMediaService {
     }
 
     public void archiveExpiredPosts() {
-        Date now = new Date();
-        List<Post> postsToArchive = postRepository.findAllByExpirationTimeBeforeAndArchivedFalse(now);
+        List<Post> postsToArchive = postRepository.findAllByExpirationTimeBeforeAndArchivedFalse(new Date());
         for (Post post : postsToArchive) {
             post.setArchived(true);
             postRepository.save(post);

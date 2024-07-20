@@ -19,16 +19,12 @@ const MakePost = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: userId.value, content: content }),
+        body: JSON.stringify({ userId: userId, content: content }),
       });
       if (response.ok) {
-        // Handle success
         const data = await response.json();
         console.log('Post created:', data);
     } else {
-        // Handle error
-        console.log(userId.value)
-        console.log(content)
         const errorData = await response.text();
         console.error('Error creating post:', errorData);
     }

@@ -5,15 +5,16 @@ import { useRouter } from 'next/navigation';
 import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import Post from "../post/post";
+import MakePost from '../../component/makePost/MakePost';
 
-const ForYouPage = () => {
+const userPost = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('http://localhost:8080/api/posts/active', {
+      const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -23,12 +24,11 @@ const ForYouPage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // const data2 = await response2.json();
         setPosts(data);
-        console.log( data)
-        // console.log( data2)
+        console.log(data)
       } else {
-        console.error('Failed to fetch posts');
+        console.log("userId", userId)
+        console.error('no content');
       }
     };
 
@@ -40,8 +40,9 @@ const ForYouPage = () => {
       {posts.length > 0 && posts.map((post, index) => (
         <Post key={index} userId={post.username} content={post.content} remainingHours={post.remainingHours}  />
       ))}
+         {posts.length == 0 && <MakePost/> }
     </div>
   );
 };
 
-export default ForYouPage;
+export default userPost;

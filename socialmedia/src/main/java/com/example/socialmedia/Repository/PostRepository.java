@@ -11,17 +11,31 @@ import com.example.socialmedia.Models.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Override
     Optional<Post> findById(Long id);
+    
     Optional<Post> findByUserId(Long id);
+    
     Optional<Post> findFirstByUserIdAndDateCreated(Long userId, Date dateCreated);
-    @Override
+    
     List<Post> findAll();
+    
+    List<Post> findByUserIdAndExpirationTimeAfterAndArchivedFalse(Long userId, Date now);
+
     @SuppressWarnings("unchecked")
-    @Override
     Post save(Post post);
+    
+    List<Post> findAllByArchivedTrue();
+
+    Optional<Post> findFirstByUserIdAndDateCreatedAndArchivedFalse(Long userId, Date dateCreated);
+    
     List<Post> findAllByExpirationTimeBefore(Date date);
-    List<Post> findAllByExpirationTimeBeforeAndArchivedFalse(Date expirationTime);
+    
+    List<Post> findAllByExpirationTimeAfterAndArchivedFalse(Date date);
+    
+    void deleteAll(Iterable<? extends Post> entities);
+    
+    List<Post> findAllByExpirationTimeBeforeAndArchivedFalse(Date date);
+
     @Override
     void deleteById(Long id);
 }
