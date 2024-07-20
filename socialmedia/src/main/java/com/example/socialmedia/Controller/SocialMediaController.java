@@ -120,6 +120,20 @@ public class SocialMediaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+    @GetMapping("/posts/archived/{id}")
+    public ResponseEntity<List<PostResponse>> getArchivedPosts(@PathVariable Long id) {
+        List<Post> posts = socialMediaService.getArchivedPostsByUserId(id);
+        List<PostResponse> postResponses = posts.stream().map(post -> new PostResponse(
+                post.getId(),
+                post.getContent(),
+                post.getDateCreated(),
+                post.getExpirationTime(),
+                post.getUser().getUsername(),
+                post.getRemainingHours()
+        )).collect(Collectors.toList());
+
+        return ResponseEntity.ok(postResponses);
+    }
 
     @GetMapping("/posts/archived")
     public ResponseEntity<List<PostResponse>> getAllArchivedPosts() {

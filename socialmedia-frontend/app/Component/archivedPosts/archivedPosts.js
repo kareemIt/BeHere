@@ -13,7 +13,7 @@ const archivedPosts = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-    const response = await fetch('http://localhost:8080/api/posts/archived', {
+    const response = await fetch(`http://localhost:8080/api/posts/archived/${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

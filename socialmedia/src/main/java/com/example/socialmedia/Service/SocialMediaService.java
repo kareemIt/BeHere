@@ -75,7 +75,7 @@ public class SocialMediaService {
 
     public Post getActivePost(Long userId) {
         Date now = new Date();
-        Optional<Post> optionalPost = postRepository.findFirstByUserIdAndDateCreatedAndArchivedFalse(userId, now);
+        Optional<Post> optionalPost = postRepository.findFirstByUserIdAndArchivedFalseAndExpirationTimeAfter(userId, now);
         return optionalPost.orElse(null);
     }
 
@@ -102,6 +102,9 @@ public class SocialMediaService {
     public boolean postExistsForUserToday(Long userId) {
         Optional<Post> post = postRepository.findFirstByUserIdAndDateCreated(userId, new Date());
         return post.isPresent();
+    }
+    public List<Post> getArchivedPostsByUserId(Long userId) {
+        return postRepository.findByUserIdAndArchivedTrue(userId);
     }
 
     public void archiveExpiredPosts() {

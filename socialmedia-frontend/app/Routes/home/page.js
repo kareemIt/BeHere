@@ -11,20 +11,25 @@ import SideBar from '../../component/sideBar/SideBar';
 import MakePost from '../../component/makePost/MakePost';
 import ContentBar from '../../component/contentBar/ContentBar';
 import ForYouPage from '../../component/FYP/ForYouPage';
+import Trending from '../../component/trending/Trending';
 
 const Home = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
+  const [currentTab, setCurrentTab] = useState(0)
 
   return (
     <div>
       <NavBar />
-      <ContentBar />
-      <div className='homeContainer'>   
+      <ContentBar setCurrentTab={setCurrentTab} />
+      <div className='homeContainer'>
         <SideBar />
         <div className='contentContainer'>
-        <MakePost />
-        <ForYouPage />
+          {currentTab === 0 && <div> 
+            <MakePost />
+            <ForYouPage /> 
+            </div>}
+          {currentTab === 1 && <Trending />}
         </div>
       </div>
       <p>hello {userId}</p>

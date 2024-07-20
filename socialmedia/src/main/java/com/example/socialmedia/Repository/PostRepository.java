@@ -28,6 +28,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findFirstByUserIdAndDateCreatedAndArchivedFalse(Long userId, Date dateCreated);
     
+    List<Post> findByUserIdAndArchivedTrue(Long userId);
+
+    Optional<Post> findFirstByUserIdAndArchivedFalseAndExpirationTimeAfter(Long userId, Date now);
+    
     List<Post> findAllByExpirationTimeBefore(Date date);
     
     List<Post> findAllByExpirationTimeAfterAndArchivedFalse(Date date);
