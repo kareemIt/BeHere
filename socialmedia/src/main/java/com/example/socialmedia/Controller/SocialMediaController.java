@@ -1,7 +1,7 @@
 package com.example.socialmedia.Controller;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +102,7 @@ public class SocialMediaController {
 
         return ResponseEntity.ok(postResponses);
     }
+
     @GetMapping("/posts/active/{id}")
     public ResponseEntity<PostResponse> getUserPost(@PathVariable Long id) {
         Post post = socialMediaService.getActivePost(id);
@@ -120,6 +121,7 @@ public class SocialMediaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
     @GetMapping("/posts/archived/{id}")
     public ResponseEntity<List<PostResponse>> getArchivedPosts(@PathVariable Long id) {
         List<Post> posts = socialMediaService.getArchivedPostsByUserId(id);
@@ -156,15 +158,15 @@ public class SocialMediaController {
         String content = postRequest.getContent();
 
         Post existingPost = socialMediaService.getActivePost(userId);
-    
+
         if (existingPost != null) {
-            Date expirationTime = existingPost.getExpirationTime();
-    
-            if (!existingPost.expiredPost(expirationTime)) {
+            // Check if the existing post is expired
+            if (!existingPost.isExpired()) {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Post already created today");
             }
         }
-    
+
+        // Create a new post if no active post is found or if the existing post is expired
         Post newPost = socialMediaService.createPost(userId, content);
         if (newPost != null) {
             return ResponseEntity.ok(newPost);
@@ -172,10 +174,58 @@ public class SocialMediaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create post");
         }
     }
-    
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
+
+    @PostMapping("/{userId}/follow/{followerId}")
+    public ResponseEntity<?> followUser(@PathVariable Long userId, @PathVariable Long followerId) {
+        socialMediaService.followUser(userId, followerId);
+        return ResponseEntity.ok("User followed successfully");
+    }
+
+    @PostMapping("/{userId}/unfollow/{followerId}")
+    public ResponseEntity<?> unfollowUser(@PathVariable Long userId, @PathVariable Long followerId) {
+        socialMediaService.unfollowUser(userId, followerId);
+        return ResponseEntity.ok("User unfollowed successfully");
+    }
+
+    @GetMapping("/{userId}/followers")
+    public ResponseEntity<Set<User>> getFollowers(@PathVariable Long userId) {
+        Set<User> followers = socialMediaService.getFollowers(userId);
+        return ResponseEntity.ok(followers);
+    }
+
+    @GetMapping("/{userId}/following")
+    public ResponseEntity<Set<User>> getFollowing(@PathVariable Long userId) {
+        Set<User> following = socialMediaService.getFollowing(userId);
+        return ResponseEntity.ok(following);
+    }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<?> likePost(@RequestBody Long userId, @PathVariable Long postId) {
+        socialMediaService.likePost(userId, postId);
+        return ResponseEntity.ok("Post liked successfully");
+    }
+
+    @PostMapping("/{postId}/unlike")
+    public ResponseEntity<?> unlikePost(@RequestBody Long userId, @PathVariable Long postId) {
+        socialMediaService.unlikePost(userId, postId);
+        return ResponseEntity.ok("Post unliked successfully");
+    }
+
+    @GetMapping("/{postId}/likes")
+    public ResponseEntity<Integer> getLikeCount(@PathVariable Long postId) {
+        int likeCount = socialMediaService.getLikeCount(postId);
+        return ResponseEntity.ok(likeCount);
+    }
+
+    @GetMapping("/users/{id}/totalLikes")
+    public ResponseEntity<Integer> getTotalLikesForUser(@PathVariable Long id) {
+        int totalLikes = socialMediaService.getTotalLikesForUser(id);
+        return ResponseEntity.ok(totalLikes);
+    }
+
 }

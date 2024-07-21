@@ -3,14 +3,17 @@ package com.example.socialmedia.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
+import com.example.socialmedia.Models.Like;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
+import com.example.socialmedia.Repository.LikeRepository;
 import com.example.socialmedia.Repository.PostRepository;
 import com.example.socialmedia.Repository.UserRepository;
 
@@ -23,6 +26,9 @@ public class SocialMediaService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
 
     public User createUser(User user) {
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
@@ -90,6 +96,7 @@ public class SocialMediaService {
     public List<Post> getAllArchivedPosts() {
         return postRepository.findAllByArchivedTrue();
     }
+
     public List<Post> getUserActivePosts(Long userId) {
         Date now = new Date();
         return postRepository.findByUserIdAndExpirationTimeAfterAndArchivedFalse(userId, now);
@@ -103,6 +110,7 @@ public class SocialMediaService {
         Optional<Post> post = postRepository.findFirstByUserIdAndDateCreated(userId, new Date());
         return post.isPresent();
     }
+
     public List<Post> getArchivedPostsByUserId(Long userId) {
         return postRepository.findByUserIdAndArchivedTrue(userId);
     }
@@ -113,6 +121,56 @@ public class SocialMediaService {
             post.setArchived(true);
             postRepository.save(post);
         }
+    }
+
+    public void followUser(Long userId, Long followerId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User follower = userRepository.findById(followerId).orElseThrow(() -> new RuntimeException("Follower not found"));
+        user.getFollowers().add(follower);
+        userRepository.save(user);
+    }
+
+    public void unfollowUser(Long userId, Long followerId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User follower = userRepository.findById(followerId).orElseThrow(() -> new RuntimeException("Follower not found"));
+        user.getFollowers().remove(follower);
+        userRepository.save(user);
+    }
+
+    public Set<User> getFollowers(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getFollowers();
+    }
+
+    public Set<User> getFollowing(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getFollowers();
+    }
+
+    public void likePost(Long userId, Long postId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+
+        Like like = new Like();
+        like.setUser(user);
+        like.setPost(post);
+        likeRepository.save(like);
+    }
+
+    public void unlikePost(Long userId, Long postId) {
+        Like like = likeRepository.findByUserIdAndPostId(userId, postId)
+                .orElseThrow(() -> new RuntimeException("Like not found"));
+        likeRepository.delete(like);
+    }
+    public int getLikeCount(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        return post.getLikes().size();
+    }
+
+    public int getTotalLikesForUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return likeRepository.countByPostUser(user);
     }
 
 }
