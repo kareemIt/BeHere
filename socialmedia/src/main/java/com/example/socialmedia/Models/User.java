@@ -23,16 +23,15 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "username", nullable = false)
+    @Column(nullable = false)
     private String username;
 
-    @Column(name = "email", nullable = false)
+    @Column(nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(name = "bio")
@@ -132,20 +131,20 @@ public class User {
         this.following = following;
     }
 
-    public int getTotalLikes() {
-        return totalLikes;
-    }
-
-    public void setTotalLikes(int totalLikes) {
-        this.totalLikes = totalLikes;
-    }
-
     public Set<Like> getLikes() {
         return likes;
     }
 
     public void setLikes(Set<Like> likes) {
         this.likes = likes;
+    }
+
+    public int getTotalLikes() {
+        return totalLikes;
+    }
+
+    public void setTotalLikes(int totalLikes) {
+        this.totalLikes = totalLikes;
     }
 
     public int getPostingStreak() {
@@ -174,13 +173,16 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{"
-                + "id=" + id
-                + ", username='" + username + '\''
-                + ", email='" + email + '\''
-                + ", password='" + password + '\''
-                + ", bio='" + bio + '\''
-                + ", dateCreated=" + dateCreated
-                + '}';
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", bio='" + bio + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", totalLikes=" + totalLikes +
+                ", postingStreak=" + postingStreak +
+                ", lastPostDate=" + lastPostDate +
+                '}';
     }
 }

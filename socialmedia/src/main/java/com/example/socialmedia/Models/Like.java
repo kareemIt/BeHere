@@ -1,7 +1,5 @@
 package com.example.socialmedia.Models;
 
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,17 +25,6 @@ public class Like {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
-
-    @OneToMany(mappedBy = "post")
-    private Set<Like> likes;
-
-    public Set<Like> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Set<Like> likes) {
-        this.likes = likes;
-    }
 
     public Long getId() {
         return id;
@@ -66,10 +52,10 @@ public class Like {
 
     @Override
     public String toString() {
-        return "Like{"
-                + "id=" + id
-                + ", user=" + user
-                + ", post=" + post
-                + '}';
+        return "Like{" +
+                "id=" + id +
+                ", user=" + user +
+                ", post=" + post +
+                '}';
     }
 }

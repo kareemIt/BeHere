@@ -9,6 +9,7 @@ import UserContext from '../../context/UserContext';
 
 const Post = (props) => {
   const router = useRouter();
+  const { userId } = useContext(UserContext);
 
   return (
     <div className='post-container'>
@@ -18,6 +19,9 @@ const Post = (props) => {
         </div>
         <div className='postContent'>
             <p>{props.content}</p>
+        </div>
+        <div>
+          <button>Likes</button>
         </div>
     </div>
   );

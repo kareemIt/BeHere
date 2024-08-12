@@ -1,0 +1,10 @@
+.bio-container{
+    border: 2px solid black;
+    margin: auto;
+    width: 500px;
+    height: auto;
+}
+.bio{
+    width: 400px;
+    height: auto;
+}

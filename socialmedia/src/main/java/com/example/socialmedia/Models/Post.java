@@ -1,7 +1,7 @@
 package com.example.socialmedia.Models;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "posts")
@@ -21,39 +19,28 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "content")
+    @Column(nullable = false)
     private String content;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_created", nullable = false)
-    private Date dateCreated = new Date();
+    private Date dateCreated;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "expiration_time")
+    @Column(name = "expiration_time", nullable = false)
     private Date expirationTime;
+
+    @Column(name = "archived", nullable = false)
+    private boolean archived;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "archived")
-    private boolean archived;
-
     @OneToMany(mappedBy = "post")
-    private Set<Like> likes;
+    private List<Like> likes;
 
-    
-
-    public Set<Like> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Set<Like> likes) {
-        this.likes = likes;
-    }
+    // Other fields, getters, and setters
 
     public Long getId() {
         return id;
@@ -87,14 +74,6 @@ public class Post {
         this.expirationTime = expirationTime;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public boolean isArchived() {
         return archived;
     }
@@ -103,28 +82,41 @@ public class Post {
         this.archived = archived;
     }
 
-    public boolean isExpired() {
-        return expirationTime != null && expirationTime.before(new Date());
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
     }
 
     public long getRemainingHours() {
-        if (expirationTime == null) {
-            return 0;
-        }
-        long diff = expirationTime.getTime() - new Date().getTime();
-        return diff > 0 ? diff / (1000 * 60 * 60) : 0;
+        long diffInMillis = expirationTime.getTime() - new Date().getTime();
+        return diffInMillis / (1000 * 60 * 60);
     }
 
+    public boolean isExpired() {
+        return new Date().after(expirationTime);
+    }
 
     @Override
     public String toString() {
-        return "Post{"
-                + "id=" + id
-                + ", content='" + content + '\''
-                + ", dateCreated=" + dateCreated
-                + ", expirationTime=" + expirationTime
-                + ", user=" + user
-                + ", archived=" + archived
-                + '}';
+        return "Post{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", expirationTime=" + expirationTime +
+                ", archived=" + archived +
+                ", user=" + user +
+                ", likes=" + likes +
+                '}';
     }
 }
