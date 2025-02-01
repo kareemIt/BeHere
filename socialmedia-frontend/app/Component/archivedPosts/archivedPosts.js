@@ -16,6 +16,7 @@ const archivedPosts = () => {
     const response = await fetch(`http://localhost:8080/api/posts/archived/${userId}`, {
         method: 'GET',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       });

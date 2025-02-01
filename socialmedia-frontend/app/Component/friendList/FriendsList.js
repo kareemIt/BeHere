@@ -9,6 +9,7 @@ import UserContext from '../../context/UserContext';
 const FriendsList = () => {
     const router = useRouter();
     const { userId } = useContext(UserContext);
+    const { token }  = useContext(UserContext);
     const [friendList, setFriendsList] = useState();
 
     useEffect(() => {
@@ -16,6 +17,7 @@ const FriendsList = () => {
             const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
                 method: 'GET',
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 }
             });

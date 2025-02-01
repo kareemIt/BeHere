@@ -11,12 +11,14 @@ const userPost = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
+  const { token}  = useContext(UserContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
         method: 'GET',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       });

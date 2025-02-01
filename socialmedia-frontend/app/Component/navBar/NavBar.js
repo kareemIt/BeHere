@@ -9,16 +9,20 @@ import UserContext from '../../context/UserContext';
 
 const NavBar = () => {
   const router = useRouter();
-  const { userId } = useContext(UserContext);
+  const { userId, setUserId } = useContext(UserContext);
+
+  const logout = () => {
+    localStorage.removeItem('jwtToken');
+    setUserId(null); // Clear the user ID from context
+    router.push('/routes/login'); // Redirect to login page
+  };
 
   return (
     <div className='navBar'>
       <h1>BeHere</h1>
       <input
         placeholder='Search'></input>
-      <Link href="/routes/login" >
-        <button>LogOut</button>
-      </Link>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 };

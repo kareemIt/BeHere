@@ -24,6 +24,7 @@ const Profile = () => {
       const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
         method: 'GET',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       });

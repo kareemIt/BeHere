@@ -11,26 +11,53 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const { setUserId } = useContext(UserContext); 
+  const { setToken } = useContext(UserContext);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch('http://localhost:8080/api/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
 
     if (response.ok) {
-      const userId= await response.json();
-      setUserId(userId);
-      router.push('/routes/home');
+      const token = await response.json(); 
+      setUserId(username);
+      localStorage.setItem('jwtToken', token.token);
+      setToken(token.token);
+      localStorage.setItem('userId', username); 
+      router.push('/routes/home'); 
     } else {
       setMessage('Invalid credentials');
     }
+
   };
+
+  const fetchData = async () => {
+    if(!localStorage.getItem('jwtToken')) {
+    const token = localStorage.getItem('jwtToken');
+    const response = await fetch('http://localhost:8080/secured-endpoint', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Data:', data);
+    } else {
+      console.error('Failed to fetch data');
+    }
+   }
+  };
+
+  // Usage
+  fetchData();
 
   return (
     <div>

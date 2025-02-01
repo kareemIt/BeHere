@@ -16,6 +16,7 @@ const Login = () => {
     const response = await fetch('http://localhost:8080/api/users', {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, email, password }),

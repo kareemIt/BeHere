@@ -13,6 +13,7 @@
             "type": "java",
             "name": "Backend",
             "request": "launch",
+            "cwd": "${workspaceFolder}\\socialmedia",
             "mainClass": "com.example.socialmedia.SocialmediaApplication",
             "projectName": "socialmedia"
         },

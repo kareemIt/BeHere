@@ -12,21 +12,22 @@ const ForYouPage = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
     const fetchPosts = async () => {
       const response = await fetch('http://localhost:8080/api/posts/active', {
         method: 'GET',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       });
    
 
+      console.log('response fyp:', response);
       if (response.ok) {
         const data = await response.json();
-        // const data2 = await response2.json();
         setPosts(data);
         console.log( data)
-        // console.log( data2)
       } else {
         console.error('Failed to fetch posts');
       }
