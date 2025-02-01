@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
-import com.example.socialmedia.Models.LoginRequest;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.PostRequest;
 import com.example.socialmedia.Models.User;
@@ -59,19 +58,6 @@ public class SocialMediaController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
-
-        if (userService.authenticateUser(username, password)) {
-            User user = socialMediaService.getAUser(username);
-            Long userId = user.getId();
-            return ResponseEntity.ok(userId);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
-    }
 
     @GetMapping("/posts")
     public ResponseEntity<List<PostResponse>> getAllPosts() {

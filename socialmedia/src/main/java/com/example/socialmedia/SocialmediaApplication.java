@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.example.socialmedia" })
+@ComponentScan(basePackages = {"com.example.socialmedia"})
 @EnableScheduling
 public class SocialmediaApplication {
 
