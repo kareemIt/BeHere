@@ -20,6 +20,7 @@ const Profile = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
     const fetchPosts = async () => {
       const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
         method: 'GET',
@@ -31,12 +32,10 @@ const Profile = () => {
    
       if (response.ok) {
         const data = await response.json();
+        console.log("inner", data);
         setPosts(data);
         console.log(data);
-      } else {
-        console.log("userId", userId);
-        console.error('no content');
-      }
+      } 
     };
 
     fetchPosts();

@@ -13,10 +13,11 @@
             "type": "java",
             "name": "Backend",
             "request": "launch",
-            "cwd": "${workspaceFolder}\\socialmedia",
+            "cwd": "${workspaceFolder}/socialmedia",
             "mainClass": "com.example.socialmedia.SocialmediaApplication",
-            "projectName": "socialmedia"
-        },
+            "projectName": "socialmedia",
+            "preLaunchTask": "Maven Clean Install"
+        }
     ],
     "compounds": [
         {
