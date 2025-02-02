@@ -23,24 +23,22 @@ const Home = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    // if (typeof window !== "undefined") {
-    //   token = localStorage.getItem('jwtToken');
-    // }
-    if (!token) {
+    const localToken = localStorage.getItem('jwtToken');
+    
+    if (!localToken) {
       console.log('No token found');
       router.push('/routes/login');
     } else {
       try {
-        console.log('Token found:', token);
-          const decodedToken = jwtDecode(token);
-          const currentTime = Date.now() / 1000; // Convert to seconds
+          const decodedToken = jwtDecode(localToken);
+          const currentTime = Date.now() / 1000; 
           if (decodedToken.exp < currentTime) {
-              localStorage.removeItem('token');
+              localStorage.removeItem('jwtToken');
             router.push('/routes/login');
           }
       } catch (error) {
           console.error('Invalid token:', error);
-          localStorage.removeItem('token');
+          localStorage.removeItem('jwtToken');
         router.push('/routes/login');
       }
     }
@@ -54,7 +52,6 @@ const Home = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log('responses:', response);
       if (response.ok) {
         const data = await response.json();
         setData(data);
