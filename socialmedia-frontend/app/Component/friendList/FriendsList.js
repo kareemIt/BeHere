@@ -15,7 +15,7 @@ const FriendsList = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const response = await fetch(`http://localhost:8080/api/user/${userId}/following`, {
+            const response = await fetch(`http://localhost:8080/api/${userId}/following`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -33,7 +33,7 @@ const FriendsList = () => {
         };
 
         fetchPosts();
-    }, [userId,followingList]);
+    }, [userId,setFriendsList]);
 
     const removeFollower = async (followerId) => {
         const response = await fetch(`http://localhost:8080/api/${userId}/unfollow/${followerId}`, {

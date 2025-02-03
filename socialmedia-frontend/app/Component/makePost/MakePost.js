@@ -14,6 +14,7 @@ const MakePost = () => {
   const [ content, setContent] = useState("words");
 
   const makeAPost = async () =>{
+    const token = localStorage.getItem('jwtToken');
     const response = await fetch('http://localhost:8080/api/posts', {
         method: 'POST',
         headers: {

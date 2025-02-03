@@ -13,6 +13,8 @@ const bio = () => {
     const { token}  = useContext(UserContext);
     
     useEffect(() => {
+        console.log("userId", userId);
+        console.log("token", token);
         const fetchPosts = async () => {
             const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
                 method: 'GET',

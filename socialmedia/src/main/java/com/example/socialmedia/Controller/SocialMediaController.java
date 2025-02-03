@@ -58,7 +58,6 @@ public class SocialMediaController {
         }
     }
 
-
     @GetMapping("/posts")
     public ResponseEntity<List<PostResponse>> getAllPosts() {
         List<Post> posts = socialMediaService.getAllPosts();

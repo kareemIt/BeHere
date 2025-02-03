@@ -25,39 +25,17 @@ const Login = () => {
 
     if (response.ok) {
       const token = await response.json(); 
-      setUserId(username);
+      console.log("log in ", token);
+      setUserId(token.userId);
       localStorage.setItem('jwtToken', token.token);
       setToken(token.token);
-      localStorage.setItem('userId', username); 
+      localStorage.setItem('userId', token.userId); 
       router.push('/routes/home'); 
     } else {
       setMessage('Invalid credentials');
     }
 
   };
-
-  const fetchData = async () => {
-    if(!localStorage.getItem('jwtToken')) {
-    const token = localStorage.getItem('jwtToken');
-    const response = await fetch('http://localhost:8080/secured-endpoint', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Data:', data);
-    } else {
-      console.error('Failed to fetch data');
-    }
-   }
-  };
-
-  // Usage
-  fetchData();
 
   return (
     <div>

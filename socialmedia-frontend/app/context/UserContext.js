@@ -10,6 +10,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect( () => {
     const fetchData = async () => {
+      if(localStorage.getItem('jwtToken') != null) {
       let localToken = localStorage.getItem('jwtToken');
       const response = await  fetch('http://localhost:8080/api/secured-endpoint', {
         method: 'GET',
@@ -29,6 +30,7 @@ export const UserProvider = ({ children }) => {
         console.error('Failed to fetch data',response.status);
       }
     }
+  };
 
     fetchData();
   }, [token]);
