@@ -3,22 +3,42 @@ package com.example.socialmedia.dto;
 import java.util.Date;
 
 public class PostResponse {
+
     private Long id;
     private String content;
     private Date dateCreated;
     private Date expirationTime;
     private String username;
     private long remainingHours;
+    private boolean isFollowed;
+    private Long userId;
 
-    public PostResponse(Long id, String content, Date dateCreated, Date expirationTime, String username, long remainingHours) {
+    public PostResponse(Long id, String content, Date dateCreated, Date expirationTime, String username, long remainingHours, boolean isFollowed, Long userId) {
         this.id = id;
         this.content = content;
         this.dateCreated = dateCreated;
         this.expirationTime = expirationTime;
         this.username = username;
         this.remainingHours = remainingHours;
+        this.isFollowed = isFollowed;
+        this.userId = userId;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public boolean isFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(boolean isFollowed) {
+        this.isFollowed = isFollowed;
+    }
 
     public Long getId() {
         return id;

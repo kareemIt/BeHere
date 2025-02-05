@@ -53,14 +53,6 @@ const Home = () => {
       <ForYouPage />
       <Trending />
       <h1>Welcome to the Home Page</h1>
-      {data ? (
-        <div>
-          {/* Render your data here */}
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
     </div>
   );
 };

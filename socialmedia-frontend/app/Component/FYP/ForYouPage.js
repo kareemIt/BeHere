@@ -13,8 +13,9 @@ const ForYouPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
+    console.log('userId:', userId);
     const fetchPosts = async () => {
-      const response = await fetch('http://localhost:8080/api/posts/active', {
+      const response = await fetch(`http://localhost:8080/api/posts/allActivePosts/${userId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -26,6 +27,7 @@ const ForYouPage = () => {
       console.log('response fyp:', response);
       if (response.ok) {
         const data = await response.json();
+        console.log('data fyp:', data);
         setPosts(data);
         console.log( data)
       } else {
@@ -36,10 +38,11 @@ const ForYouPage = () => {
     fetchPosts();
   }, []); 
 
+  console.log('posts:', posts);
   return (
     <div className='Posts'>
       {posts.length > 0 && posts.map((post, index) => (
-        <Post key={index} userId={post.username} content={post.content} remainingHours={post.remainingHours}  />
+        <Post key={index} username={post.username} content={post.content} remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}/>
       ))}
     </div>
   );

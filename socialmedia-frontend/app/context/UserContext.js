@@ -19,10 +19,8 @@ export const UserProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
       });
-      console.log('localToken:', localToken);
       console.log('responses:', response);
       if (response.ok) {
-        console.log('Token found:', localToken);
         router.push('/routes/home');
         setUserId(localStorage.getItem('userId')); 
       } else {

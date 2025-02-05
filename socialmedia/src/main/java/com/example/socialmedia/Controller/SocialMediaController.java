@@ -20,7 +20,9 @@ import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.PostRequest;
 import com.example.socialmedia.Models.User;
+import com.example.socialmedia.Models.UserFollowing;
 import com.example.socialmedia.Service.SocialMediaService;
+import com.example.socialmedia.Service.UserFollowingService;
 import com.example.socialmedia.Service.UserService;
 import com.example.socialmedia.dto.PostResponse;
 
@@ -33,6 +35,9 @@ public class SocialMediaController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserFollowingService userFollowingService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -58,32 +63,42 @@ public class SocialMediaController {
         }
     }
 
-    @GetMapping("/posts")
-    public ResponseEntity<List<PostResponse>> getAllPosts() {
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<List<PostResponse>> getAllPosts(@PathVariable Long id) {
         List<Post> posts = socialMediaService.getAllPosts();
+        Set<UserFollowing> followers = userFollowingService.getFollowers(id);
+        boolean isFollowed = followers.stream().anyMatch(follower -> follower.getFollowerId().equals(id));
         List<PostResponse> postResponses = posts.stream().map(post -> new PostResponse(
                 post.getId(),
                 post.getContent(),
                 post.getDateCreated(),
                 post.getExpirationTime(),
                 post.getUser().getUsername(),
-                post.getRemainingHours()
+                post.getRemainingHours(),
+                isFollowed,
+                post.getUser().getId()
         )).collect(Collectors.toList());
 
         return ResponseEntity.ok(postResponses);
     }
 
-    @GetMapping("/posts/active")
-    public ResponseEntity<List<PostResponse>> getAllActivePosts() {
+    @GetMapping("/posts/allActivePosts/{id}")
+    public ResponseEntity<List<PostResponse>> getAllActivePosts(@PathVariable Long id) {
         List<Post> posts = socialMediaService.getAllActivePosts();
-        List<PostResponse> postResponses = posts.stream().map(post -> new PostResponse(
-                post.getId(),
-                post.getContent(),
-                post.getDateCreated(),
-                post.getExpirationTime(),
-                post.getUser().getUsername(),
-                post.getRemainingHours()
-        )).collect(Collectors.toList());
+        List<PostResponse> postResponses = posts.stream().map(post -> {
+            Set<UserFollowing> followers = userFollowingService.getFollowers(id);
+            boolean isFollowed = followers.stream().anyMatch(follower -> follower.getFollowerId().equals(post.getUser().getId()));
+            return new PostResponse(
+                    post.getId(),
+                    post.getContent(),
+                    post.getDateCreated(),
+                    post.getExpirationTime(),
+                    post.getUser().getUsername(),
+                    post.getRemainingHours(),
+                    isFollowed,
+                    post.getUser().getId()
+            );
+        }).collect(Collectors.toList());
 
         return ResponseEntity.ok(postResponses);
     }
@@ -91,32 +106,34 @@ public class SocialMediaController {
     @GetMapping("/posts/active/{id}")
     public ResponseEntity<PostResponse> getUserPost(@PathVariable Long id) {
         Post post = socialMediaService.getActivePost(id);
-
-        if (post != null) {
-            PostResponse postResponse = new PostResponse(
-                    post.getId(),
-                    post.getContent(),
-                    post.getDateCreated(),
-                    post.getExpirationTime(),
-                    post.getUser().getUsername(),
-                    post.getRemainingHours()
-            );
-            return ResponseEntity.ok(postResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Set<User> followers = socialMediaService.getFollowers(id);
+        boolean isFollowed = followers.contains(post.getUser());
+        PostResponse postResponse = new PostResponse(
+                post.getId(),
+                post.getContent(),
+                post.getDateCreated(),
+                post.getExpirationTime(),
+                post.getUser().getUsername(),
+                post.getRemainingHours(),
+                isFollowed,
+                post.getUser().getId()
+        );
+        return ResponseEntity.ok(postResponse);
     }
 
     @GetMapping("/posts/archived/{id}")
     public ResponseEntity<List<PostResponse>> getArchivedPosts(@PathVariable Long id) {
         List<Post> posts = socialMediaService.getArchivedPostsByUserId(id);
+        boolean isFollowed = true;
         List<PostResponse> postResponses = posts.stream().map(post -> new PostResponse(
                 post.getId(),
                 post.getContent(),
                 post.getDateCreated(),
                 post.getExpirationTime(),
                 post.getUser().getUsername(),
-                post.getRemainingHours()
+                post.getRemainingHours(),
+                isFollowed,
+                post.getUser().getId()
         )).collect(Collectors.toList());
 
         return ResponseEntity.ok(postResponses);
@@ -125,13 +142,17 @@ public class SocialMediaController {
     @GetMapping("/posts/archived")
     public ResponseEntity<List<PostResponse>> getAllArchivedPosts() {
         List<Post> posts = socialMediaService.getAllArchivedPosts();
+        boolean isFollowed = true;
+
         List<PostResponse> postResponses = posts.stream().map(post -> new PostResponse(
                 post.getId(),
                 post.getContent(),
                 post.getDateCreated(),
                 post.getExpirationTime(),
                 post.getUser().getUsername(),
-                post.getRemainingHours()
+                post.getRemainingHours(),
+                isFollowed,
+                post.getUser().getId()
         )).collect(Collectors.toList());
 
         return ResponseEntity.ok(postResponses);
@@ -163,30 +184,6 @@ public class SocialMediaController {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    }
-
-    @PostMapping("/{userId}/follow/{followerId}")
-    public ResponseEntity<?> followUser(@PathVariable Long userId, @PathVariable Long followerId) {
-        socialMediaService.followUser(userId, followerId);
-        return ResponseEntity.ok("User followed successfully");
-    }
-
-    @PostMapping("/{userId}/unfollow/{followerId}")
-    public ResponseEntity<?> unfollowUser(@PathVariable Long userId, @PathVariable Long followerId) {
-        socialMediaService.unfollowUser(userId, followerId);
-        return ResponseEntity.ok("User unfollowed successfully");
-    }
-
-    @GetMapping("/{userId}/followers")
-    public ResponseEntity<Set<User>> getFollowers(@PathVariable Long userId) {
-        Set<User> followers = socialMediaService.getFollowers(userId);
-        return ResponseEntity.ok(followers);
-    }
-
-    @GetMapping("/{userId}/following")
-    public ResponseEntity<Set<User>> getFollowing(@PathVariable Long userId) {
-        Set<User> following = socialMediaService.getFollowing(userId);
-        return ResponseEntity.ok(following);
     }
 
     @PostMapping("/{postId}/like")
