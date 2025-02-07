@@ -10,10 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
-import com.example.socialmedia.Models.Like;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
-import com.example.socialmedia.Repository.LikeRepository;
 import com.example.socialmedia.Repository.PostRepository;
 import com.example.socialmedia.Repository.UserRepository;
 
@@ -26,9 +24,6 @@ public class SocialMediaService {
 
     @Autowired
     private PostRepository postRepository;
-
-    @Autowired
-    private LikeRepository likeRepository;
 
     public User createUser(User user) {
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
@@ -145,32 +140,6 @@ public class SocialMediaService {
     public Set<User> getFollowing(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getFollowers();
-    }
-
-    public void likePost(Long userId, Long postId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
-
-        Like like = new Like();
-        like.setUser(user);
-        like.setPost(post);
-        likeRepository.save(like);
-    }
-
-    public void unlikePost(Long userId, Long postId) {
-        Like like = likeRepository.findByUserIdAndPostId(userId, postId)
-                .orElseThrow(() -> new RuntimeException("Like not found"));
-        likeRepository.delete(like);
-    }
-    public int getLikeCount(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
-        return post.getLikes().size();
-    }
-
-    public int getTotalLikesForUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return likeRepository.countByPostUser(user);
     }
 
 }

@@ -52,10 +52,10 @@ public class Like {
 
     @Override
     public String toString() {
-        return "Like{" +
-                "id=" + id +
-                ", user=" + user +
-                ", post=" + post +
-                '}';
+        return "Like{"
+                + "id=" + id
+                + ", user=" + user
+                + ", post=" + post
+                + '}';
     }
 }

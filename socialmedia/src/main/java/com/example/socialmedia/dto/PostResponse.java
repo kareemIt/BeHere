@@ -12,8 +12,10 @@ public class PostResponse {
     private long remainingHours;
     private boolean isFollowed;
     private Long userId;
+    private int likeCount;
+    private boolean isLiked;
 
-    public PostResponse(Long id, String content, Date dateCreated, Date expirationTime, String username, long remainingHours, boolean isFollowed, Long userId) {
+    public PostResponse(Long id, String content, Date dateCreated, Date expirationTime, String username, long remainingHours, boolean isFollowed, Long userId, int likeCount, boolean isLiked) {
         this.id = id;
         this.content = content;
         this.dateCreated = dateCreated;
@@ -22,6 +24,8 @@ public class PostResponse {
         this.remainingHours = remainingHours;
         this.isFollowed = isFollowed;
         this.userId = userId;
+        this.likeCount = likeCount;
+        this.isLiked = isLiked;
     }
 
     public Long getUserId() {
@@ -86,5 +90,21 @@ public class PostResponse {
 
     public void setRemainingHours(long remainingHours) {
         this.remainingHours = remainingHours;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.isLiked = liked;
     }
 }

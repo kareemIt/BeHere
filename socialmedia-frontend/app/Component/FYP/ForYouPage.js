@@ -42,7 +42,11 @@ const ForYouPage = () => {
   return (
     <div className='Posts'>
       {posts.length > 0 && posts.map((post, index) => (
-        <Post key={index} username={post.username} content={post.content} remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}/>
+        <Post key={index} username={post.username} content={post.content} postid={post.id}
+        remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
+        likes={post.likeCount} liked={post.liked}
+        
+        />
       ))}
     </div>
   );

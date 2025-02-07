@@ -17,7 +17,6 @@ const follow = async (userId,followerId) => {
         console.log('response follow:', response);
         if (response.ok) {
           return 200;
-          console.log('user followed');
       } else {
           const errorData = await response.text();
           const data = await response.json();
