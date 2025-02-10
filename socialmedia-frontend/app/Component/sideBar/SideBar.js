@@ -17,11 +17,11 @@ const SideBar = () => {
   return (
     <div className='sideBar' >
       <Link href="/routes/home"  className='icon'>
-        <Image priority src={Home}/>
+        <Image priority src={Home} alt='home'/>
         <span>Home</span>
       </Link>
       <Link href="/routes/profile"  className='icon'>
-        <Image priority src={Profile} />
+        <Image priority src={Profile} alt= 'profile' />
         <span>Profile</span>
       </Link>
     </div>

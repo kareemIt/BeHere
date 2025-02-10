@@ -15,8 +15,6 @@ const Post = (props) => {
   const [liked, setLiked] = useState(props.liked);
   const [currentLike, setCurrentLike] = useState(props.likes);
 
-  console.log('props:', props);
-
   const handleFollow = async () => {
     let followed = await follow(userId, props.userId);
     if (followed == 200) {
@@ -36,14 +34,13 @@ const Post = (props) => {
   };
 
   useEffect(() => {
-    console.log("liked:", liked);
   }, [liked]);
 
   return (
     <div className='post-container'>
       <div className='header'>
         <h1>{props.username} {isFollowing && <a>Following</a>}
-          {!isFollowing && <button onClick={handleFollow}>Follow</button>}
+          {!isFollowing && userId != props.userId && <button onClick={handleFollow}>Follow</button>}
         </h1>
         <h1>{props.remainingHours} icon</h1>
       </div>

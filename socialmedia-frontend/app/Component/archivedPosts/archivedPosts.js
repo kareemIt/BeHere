@@ -9,10 +9,11 @@ import Post from "../post/post";
 const archivedPosts = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState();
 
   useEffect(() => {
     const fetchPosts = async () => {
+    const token = localStorage.getItem('jwtToken');
     const response = await fetch(`http://localhost:8080/api/posts/archived/${userId}`, {
         method: 'GET',
         headers: {
@@ -24,8 +25,8 @@ const archivedPosts = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("posts arachieved", data);
         setPosts(data);
-        console.log(data)
       } else {
         console.error('Failed to fetch posts');
       }
@@ -36,8 +37,11 @@ const archivedPosts = () => {
 
   return (
     <div className='Posts'>
-      {posts.length > 0 && posts.map((post, index) => (
-        <Post key={index} userId={post.username} content={post.content} remainingHours={post.remainingHours}  />
+      {posts != null && posts.map((post, index) => (
+       <Post key={index} username={post.username} content={post.content} postid={post.id}
+       remainingHours={post.expirationTime} userId={post.userId} isfollowing={post.followed}
+       likes={post.likeCount} liked={post.liked} 
+       />
       ))}
     </div>
   );

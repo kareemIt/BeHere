@@ -13,7 +13,6 @@ const ForYouPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
-    console.log('userId:', userId);
     const fetchPosts = async () => {
       const response = await fetch(`http://localhost:8080/api/posts/allActivePosts/${userId}`, {
         method: 'GET',
@@ -23,13 +22,10 @@ const ForYouPage = () => {
         }
       });
    
-
-      console.log('response fyp:', response);
       if (response.ok) {
         const data = await response.json();
-        console.log('data fyp:', data);
         setPosts(data);
-        console.log( data)
+        console.log(data)
       } else {
         console.error('Failed to fetch posts');
       }
@@ -38,7 +34,6 @@ const ForYouPage = () => {
     fetchPosts();
   }, []); 
 
-  console.log('posts:', posts);
   return (
     <div className='Posts'>
       {posts.length > 0 && posts.map((post, index) => (

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
+import com.example.socialmedia.Models.Bio;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.PostRequest;
 import com.example.socialmedia.Models.User;
@@ -41,7 +42,7 @@ public class SocialMediaController {
     }
 
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable Long id) {
+    public Bio getUser(@PathVariable Long id) {
         return socialMediaService.getAUser(id);
     }
 
@@ -56,11 +57,12 @@ public class SocialMediaController {
         }
     }
 
-    // @GetMapping("/posts/{id}")
-    // public ResponseEntity<List<PostResponse>> getAllPosts(@PathVariable Long id) {
-    //     List<PostResponse> postsList = postService.getAllActivePosts(id);
-    //     return ResponseEntity.ok(postsList);
-    // }
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<List<PostResponse>> getAllPosts(@PathVariable Long id) {
+        List<PostResponse> postsList = postService.getAllActivePosts(id);
+        return ResponseEntity.ok(postsList);
+    }
+
     @GetMapping("/posts/allActivePosts/{id}")
     public ResponseEntity<List<PostResponse>> getAllActivePosts(@PathVariable Long id) {
         List<PostResponse> postResponses = postService.getAllActivePosts(id);
@@ -70,6 +72,9 @@ public class SocialMediaController {
     @GetMapping("/posts/active/{id}")
     public ResponseEntity<PostResponse> getUserPost(@PathVariable Long id) {
         Post post = socialMediaService.getActivePost(id);
+        if (post == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         int likeCount = postService.getLikeCountForPost(post.getId());
         boolean isLiked = postService.isPostLikedByUser(id, post.getId());
         boolean isFollowed = postService.isUserFollowedByUser(id, post.getUser().getId());

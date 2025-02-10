@@ -12,6 +12,7 @@ const MakePost = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [ content, setContent] = useState("words");
+  const [hasPost, setHasPost] = useState(false);
 
   const makeAPost = async () =>{
     const token = localStorage.getItem('jwtToken');
@@ -25,19 +26,45 @@ const MakePost = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log('Post created:', data);
+
     } else {
         const errorData = await response.text();
         console.error('Error creating post:', errorData);
     }
   }
+  useEffect(() => {
+    const postCheck = async () => {
+      const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localToken}`,
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("inner", data);
+        setHasPost(true);
+        console.log(data);
+      }
+      else{
+        setHasPost(false);
+      }
+    };
+    postCheck();
+  }, []);
   return (
-    <div className='createPost'>
-      <input type="text"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Write your post here..."></input>
-        <button onClick={makeAPost}>Post</button>
+    <div>
+      {hasPost &&
+        <div className='createPost'>
+          <input type="text"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Write your post here..."></input>
+            <button onClick={makeAPost}>Post</button>
+        </div>
+      }
     </div>
   );
 };

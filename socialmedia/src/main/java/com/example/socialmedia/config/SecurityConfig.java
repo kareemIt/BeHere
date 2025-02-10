@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API requests
                 .authorizeHttpRequests(authorizeRequests
                         -> authorizeRequests
-                        .requestMatchers("/{userId}/follow/{followerId}", "api/posts/allActivePosts/", "/api/users", "/api/**", "/api/login", "/authenticate", "/auth/**", "/user/**", "/secured-endpoint").permitAll() // Permit access to specified endpoints without authentication
+                        .requestMatchers("/api/user/*", "/followingList", "/{userId}/unfollow/{followerId}", "/{userId}/follow/{followerId}", "api/posts/allActivePosts/", "/api/users", "/api/**", "/api/login", "/authenticate", "/auth/**", "/user/**", "/secured-endpoint").permitAll() // Permit access to specified endpoints without authentication
                         .anyRequest().authenticated() // Secure all other endpoints
                 )
                 .sessionManagement(sessionManagement

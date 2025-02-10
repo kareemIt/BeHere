@@ -1,21 +1,20 @@
 "use client";
 
-import React from 'react';
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './style.css';
 import UserContext from '../../context/UserContext';
+import removeFollower from '../../utils/removeFollower';
 
 const FriendsList = () => {
     const router = useRouter();
     const { userId } = useContext(UserContext);
-    // const { token }  = useContext(UserContext);
-    const [followingList, setFriendsList] = useState();
+    const [followingList, setFollowingList] = useState([]);
     const token = localStorage.getItem('jwtToken');
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const response = await fetch(`http://localhost:8080/api/${userId}/following`, {
+            const response = await fetch(`http://localhost:8080/api/${userId}/followingList`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -25,43 +24,33 @@ const FriendsList = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setFriendsList(data);
-                console.log(data);
+                setFollowingList(data);
+                console.log('friendsList fyp:', data);
             } else {
                 console.log("userId", userId);
             }
         };
 
         fetchPosts();
-    }, [userId,setFriendsList]);
+    }, [userId, token,setFollowingList]);
 
-    const removeFollower = async (followerId) => {
-        const response = await fetch(`http://localhost:8080/api/${userId}/unfollow/${followerId}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            setFriendsList(data);
-            console.log(data);
-        } else {
-            console.log("userId", userId);
+    const handleRemoveFollower = async (friendId) => {
+        let removed = await removeFollower(userId, friendId);
+        if (removed == 200) {
+            setFollowingList((prevFriendsList) => {
+                const newFriendsList = prevFriendsList.filter((friend) => friend.id !== friendId);
+                return newFriendsList;
+            });
         }
     };
-
-
 
     return (
         <div className='Following List'>
             <p>Following</p>
-            {followingList != null && followingList.map((friend, index) => (
+            {followingList.length > 0 && followingList.map((friend, index) => (
                 <div key={index}>
-                    <h1>{friend}</h1>
-                    <button onClick={removeFollower(friend)}>Remove</button>
+                    <h1>{friend.username}</h1>
+                    <button onClick={() => handleRemoveFollower(friend.id)}>Remove</button>
                 </div>
             ))}
         </div>

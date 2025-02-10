@@ -10,6 +10,7 @@ import com.example.socialmedia.Models.User;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
+
     Optional<Like> findByUserIdAndPostId(Long userId, Long postId);
 
     int countByPostUser(User user);
@@ -17,4 +18,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     int countByPostId(Long postId);
 
     int countBy();
+
+    int countByUserId(Long userId);
 }

@@ -63,4 +63,9 @@ public class LikeService {
     public int getTotalLikeCount() {
         return (int) likeRepository.count();
     }
+
+    public int getLikeCountForUser(Long userId) {
+        return likeRepository.countByUserId(userId);
+    }
+
 }

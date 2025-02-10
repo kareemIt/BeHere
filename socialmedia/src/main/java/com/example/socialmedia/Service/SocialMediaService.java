@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
+import com.example.socialmedia.Models.Bio;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
+import com.example.socialmedia.Models.UserFollowing;
 import com.example.socialmedia.Repository.PostRepository;
 import com.example.socialmedia.Repository.UserRepository;
 
@@ -24,6 +26,12 @@ public class SocialMediaService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private UserFollowingService userFollowingService;
 
     public User createUser(User user) {
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
@@ -64,9 +72,22 @@ public class SocialMediaService {
         return postRepository.findFirstByUserIdAndDateCreated(userId, new Date()).orElse(null);
     }
 
-    public User getAUser(Long id) {
+    public Bio getAUser(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        return optionalUser.orElse(null);
+        int totalLikes = likeService.getLikeCountForUser(id);
+        Set<UserFollowing> followers = userFollowingService.getFollowers(id);
+        Set<UserFollowing> following = userFollowingService.getFollowing(id);
+        Bio bio = new Bio();
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            bio.setUsername(user.getUsername());
+            bio.setFollowersCount(followers.size());
+            bio.setFollowingCount(following.size());
+            bio.setTotalLikes(totalLikes);
+            bio.setPostingStreak(user.getPostingStreak());
+            bio.setBio(user.getBio());
+        }
+        return bio;
     }
 
     public User getAUser(String username) {

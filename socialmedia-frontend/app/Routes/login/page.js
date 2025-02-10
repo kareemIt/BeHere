@@ -25,7 +25,6 @@ const Login = () => {
 
     if (response.ok) {
       const token = await response.json(); 
-      console.log("log in ", token);
       setUserId(token.userId);
       localStorage.setItem('jwtToken', token.token);
       setToken(token.token);

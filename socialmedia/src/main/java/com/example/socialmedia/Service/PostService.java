@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.socialmedia.Models.Post;
-import com.example.socialmedia.Models.UserFollowing;
 import com.example.socialmedia.Repository.LikeRepository;
 import com.example.socialmedia.Repository.UserFollowingRepository;
 import com.example.socialmedia.dto.PostResponse;
@@ -29,8 +28,7 @@ public class PostService {
         List<Post> posts = socialMediaService.getAllActivePosts();
         Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
                 .stream()
-                .map(UserFollowing::getFollowerId)
-                .collect(Collectors.toSet());
+                .map(userFollowing -> userFollowing.getFollowerId()).collect(Collectors.toSet());
 
         return posts.stream().map(post -> {
             int likeCount = likeRepository.countByPostId(post.getId());
@@ -56,7 +54,7 @@ public class PostService {
         List<Post> posts = socialMediaService.getArchivedPostsByUserId(userId);
         Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
                 .stream()
-                .map(UserFollowing::getFollowerId)
+                .map(userFollowing -> userFollowing.getFollowerId())
                 .collect(Collectors.toSet());
 
         return posts.stream().map(post -> {
@@ -83,7 +81,7 @@ public class PostService {
         List<Post> posts = socialMediaService.getAllArchivedPosts();
         Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
                 .stream()
-                .map(UserFollowing::getFollowerId)
+                .map(userFollowing -> userFollowing.getFollowerId())
                 .collect(Collectors.toSet());
 
         return posts.stream().map(post -> {

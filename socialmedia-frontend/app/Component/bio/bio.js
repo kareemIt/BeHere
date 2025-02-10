@@ -13,7 +13,6 @@ const bio = () => {
     const { token}  = useContext(UserContext);
     
     useEffect(() => {
-        console.log("userId", userId);
         const fetchPosts = async () => {
             const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
                 method: 'GET',
@@ -25,10 +24,10 @@ const bio = () => {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log("bio", data);
                 setUserInfo(data);
-                console.log(data);
             } else {
-                console.log("userId", userId);
+                console.log("response failed", response);
             }
         };
 
@@ -42,16 +41,18 @@ const bio = () => {
             <div className='bio-container'>
                 {userInfo != null &&
                     <><div className='stats'>
+                        <h1>{userInfo.username}</h1>
                         <h1>Following</h1>
-                        <p>{userInfo.following.length}</p>
+                        <p>{userInfo.followingCount}</p>
                         <h1>Followers</h1>
-                        <p>{userInfo.followers.length}</p>
+                        <p>{userInfo.followersCount}</p>
                         <h1>Total Likes</h1>
                         <p>{userInfo.totalLikes}</p>
                         <h1>Daily post</h1>
                         <p>{userInfo.postingStreak}</p>
                     </div>
                         <div className='bio'>
+                            <p>bio</p>
                             <p>{userInfo.bio}</p>
                         </div></>
                 }

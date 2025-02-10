@@ -18,7 +18,6 @@ import { jwtDecode } from "jwt-decode";
 const Home = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
-  const { token } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
   const [data, setData] = useState(null);
 
@@ -42,17 +41,18 @@ const Home = () => {
         router.push('/routes/login');
       }
     }
+
   }, [router]);
 
   return (
     <div>
       <NavBar />
-      <SideBar />
       <MakePost />
       <ContentBar />
-      <ForYouPage />
-      <Trending />
-      <h1>Welcome to the Home Page</h1>
+      <SideBar />
+      {currentTab === 0 && <ForYouPage />}
+      {currentTab === 1 && <Trending />}
+
     </div>
   );
 };

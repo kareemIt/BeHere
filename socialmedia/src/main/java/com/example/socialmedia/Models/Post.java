@@ -1,7 +1,6 @@
 package com.example.socialmedia.Models;
 
 import java.util.Date;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,11 +35,9 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "post")
-    private List<Like> likes;
-
+    // @OneToMany(mappedBy = "post")
+    // private List<Like> likes;
     // Other fields, getters, and setters
-
     public Long getId() {
         return id;
     }
@@ -90,14 +86,12 @@ public class Post {
         this.user = user;
     }
 
-    public List<Like> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(List<Like> likes) {
-        this.likes = likes;
-    }
-
+    // public List<Like> getLikes() {
+    //     return likes;
+    // }
+    // public void setLikes(List<Like> likes) {
+    //     this.likes = likes;
+    // }
     public long getRemainingHours() {
         long diffInMillis = expirationTime.getTime() - new Date().getTime();
         return diffInMillis / (1000 * 60 * 60);
@@ -109,14 +103,13 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", dateCreated=" + dateCreated +
-                ", expirationTime=" + expirationTime +
-                ", archived=" + archived +
-                ", user=" + user +
-                ", likes=" + likes +
-                '}';
+        return "Post{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", dateCreated=" + dateCreated
+                + ", expirationTime=" + expirationTime
+                + ", archived=" + archived
+                + ", user=" + user
+                + '}';
     }
 }

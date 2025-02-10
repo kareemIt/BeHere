@@ -8,10 +8,8 @@ import Post from "../post/post";
 import MakePost from '../../component/makePost/MakePost';
 
 const userPost = () => {
-  const router = useRouter();
   const { userId } = useContext(UserContext);
-  const [posts, setPosts] = useState([]);
-  // const { token}  = useContext(UserContext);
+  const [post, setPosts] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -28,6 +26,7 @@ const userPost = () => {
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
+        console.log("posts", data);
         console.log(data)
       } else {
         console.log("userId", userId)
@@ -40,10 +39,13 @@ const userPost = () => {
 
   return (
     <div className='Posts'>
-      {posts.length > 0 && posts.map((post, index) => (
-        <Post key={index} userId={post.username} content={post.content} remainingHours={post.remainingHours}  />
-      ))}
-         {posts.length == 0 && <MakePost/> }
+      {post != null && 
+       <Post username={post.username} content={post.content} postid={post.id}
+       remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
+       likes={post.likeCount} liked={post.liked} 
+       />
+      }
+         {post == null && <MakePost/> }
     </div>
   );
 };
