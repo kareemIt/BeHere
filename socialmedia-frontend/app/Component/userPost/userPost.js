@@ -33,8 +33,8 @@ const userPost = () => {
         console.error('no content');
       }
     };
+        fetchPosts();
 
-    fetchPosts();
   }, []); 
 
   return (

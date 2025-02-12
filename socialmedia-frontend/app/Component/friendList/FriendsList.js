@@ -21,7 +21,7 @@ const FriendsList = () => {
                     'Content-Type': 'application/json',
                 }
             });
-
+            console.log(response);
             if (response.ok) {
                 const data = await response.json();
                 setFollowingList(data);
@@ -32,7 +32,7 @@ const FriendsList = () => {
         };
 
         fetchPosts();
-    }, [userId, token,setFollowingList]);
+    }, []);
 
     const handleRemoveFollower = async (friendId) => {
         let removed = await removeFollower(userId, friendId);

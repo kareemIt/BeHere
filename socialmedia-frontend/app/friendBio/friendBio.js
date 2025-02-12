@@ -4,18 +4,18 @@ import React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './style.css';
-import UserContext from '../../context/UserContext';
+import UserContext from '../context/UserContext';
 
-const bio = (props) => {
+const friendBio = (props) => {
     const router = useRouter();
-    const  {userId} = useContext(UserContext);
     const [userInfo, setUserInfo] = useState();
     const { token}  = useContext(UserContext);
     
     useEffect(() => {
+        console.log("props", props.userid);
 
         const fetchPosts = async () => {
-            const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
+            const response = await fetch(`http://localhost:8080/api/user/${props.userid}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -31,15 +31,12 @@ const bio = (props) => {
                 console.log("response failed", response);
             }
         };
-
-
     fetchPosts();
     }, []);
 
 
     return (
         <div className='Profile '>
-            <h1>settings</h1>
             <div className='bio-container'>
                 {userInfo != null &&
                     <><div className='stats'>
@@ -63,4 +60,4 @@ const bio = (props) => {
     );
 };
 
-export default bio;
+export default friendBio;
