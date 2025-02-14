@@ -1,17 +1,23 @@
 package com.example.socialmedia.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.socialmedia.Models.Like;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
 import com.example.socialmedia.Repository.LikeRepository;
 import com.example.socialmedia.Repository.PostRepository;
+import com.example.socialmedia.dto.PostResponse;
 
 @Service
+@Transactional
 public class LikeService {
 
     @Autowired
@@ -20,6 +26,14 @@ public class LikeService {
     @Autowired
     private PostRepository postRepository;
 
+    private PostService postService;
+
+    @Autowired
+    public void setPostService(PostService postService) {
+        this.postService = postService;
+    }
+
+    // Removed SocialMediaService dependency to break the cycle
     public Optional<Like> findLikeByUserIdAndPostId(Long userId, Long postId) {
         return likeRepository.findByUserIdAndPostId(userId, postId);
     }
@@ -68,4 +82,32 @@ public class LikeService {
         return likeRepository.countByUserId(userId);
     }
 
+    // UPDATED: Now using PostRepository directly to obtain active posts instead of SocialMediaService
+    public List<PostResponse> getTrendingPosts() {
+        List<Post> allActivePosts = postRepository.findAllByExpirationTimeAfterAndArchivedFalse(new Date());
+        List<PostResponse> trendingList = allActivePosts.stream().map(post -> {
+            int likeCount = getLikeCountForPost(post.getId());
+            boolean isLiked = postService.isPostLikedByUser(post.getUser().getId(), post.getId());
+            boolean isFollowed = postService.isUserFollowedByUser(post.getUser().getId(), post.getUser().getId());
+
+            PostResponse postResponse = new PostResponse(
+                    post.getId(),
+                    post.getContent(),
+                    post.getDateCreated(),
+                    post.getExpirationTime(),
+                    post.getUser().getUsername(),
+                    post.getRemainingHours(),
+                    isFollowed,
+                    post.getUser().getId(),
+                    likeCount,
+                    isLiked
+            );
+            postResponse.setLikes(likeCount);
+            return postResponse;
+        }).collect(Collectors.toList());
+
+        return trendingList.stream()
+                .sorted((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()))
+                .collect(Collectors.toList());
+    }
 }

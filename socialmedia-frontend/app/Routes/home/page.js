@@ -47,7 +47,7 @@ const Home = () => {
   return (
     <div>
       <NavBar />
-      <ContentBar />
+      <ContentBar setCurrentTab={setCurrentTab}/>
       <MakePost />
       <SideBar />
       {currentTab === 0 && <ForYouPage />}

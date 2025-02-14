@@ -26,8 +26,15 @@ import com.example.socialmedia.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class AuthenticationController {
+
+    private SocialMediaService socialMediaService;
+
+    @Autowired
+    public void setSocialMediaService(SocialMediaService socialMediaService) {
+        this.socialMediaService = socialMediaService;
+    }
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -37,9 +44,6 @@ public class AuthenticationController {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    private SocialMediaService socialMediaService;
 
     @GetMapping("/secured-endpoint")
     public ResponseEntity<?> getSecuredData() {

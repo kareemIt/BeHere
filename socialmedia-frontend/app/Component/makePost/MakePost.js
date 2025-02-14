@@ -23,6 +23,8 @@ const MakePost = () => {
       },
       body: JSON.stringify({ userId: userId, content: content }),
     });
+
+    console.log("response", response)
     if (response.ok) {
       const data = await response.json();
       setHasPost(true); 

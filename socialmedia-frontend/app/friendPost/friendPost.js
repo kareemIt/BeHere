@@ -24,8 +24,6 @@ const FriendPost = ({ userid }) => {
         const data = await response.json();
         setPosts([data]);
         console.log("posts", [data]);
-      } else {
-        console.error('No content');
       }
     };
 

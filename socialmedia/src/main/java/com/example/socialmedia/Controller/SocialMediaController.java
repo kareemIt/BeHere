@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import com.example.socialmedia.dto.PostResponse;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class SocialMediaController {
 
     @Autowired
@@ -71,27 +73,7 @@ public class SocialMediaController {
 
     @GetMapping("/posts/active/{id}")
     public ResponseEntity<PostResponse> getUserPost(@PathVariable Long id) {
-        Post post = socialMediaService.getActivePost(id);
-        if (post == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        int likeCount = postService.getLikeCountForPost(post.getId());
-        boolean isLiked = postService.isPostLikedByUser(id, post.getId());
-        boolean isFollowed = postService.isUserFollowedByUser(id, post.getUser().getId());
-
-        PostResponse postResponse = new PostResponse(
-                post.getId(),
-                post.getContent(),
-                post.getDateCreated(),
-                post.getExpirationTime(),
-                post.getUser().getUsername(),
-                post.getRemainingHours(),
-                isFollowed,
-                post.getUser().getId(),
-                likeCount,
-                isLiked
-        );
-        return ResponseEntity.ok(postResponse);
+        return postService.getUserPost(id);
     }
 
     @GetMapping("/posts/archived/{id}")

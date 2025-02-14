@@ -1,14 +1,18 @@
 package com.example.socialmedia.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Repository.LikeRepository;
+import com.example.socialmedia.Repository.PostRepository;
 import com.example.socialmedia.Repository.UserFollowingRepository;
 import com.example.socialmedia.dto.PostResponse;
 
@@ -16,7 +20,7 @@ import com.example.socialmedia.dto.PostResponse;
 public class PostService {
 
     @Autowired
-    private SocialMediaService socialMediaService;
+    private PostRepository postRepository;
 
     @Autowired
     private LikeRepository likeRepository;
@@ -25,10 +29,11 @@ public class PostService {
     private UserFollowingRepository userFollowingRepository;
 
     public List<PostResponse> getAllActivePosts(Long userId) {
-        List<Post> posts = socialMediaService.getAllActivePosts();
+        List<Post> posts = postRepository.findAllByExpirationTimeAfterAndArchivedFalse(new Date());
         Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
                 .stream()
-                .map(userFollowing -> userFollowing.getFollowerId()).collect(Collectors.toSet());
+                .map(userFollowing -> userFollowing.getFollowerId())
+                .collect(Collectors.toSet());
 
         return posts.stream().map(post -> {
             int likeCount = likeRepository.countByPostId(post.getId());
@@ -51,7 +56,7 @@ public class PostService {
     }
 
     public List<PostResponse> getArchivedPosts(Long userId) {
-        List<Post> posts = socialMediaService.getArchivedPostsByUserId(userId);
+        List<Post> posts = postRepository.findByUserIdAndArchivedTrue(userId);
         Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
                 .stream()
                 .map(userFollowing -> userFollowing.getFollowerId())
@@ -78,7 +83,7 @@ public class PostService {
     }
 
     public List<PostResponse> getAllArchivedPosts(Long userId) {
-        List<Post> posts = socialMediaService.getAllArchivedPosts();
+        List<Post> posts = postRepository.findAllByArchivedTrue();
         Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
                 .stream()
                 .map(userFollowing -> userFollowing.getFollowerId())
@@ -114,5 +119,28 @@ public class PostService {
 
     public boolean isUserFollowedByUser(Long userId, Long followedUserId) {
         return userFollowingRepository.findByUserIdAndFollowerId(userId, followedUserId) != null;
+    }
+
+    public ResponseEntity<PostResponse> getUserPost(Long userId) {
+        Post post = postRepository.findFirstByUserIdAndArchivedFalseAndExpirationTimeAfter(userId, new Date()).orElse(null);
+        if (post == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        int likeCount = getLikeCountForPost(post.getId());
+        boolean isLiked = isPostLikedByUser(userId, post.getId());
+        boolean isFollowed = isUserFollowedByUser(userId, post.getUser().getId());
+        PostResponse postResponse = new PostResponse(
+                post.getId(),
+                post.getContent(),
+                post.getDateCreated(),
+                post.getExpirationTime(),
+                post.getUser().getUsername(),
+                post.getRemainingHours(),
+                isFollowed,
+                post.getUser().getId(),
+                likeCount,
+                isLiked
+        );
+        return ResponseEntity.ok(postResponse);
     }
 }

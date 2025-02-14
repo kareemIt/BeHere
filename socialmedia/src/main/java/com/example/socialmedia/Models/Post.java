@@ -35,9 +35,6 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // @OneToMany(mappedBy = "post")
-    // private List<Like> likes;
-    // Other fields, getters, and setters
     public Long getId() {
         return id;
     }
@@ -86,12 +83,6 @@ public class Post {
         this.user = user;
     }
 
-    // public List<Like> getLikes() {
-    //     return likes;
-    // }
-    // public void setLikes(List<Like> likes) {
-    //     this.likes = likes;
-    // }
     public long getRemainingHours() {
         long diffInMillis = expirationTime.getTime() - new Date().getTime();
         return diffInMillis / (1000 * 60 * 60);

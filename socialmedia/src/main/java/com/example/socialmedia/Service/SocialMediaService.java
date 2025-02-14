@@ -27,21 +27,28 @@ public class SocialMediaService {
     @Autowired
     private PostRepository postRepository;
 
-    @Autowired
     private LikeService likeService;
+
+    private PostService postService;
+
+    @Autowired
+    public void setLikeService(LikeService likeService) {
+        this.likeService = likeService;
+    }
+
+    @Autowired
+    public void setPostService(PostService postService) {
+        this.postService = postService;
+    }
 
     @Autowired
     private UserFollowingService userFollowingService;
 
-    public User createUser(User user) {
+    public User createUser(User user) throws UserAlreadyExistsException {
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
         if (userDB.isPresent()) {
             throw new UserAlreadyExistsException("User with username " + user.getUsername() + " already exists.");
         }
-        user.setUsername(user.getUsername());
-        user.setEmail(user.getEmail());
-        user.setPassword(user.getPassword());
-        user.setBio(user.getBio());
         user.setDateCreated(new Date());
         return userRepository.save(user);
     }
@@ -74,20 +81,21 @@ public class SocialMediaService {
 
     public Bio getAUser(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        int totalLikes = likeService.getLikeCountForUser(id);
-        Set<UserFollowing> followers = userFollowingService.getFollowers(id);
-        Set<UserFollowing> following = userFollowingService.getFollowing(id);
-        Bio bio = new Bio();
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+            int totalLikes = likeService.getLikeCountForUser(id);
+            Set<UserFollowing> followers = userFollowingService.getFollowers(id);
+            Set<UserFollowing> following = userFollowingService.getFollowing(id);
+            Bio bio = new Bio();
             bio.setUsername(user.getUsername());
             bio.setFollowersCount(followers.size());
             bio.setFollowingCount(following.size());
             bio.setTotalLikes(totalLikes);
             bio.setPostingStreak(user.getPostingStreak());
             bio.setBio(user.getBio());
+            return bio;
         }
-        return bio;
+        return null;
     }
 
     public User getAUser(String username) {
@@ -160,7 +168,10 @@ public class SocialMediaService {
 
     public Set<User> getFollowing(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return user.getFollowers();
+        return user.getFollowing();
     }
 
+    public int getLikeCountForUser(Long userId) {
+        return likeService.getLikeCountForUser(userId);
+    }
 }
