@@ -19,7 +19,6 @@ const Home = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
-  const [data, setData] = useState(null);
 
   useEffect(() => {
     const localToken = localStorage.getItem('jwtToken');
@@ -29,30 +28,32 @@ const Home = () => {
       router.push('/routes/login');
     } else {
       try {
-          const decodedToken = jwtDecode(localToken);
-          const currentTime = Date.now() / 1000; 
-          if (decodedToken.exp < currentTime) {
-              localStorage.removeItem('jwtToken');
-            router.push('/routes/login');
-          }
-      } catch (error) {
-          console.error('Invalid token:', error);
+        const decodedToken = jwtDecode(localToken);
+        const currentTime = Date.now() / 1000; 
+        if (decodedToken.exp < currentTime) {
           localStorage.removeItem('jwtToken');
+          router.push('/routes/login');
+        }
+      } catch (error) {
+        console.error('Invalid token:', error);
+        localStorage.removeItem('jwtToken');
         router.push('/routes/login');
       }
     }
-
   }, [router]);
 
   return (
     <div>
       <NavBar />
-      <ContentBar setCurrentTab={setCurrentTab}/>
-      <MakePost />
-      <SideBar />
-      {currentTab === 0 && <ForYouPage />}
-      {currentTab === 1 && <Trending />}
-
+      <ContentBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <div className="homeContainer">
+        <SideBar />
+        <div className="postsContainer">
+          <MakePost />
+          {currentTab === 0 && <ForYouPage />}
+          {currentTab === 1 && <Trending />}
+        </div>
+      </div>
     </div>
   );
 };

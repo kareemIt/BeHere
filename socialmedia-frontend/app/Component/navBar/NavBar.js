@@ -20,9 +20,9 @@ const NavBar = () => {
 
   return (
     <div className='navBar'>
-      <h1>BeHere</h1>
-      <Search />
-      <button onClick={logout}>Logout</button>
+      <h1 style={{ fontSize: '40px' }}>BeHere</h1>
+      <Search className="searchBar"/>
+      <button onClick={logout} className='logout'>Logout</button>
     </div>
   );
 };

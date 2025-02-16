@@ -1,11 +1,107 @@
-.post-container{
-    border: 2px solid black;
-    height: auto;
-    width: auto;
+.post-container {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin: auto;
-    text-align: left;
     margin-bottom: 1rem;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    text-align: left;
 }
-.header{
+
+.header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Ensure the header title uses your theme color */
+.header h1 {
+    color: #00A6FA;
+    font-size: 20px;
+    margin: 0;
+}
+
+/* This container groups any inner header details */
+.inner-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 2px;
+    padding: 2px;
+}
+
+/* Styling of the post content */
+.postContent p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Like section */
+.likeContent {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.Likes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #00A6FA;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+/* Base styles for the like button */
+.like-button {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: transparent;  /* clear default background */
+}
+
+/* Unliked state: outlined with theme color */
+.like-button.unliked {
+    border: 2px solid #00A6FA;
+    color: #00A6FA;
+}
+
+/* Liked state: filled with theme color */
+.like-button.liked {
+    background-color: #00A6FA;
+    color: #fff;
+    border: 2px solid #00A6FA;
+}
+
+/* Hover effect */
+.like-button:hover {
+    transform: scale(1.05);
+}
+
+/* Ensure any image inside the button has a transparent background */
+.like-button img {
+    background: transparent;
+    display: block;
+}
+
+.like-count {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.time-unit {
+    color: #888;
+    font-size: 16px;
+    margin-left: 2px;
+}
+
+.time-label {
+    color: #888;
+    font-size: 16px;
+    margin-left: 2px;
 }

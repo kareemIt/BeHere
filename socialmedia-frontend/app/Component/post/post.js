@@ -3,10 +3,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import follow from '../../utils/follow';
 import like from '../../utils/like';
+import Clock from "../../Icons/clock.svg";
+import Like from  '../../Icons/Like.svg';
+import Image from 'next/image';
+import './style.css';
 
 const Post = (props) => {
   const router = useRouter();
@@ -33,23 +36,41 @@ const Post = (props) => {
     }
   };
 
-  useEffect(() => {
-  }, [liked]);
+  useEffect(() => {}, [liked]);
 
   return (
     <div className='post-container'>
       <div className='header'>
-        <h1>{props.username} {isFollowing && <a>Following</a>}
-          {!isFollowing && userId != props.userId && <button onClick={handleFollow}>Follow</button>}
+        <h1>
+          {props.username}{" "}
+          {String(userId) !== String(props.userId) && (
+            isFollowing 
+              ? <span>Following</span> 
+              : <button onClick={handleFollow}>Follow</button>
+          )}
         </h1>
-        <h1>{props.remainingHours} icon</h1>
+        <h1 className='inner-container'>
+          <span className="time-unit">{props.remainingHours}h</span>
+          <Image priority src={Clock} height={20} width={20} /> 
+        </h1>
       </div>
       <div className='postContent'>
         <p>{props.content}</p>
       </div>
-      <div>
-        <p>{currentLike}</p>
-        <button onClick={handleLike}>{liked ? "Liked" : "Like"}</button>
+      <div className='likeContent'>
+        <div className='Likes'>
+          <button
+            onClick={handleLike}
+            className={liked ? "like-button liked" : "like-button unliked"}
+          >
+            {liked ? (
+              <Image priority src={Like} height={20} width={20} />
+            ) : (
+              "Like"
+            )}
+          </button>
+          <p className='like-count'>{currentLike}</p>
+        </div>
       </div>
     </div>
   );

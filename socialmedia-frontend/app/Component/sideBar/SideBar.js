@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import styles from './style.css';
+import style from './style.css';
 import UserContext from '../../context/UserContext';
 import Home from '../../Icons/Home.svg'
 import Profile from '../../Icons/Profile.svg'

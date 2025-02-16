@@ -1,7 +1,50 @@
-.navBar{
-    display: flex;
-    justify-content: space-around;
-    border-bottom: 2px solid grey;
-    margin: 10px;
-    padding: 10px;
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1.5px solid grey; /* Border bottom kept */
+}
+
+.navBar h1 {
+  font-size: 40px;
+  margin: 0;
+  color: #00A6FA;
+}
+
+.navBar .logout {
+  background-color: #00A6FA;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navBar .logout:hover {
+  background-color: #008ace;
+}
+
+/* Adds spacing between the search component and logout button */
+.navBar > *:not(h1) {
+  margin-left: 20px;
+}
+
+/* Search bar styling */
+.searchBar {
+  border: 1.5px solid #00A6FA;
+  padding: 8px 16px;
+  border-radius: 4px;
+  width: 300px;           /* Adjust the width as needed */
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.searchBar:focus {
+  outline: none;
+  border-color: #008ace;
 }

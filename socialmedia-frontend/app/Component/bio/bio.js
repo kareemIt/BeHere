@@ -1,67 +1,74 @@
 "use client";
 
-import React from 'react';
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './style.css';
 import UserContext from '../../context/UserContext';
+import './style.css';
 
-const bio = (props) => {
-    const router = useRouter();
-    const  {userId} = useContext(UserContext);
-    const [userInfo, setUserInfo] = useState();
-    const { token}  = useContext(UserContext);
-    
-    useEffect(() => {
+const Bio = () => {
+  const router = useRouter();
+  const { userId, token } = useContext(UserContext);
+  const [userInfo, setUserInfo] = useState(null);
 
-        const fetchPosts = async () => {
-            const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                credentials: "include",
-            });
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: "include",
+      });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log("bio", data);
-                setUserInfo(data);
-            } else {
-                console.log("response failed", response);
-            }
-        };
+      if (response.ok) {
+        const data = await response.json();
+        console.log("bio", data);
+        setUserInfo(data);
+      } else {
+        console.log("response failed", response);
+      }
+    };
 
+    fetchUserInfo();
+  }, [userId, token]);
 
-    fetchPosts();
-    }, []);
-
-
-    return (
-        <div className='Profile '>
-            <h1>settings</h1>
-            <div className='bio-container'>
-                {userInfo != null &&
-                    <><div className='stats'>
-                        <h1>{userInfo.username}</h1>
-                        <h1>Following</h1>
-                        <p>{userInfo.followingCount}</p>
-                        <h1>Followers</h1>
-                        <p>{userInfo.followersCount}</p>
-                        <h1>Total Likes</h1>
-                        <p>{userInfo.totalLikes}</p>
-                        <h1>Daily post</h1>
-                        <p>{userInfo.postingStreak}</p>
-                    </div>
-                        <div className='bio'>
-                            <p>bio</p>
-                            <p>{userInfo.bio}</p>
-                        </div></>
-                }
+  return (
+    <div className="bioWrapper">
+      {userInfo && (
+        <div className="bioContainer">
+          <div className="bioHeader">
+            <h2 className="username">{userInfo.username}</h2>
+            <span className="settings">Settings</span>
+          </div>
+          <div className="stats">
+            <div className="statsGrid">
+              <div className="stat">
+                <h3>Following</h3>
+                <p>{userInfo.followingCount}</p>
+              </div>
+              <div className="stat">
+                <h3>Followers</h3>
+                <p>{userInfo.followersCount}</p>
+              </div>
+              <div className="stat">
+                <h3>Total Likes</h3>
+                <p>{userInfo.totalLikes}</p>
+              </div>
+              <div className="stat">
+                <h3>Daily Post</h3>
+                <p>{userInfo.postingStreak}</p>
+              </div>
             </div>
+          </div>
+          <div className="bioSection">
+            <h3>Bio</h3>
+            <p>{userInfo.bio}</p>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
-export default bio;
+export default Bio;

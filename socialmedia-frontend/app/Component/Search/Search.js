@@ -3,10 +3,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import styles from './style.css';
+import './style.css';
 import UserContext from '../../context/UserContext';
-import follow from '../../utils/follow';
-import like from '../../utils/like';
 
 const Search = () => {
   const router = useRouter();
@@ -16,7 +14,6 @@ const Search = () => {
   const token = localStorage.getItem('jwtToken');
 
   const handleSearch = async () => {
-
     const response = await fetch(`http://localhost:8080/api/search/${userInput}`, {
       method: 'GET',
       headers: {
@@ -44,6 +41,7 @@ const Search = () => {
   return (
     <div className='Search-container'>
       <input
+        className="searchBar"
         placeholder='Search'
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}

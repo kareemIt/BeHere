@@ -35,21 +35,27 @@ const UserProfile = () => {
         setPosts(data);
       } 
     };
-    console.log("personal profile" );
 
+    console.log("personal profile");
     fetchPosts();
   }, [userId]); 
 
   return (
     <div>
       <NavBar/>
-      <SideBar />
-      <Bio/>
-      <FriendsList />
-      <ContentBarProfile setCurrentTab={setCurrentTab} />
-      {currentTab === 0 && <UserPost posts={posts} />}
-      {currentTab === 1 && <ArchivedPosts />}
-      <h1>{userId}</h1>
+      <div className="profileContainer">
+        <SideBar />
+        <div className="profileContent">
+          <Bio/>
+          <ContentBarProfile currentTab={currentTab} setCurrentTab={setCurrentTab} />
+          {currentTab === 0 && <UserPost posts={posts} />}
+          {currentTab === 1 && <ArchivedPosts />}
+          <div className="userIdContainer">
+            <h1>{userId}</h1>
+          </div>
+        </div>
+        <FriendsList />
+      </div>
     </div>
   );
 };

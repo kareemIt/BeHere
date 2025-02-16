@@ -5,25 +5,35 @@ import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './style.css';
 import UserContext from '../../context/UserContext';
+import './style.css';
 
-const NavBar = ({ setCurrentTab }) => {
+const ContentBarProfile = ({ currentTab, setCurrentTab }) => {
   const router = useRouter();
-  const { userId } = useContext(UserContext);
 
   const handleCurrentPostTab = () => {
     setCurrentTab(0);
-  }
+  };
 
   const handleArchivedPostTab = () => {
     setCurrentTab(1);
-  }
+  };
 
   return (
-    <div className='navBar'>
-      <h1 onClick={handleCurrentPostTab}>Current Post</h1>
-      <h1 onClick={handleArchivedPostTab}>Archived Posts</h1>
+    <div className="contentBarProfile">
+      <button 
+        onClick={handleCurrentPostTab} 
+        className={currentTab === 0 ? "active" : "inactive"}
+      >
+        Current Post
+      </button>
+      <button 
+        onClick={handleArchivedPostTab} 
+        className={currentTab === 1 ? "active" : "inactive"}
+      >
+        Archived Posts
+      </button>
     </div>
   );
 };
 
-export default NavBar;
+export default ContentBarProfile;
