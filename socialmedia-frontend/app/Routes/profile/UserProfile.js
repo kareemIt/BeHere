@@ -50,9 +50,6 @@ const UserProfile = () => {
           <ContentBarProfile currentTab={currentTab} setCurrentTab={setCurrentTab} />
           {currentTab === 0 && <UserPost posts={posts} />}
           {currentTab === 1 && <ArchivedPosts />}
-          <div className="userIdContainer">
-            <h1>{userId}</h1>
-          </div>
         </div>
         <FriendsList />
       </div>

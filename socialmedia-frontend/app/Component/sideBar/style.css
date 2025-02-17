@@ -1,5 +1,7 @@
 /* Example CSS to ensure images are visible */
-
+*{
+  font-size: 20px;
+}
 
 .icon {
   width: 1rem;
@@ -17,6 +19,6 @@
 }
 
 .icon:hover{
-  color: blue;
+  color: #00A6FA;
 }
 

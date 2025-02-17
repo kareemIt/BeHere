@@ -6,19 +6,19 @@ import UserContext from '../../context/UserContext';
 import './style.css';
 
 const Bio = () => {
-  const router = useRouter();
-  const { userId, token } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState(null);
+  const [isSetting, setIsSetting] = useState(0)
 
   useEffect(() => {
     const fetchUserInfo = async () => {
+      const token = localStorage.getItem('jwtToken');
       const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        credentials: "include",
       });
 
       if (response.ok) {
@@ -31,7 +31,11 @@ const Bio = () => {
     };
 
     fetchUserInfo();
-  }, [userId, token]);
+  }, [userId]);
+
+  const handleSetting = () => {
+    setIsSetting(!isSetting);
+  };
 
   return (
     <div className="bioWrapper">
@@ -39,7 +43,7 @@ const Bio = () => {
         <div className="bioContainer">
           <div className="bioHeader">
             <h2 className="username">{userInfo.username}</h2>
-            <span className="settings">Settings</span>
+            <span onClick={handleSetting} className="settings">Settings</span>
           </div>
           <div className="stats">
             <div className="statsGrid">
@@ -63,7 +67,13 @@ const Bio = () => {
           </div>
           <div className="bioSection">
             <h3>Bio</h3>
-            <p>{userInfo.bio}</p>
+            {isSetting == 1 && <div>
+              <input></input>
+              <button>Save</button>
+              </div>}
+              {isSetting == 0 && <div>
+                <p>{userInfo.bio}</p>
+              </div>}
           </div>
         </div>
       )}

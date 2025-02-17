@@ -49,7 +49,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #00A6FA;
     border-radius: 4px;
     padding: 5px 10px;
 }
@@ -68,10 +67,12 @@
 .like-button.unliked {
     border: 2px solid #00A6FA;
     color: #00A6FA;
+    display: flex;
 }
 
 /* Liked state: filled with theme color */
 .like-button.liked {
+    display: flex;
     background-color: #00A6FA;
     color: #fff;
     border: 2px solid #00A6FA;

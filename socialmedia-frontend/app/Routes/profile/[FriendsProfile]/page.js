@@ -30,6 +30,7 @@ const FriendProfile = (props) => {
   return (
     <div>
       <NavBar />
+      <div className="profileContainer"></div>
       <SideBar />
       <FriendBio userid={profileId} />
       <h1 className='navBar'>Current Post</h1>

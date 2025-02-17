@@ -50,8 +50,11 @@ const Post = (props) => {
           )}
         </h1>
         <h1 className='inner-container'>
-          <span className="time-unit">{props.remainingHours}h</span>
-          <Image priority src={Clock} height={20} width={20} /> 
+          {(props.remainingHours > 0 
+          ? <span className="time-unit">{props.remainingHours}h</span>
+          : <span className="time-unit">{props.expirationTime}</span>
+          )}
+          <Image priority src={Clock} height={20} width={20} alt={"image"}/> 
         </h1>
       </div>
       <div className='postContent'>
@@ -64,12 +67,11 @@ const Post = (props) => {
             className={liked ? "like-button liked" : "like-button unliked"}
           >
             {liked ? (
-              <Image priority src={Like} height={20} width={20} />
+              <Image priority src={Like} height={20} width={20} alt={"image"}/>
             ) : (
               "Like"
             )}
-          </button>
-          <p className='like-count'>{currentLike}</p>
+            <p className='like-count'>{currentLike}</p></button>
         </div>
       </div>
     </div>

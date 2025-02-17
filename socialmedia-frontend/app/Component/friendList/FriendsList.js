@@ -7,7 +7,6 @@ import removeFollower from '../../utils/removeFollower';
 import './style.css';
 
 const FriendsList = () => {
-  const router = useRouter();
   const { userId } = useContext(UserContext);
   const [followingList, setFollowingList] = useState([]);
   const token = localStorage.getItem('jwtToken');

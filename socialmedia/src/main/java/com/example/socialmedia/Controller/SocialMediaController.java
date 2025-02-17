@@ -22,6 +22,7 @@ import com.example.socialmedia.Models.PostRequest;
 import com.example.socialmedia.Models.User;
 import com.example.socialmedia.Service.PostService;
 import com.example.socialmedia.Service.SocialMediaService;
+import com.example.socialmedia.dto.ArchievedResponse;
 import com.example.socialmedia.dto.PostResponse;
 
 @RestController
@@ -77,9 +78,9 @@ public class SocialMediaController {
     }
 
     @GetMapping("/posts/archived/{id}")
-    public ResponseEntity<List<PostResponse>> getArchivedPosts(@PathVariable Long id) {
-        List<PostResponse> postResponses = postService.getArchivedPosts(id);
-        return ResponseEntity.ok(postResponses);
+    public ResponseEntity<List<ArchievedResponse>> getArchivedPosts(@PathVariable Long id) {
+        List<ArchievedResponse> ArchievedResponse = postService.getArchivedPosts(id);
+        return ResponseEntity.ok(ArchievedResponse);
     }
 
     @GetMapping("/posts/allArchivedPosts/{id}")

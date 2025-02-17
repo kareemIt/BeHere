@@ -14,6 +14,7 @@ import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Repository.LikeRepository;
 import com.example.socialmedia.Repository.PostRepository;
 import com.example.socialmedia.Repository.UserFollowingRepository;
+import com.example.socialmedia.dto.ArchievedResponse;
 import com.example.socialmedia.dto.PostResponse;
 
 @Service
@@ -55,7 +56,7 @@ public class PostService {
         }).collect(Collectors.toList());
     }
 
-    public List<PostResponse> getArchivedPosts(Long userId) {
+    public List<ArchievedResponse> getArchivedPosts(Long userId) {
         List<Post> posts = postRepository.findByUserIdAndArchivedTrue(userId);
         Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
                 .stream()
@@ -66,12 +67,16 @@ public class PostService {
             int likeCount = likeRepository.countByPostId(post.getId());
             boolean isLiked = likeRepository.findByUserIdAndPostId(userId, post.getId()).isPresent();
             boolean isFollowed = followingUserIds.contains(post.getUser().getId());
+            int year = post.getExpirationTime().getYear() + 1900;
+            int month = post.getExpirationTime().getMonth();
+            int day = post.getExpirationTime().getDate();
+            String dayExpired = month + "/" + day + "/" + year;
 
-            return new PostResponse(
+            return new ArchievedResponse(
                     post.getId(),
                     post.getContent(),
                     post.getDateCreated(),
-                    post.getExpirationTime(),
+                    dayExpired,
                     post.getUser().getUsername(),
                     post.getRemainingHours(),
                     isFollowed,
