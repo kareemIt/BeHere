@@ -1,6 +1,8 @@
 package com.example.socialmedia.Controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.socialmedia.DTO.BioUpdateRequest;
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
 import com.example.socialmedia.Models.Bio;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.PostRequest;
 import com.example.socialmedia.Models.User;
+import com.example.socialmedia.Repository.UserRepository;
 import com.example.socialmedia.Service.PostService;
 import com.example.socialmedia.Service.SocialMediaService;
 import com.example.socialmedia.dto.ArchievedResponse;
@@ -39,7 +43,11 @@ public class SocialMediaController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/users")
+
     public List<User> getAllUsers() {
         return socialMediaService.getAllUsers();
     }
@@ -110,6 +118,18 @@ public class SocialMediaController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create post");
         }
+    }
+
+    @PostMapping("/user/{id}/bio")
+    public ResponseEntity<?> updateBio(@PathVariable Long userId, @RequestBody BioUpdateRequest bio) {
+        Optional<User> user = socialMediaService.getUser(userId);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "User not found"));
+        }
+        user.get().setBio(bio.getBio());
+        userRepository.save(user.get());
+
+        return ResponseEntity.ok(Map.of("message", "Bio updated successfully"));
     }
 
     @ExceptionHandler(RuntimeException.class)

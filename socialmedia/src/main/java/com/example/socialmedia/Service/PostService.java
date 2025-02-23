@@ -148,4 +148,23 @@ public class PostService {
         );
         return ResponseEntity.ok(postResponse);
     }
+
+    // public boolean isPostStreaking(Long userId) {
+    //     Post lastPost = postRepository.findTopByUserIdOrderByCreatedAtDesc(userId);
+    //     if (lastPost == null) {
+    //         return false;
+    //     }
+    //     Date lastPostDate = lastPost.getDateCreated();
+    //     Date today = new Date();
+    //     Calendar lastPostCalendar = Calendar.getInstance();
+    //     lastPostCalendar.setTime(lastPostDate);
+    //     Calendar todayCalendar = Calendar.getInstance();
+    //     todayCalendar.setTime(today);
+    //     todayCalendar.add(Calendar.DAY_OF_YEAR, -1);
+    //     return isSameDay(lastPostCalendar, todayCalendar);
+    // }
+    // private boolean isSameDay(Calendar calendar1, Calendar calendar2) {
+    //     return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
+    //             && calendar1.get(Calendar.DAY_OF_YEAR) == calendar2.get(Calendar.DAY_OF_YEAR);
+    // }
 }

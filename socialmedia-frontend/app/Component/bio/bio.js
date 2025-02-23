@@ -9,10 +9,11 @@ const Bio = () => {
   const { userId } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState(null);
   const [isSetting, setIsSetting] = useState(0)
+  const [newBio, setNewBio] = useState("");
+  const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const token = localStorage.getItem('jwtToken');
       const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
         method: 'GET',
         headers: {
@@ -35,6 +36,35 @@ const Bio = () => {
 
   const handleSetting = () => {
     setIsSetting(!isSetting);
+  };
+
+  const handleChange = (e) => {
+    setNewBio(e.target.value); 
+  };
+
+  const handleSave = async () => {
+    try {
+      console.log(userId)
+      const response = await fetch(`http://localhost:8080/api/user/${userId}/bio`, {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ bio: newBio }),
+      });
+      console.log("response", response)
+
+      if (!response.ok) {
+        throw new Error("Failed to update bio");
+      }
+      console.log("hit")
+
+      setBio(newBio); 
+      setIsEditing(!isSetting); 
+    } catch (error) {
+      console.error("Error updating bio:", error);
+    }
   };
 
   return (
@@ -68,8 +98,13 @@ const Bio = () => {
           <div className="bioSection">
             <h3>Bio</h3>
             {isSetting == 1 && <div>
-              <input></input>
-              <button>Save</button>
+             <input
+                type="text"
+                value={newBio}
+                onChange={handleChange}
+                className="border rounded p-2"
+               />
+              <button onClick={handleSave}>Save</button>
               </div>}
               {isSetting == 0 && <div>
                 <p>{userInfo.bio}</p>

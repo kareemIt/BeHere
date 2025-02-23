@@ -1,35 +1,42 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import UserContext from '../../context/UserContext'; 
+import UserContext from '../../context/UserContext';
 import UserProfile from './UserProfile';
 import FriendProfile from './[FriendsProfile]/page';
 
-const ProfilePage = () => {
+const ProfilePage = ({ params }) => {
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const { userId } = useContext(UserContext);
-  const [profileId, setProfileId] = useState(null);
+  const { userId: currentUserId } = useContext(UserContext);
+  const [profileUserId, setProfileUserId] = useState(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const path = window.location.pathname;
-      const match = path.match(/\/profile\/(\d+)/);
-      setProfileId(match ? match[1] : null);
-    }
-  }, []);
+    const searchParams = new URLSearchParams(window.location.search);
+    const userIdFromQuery = searchParams.get('userId');
+    setProfileUserId(userIdFromQuery);
+    console.log("searchParams userId:", userIdFromQuery);
 
-  return (
-    <div>
-      {profileId == null ? (
-        <UserProfile />
-      ) : (
-        <FriendProfile userId={profileId} />
+    console.log("profileUserId:", params);
+    console.log("searchParams:", searchParams);
+    console.log("router:", router.asPath);
 
-      )}
-    </div>
-  );
+    console.log("profileUserId:", String(profileUserId) === String(currentUserId));
+    console.log("profileUserId:", String(profileUserId));
+    console.log("currentUserId:", String(currentUserId));
+  }, [searchParams]);
+
+
+  if (profileUserId && String(profileUserId) === String(currentUserId)) {
+    return <UserProfile />;
+  } else if (profileUserId) {
+    return <FriendProfile />;
+  } else {
+
+    return <UserProfile />;
+  }
 };
 
 export default ProfilePage;

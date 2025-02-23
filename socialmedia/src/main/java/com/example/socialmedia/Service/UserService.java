@@ -37,5 +37,4 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    // Other methods as needed...
 }

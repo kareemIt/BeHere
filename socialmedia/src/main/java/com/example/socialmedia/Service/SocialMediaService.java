@@ -50,6 +50,7 @@ public class SocialMediaService {
             throw new UserAlreadyExistsException("User with username " + user.getUsername() + " already exists.");
         }
         user.setDateCreated(new Date());
+        user.setBio("Hello i'm new");
         return userRepository.save(user);
     }
 
@@ -61,6 +62,9 @@ public class SocialMediaService {
         post.setDateCreated(new Date());
         post.setExpirationTime(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)); // 24 hours from now
         post.setArchived(false);
+        // if (postService.isPostStreaking(userId)) {
+        //     user.setPostingStreak(user.getPostingStreak() + 1);
+        // }
         return postRepository.save(post);
     }
 
@@ -173,5 +177,10 @@ public class SocialMediaService {
 
     public int getLikeCountForUser(Long userId) {
         return likeService.getLikeCountForUser(userId);
+    }
+
+    public Optional<User> getUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser;
     }
 }

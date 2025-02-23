@@ -68,6 +68,7 @@
     border: 2px solid #00A6FA;
     color: #00A6FA;
     display: flex;
+    align-items: center;
 }
 
 /* Liked state: filled with theme color */
@@ -76,6 +77,7 @@
     background-color: #00A6FA;
     color: #fff;
     border: 2px solid #00A6FA;
+    align-items: center;
 }
 
 /* Hover effect */

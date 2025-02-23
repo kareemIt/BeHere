@@ -37,8 +37,20 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API requests
                 .authorizeHttpRequests(authorizeRequests
                         -> authorizeRequests
-                        .requestMatchers("/api/user/*", "/followingList", "/{userId}/unfollow/{followerId}", "/{userId}/follow/{followerId}", "api/posts/allActivePosts/", "/api/users", "/api/**", "/api/login", "/authenticate", "/auth/**", "/user/**", "/secured-endpoint").permitAll() // Permit access to specified endpoints without authentication
-                        .anyRequest().authenticated() // Secure all other endpoints
+                        .requestMatchers(
+                                "/api/user/**", // Covers user-related endpoints (bio, profile, etc.)
+                                "/followingList", // Allow access to following list
+                                "/{userId}/follow/**", // Covers both follow & unfollow
+                                "/api/posts/**", // Covers all post-related routes
+                                "/api/users", // Allow user listing
+                                "/api/**", // Covers all API endpoints
+                                "/api/login", // Allow login access
+                                "/authenticate", // Authentication route
+                                "/auth/**", // Covers all authentication-related endpoints
+                                "/user/**", // Covers any general user-related routes
+                                "/secured-endpoint" // Specific secured endpoint
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement
                         -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless sessions

@@ -1,40 +1,43 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React,{ useState, useEffect} from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import NavBar from '../../../component/navBar/NavBar';
 import SideBar from '../../../component/sideBar/SideBar';
-import ContentBarProfile from '../../../component/contentBarProfile/contentBarProfile';
-import FriendPost from '../../../friendPost/friendPost';
+import ContentBarProfileFriend from '../../../component/ContentBarProfileFriend/ContentBarProfileFriend';
 import FriendBio from '../../../friendBio/friendBio';
+import FriendPost from '../../../friendPost/friendPost';
+import { useRouter } from 'next/navigation';
+import "./style.css";
 
-const FriendProfile = (props) => {
+const FriendProfile = () => {
+  const [profileUserId, setProfileUserId] = useState(null);
   const router = useRouter();
-  const [profileId, setProfileId] = useState('');
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const path = window.location.pathname;
-      const match = path.match(/\/profile\/(\d+)/);
-      if (match) {
-        console.log("profileId", match[1]);
-        setProfileId(match[1]);
-      }
+    const userid = localStorage.getItem('userId');
+    const searchParams = new URLSearchParams(window.location.search);
+    const userIdFromQuery = searchParams.get('userId');
+    setProfileUserId(userIdFromQuery);
+    //route back to profi
+    if(userIdFromQuery == userid){
+      router.push('/routes/profile/')
     }
   }, []);
 
-  if (!profileId) {
-    return <div>Loading...</div>;
-  }
+
 
   return (
     <div>
       <NavBar />
-      <div className="profileContainer"></div>
-      <SideBar />
-      <FriendBio userid={profileId} />
-      <h1 className='navBar'>Current Post</h1>
-      <FriendPost userid={profileId} />
+      <div className="profileContainer">
+        <SideBar />
+        <div className="profileContent">
+          <FriendBio profileId={profileUserId} />
+          <ContentBarProfileFriend currentTab={0} />
+          <FriendPost profileId={profileUserId} />
+        </div>
+      </div>
     </div>
   );
 };

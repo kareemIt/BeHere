@@ -6,13 +6,16 @@ import styles from './style.css';
 import Post from "/app/component/post/post";
 import MakePost from '/app/component/makePost/MakePost';
 
-const FriendPost = ({ userid }) => {
+const FriendPost = ({ profileId }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    if (!profileId) {
+      return;
+    }
     const token = localStorage.getItem('jwtToken');
     const fetchPosts = async () => {
-      const response = await fetch(`http://localhost:8080/api/posts/active/${userid}`, {
+      const response = await fetch(`http://localhost:8080/api/posts/active/${profileId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -28,7 +31,7 @@ const FriendPost = ({ userid }) => {
     };
 
     fetchPosts();
-  }, [userid]);
+  }, [profileId]);
 
   return (
     <div className='Posts'>

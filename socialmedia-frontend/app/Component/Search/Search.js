@@ -11,9 +11,10 @@ const Search = () => {
   const { userId } = useContext(UserContext);
   const [userInput, setUserInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const token = localStorage.getItem('jwtToken');
+
 
   const handleSearch = async () => {
+    const token = localStorage.getItem('jwtToken');
     const response = await fetch(`http://localhost:8080/api/search/${userInput}`, {
       method: 'GET',
       headers: {
@@ -49,7 +50,7 @@ const Search = () => {
       <div className='Search-results'>
         {searchResults.slice(0,5).map((result) => (
           <div key={result.userId}>
-            <Link href={`/routes/profile/${result.userId}`}>
+            <Link href={`/routes/profile/${result.username}?userId=${result.userId}`}>
               <p>{result.username}</p>
             </Link>
           </div>

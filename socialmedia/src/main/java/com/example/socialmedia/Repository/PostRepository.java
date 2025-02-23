@@ -20,6 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAll();
 
+    // Post findTopByUserIdOrderByCreatedAtDesc(Long userId);
     List<Post> findByUserIdAndExpirationTimeAfterAndArchivedFalse(Long userId, Date now);
 
     @SuppressWarnings("unchecked")

@@ -36,7 +36,6 @@ const UserProfile = () => {
       } 
     };
 
-    console.log("personal profile");
     fetchPosts();
   }, [userId]); 
 
