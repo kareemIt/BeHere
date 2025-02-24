@@ -6,7 +6,7 @@ import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import Post from "../post/post";
 
-const ForYouPage = () => {
+const ForYouPage = ({setPostMade}) => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [posts, setPosts] = useState([]);

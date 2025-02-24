@@ -7,7 +7,7 @@ import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import { currentDate as getCurrentDate, expirationDate as getExpirationDate } from "../../utils/date";
 
-const MakePost = () => {
+const MakePost = ({setPostMade}) => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [content, setContent] = useState("words");
@@ -27,7 +27,9 @@ const MakePost = () => {
     console.log("response", response)
     if (response.ok) {
       const data = await response.json();
-      setHasPost(true); 
+      setHasPost(true);
+      setPostMade(true);
+      console.log('setPostMade'); 
     } else {
       const errorData = await response.text();
       console.error('Error creating post:', errorData);

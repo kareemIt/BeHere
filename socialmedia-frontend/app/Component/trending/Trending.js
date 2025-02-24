@@ -6,7 +6,7 @@ import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import Post from "../post/post";
 
-const Trending = () => {
+const Trending = ({setPostMade}) => {
   const { userId } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
 
@@ -31,7 +31,7 @@ const Trending = () => {
       }
     };
     fetchTrendingPosts();
-  }, []);
+  }, [[], setPostMade]);
 
   return (
     <div className='Posts'>

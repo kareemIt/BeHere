@@ -47,7 +47,8 @@ public class SecurityConfig {
                                 "/api/login", // Allow login access
                                 "/authenticate", // Authentication route
                                 "/auth/**", // Covers all authentication-related endpoints
-                                "/user/**", // Covers any general user-related routes
+                                "/user/**",
+                                "/api/user/**",
                                 "/secured-endpoint" // Specific secured endpoint
                         ).permitAll()
                         .anyRequest().authenticated()

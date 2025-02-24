@@ -8,7 +8,7 @@ import './style.css';
 const Bio = () => {
   const { userId } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState(null);
-  const [isSetting, setIsSetting] = useState(0)
+  const [isSetting, setIsSetting] = useState(false)
   const [newBio, setNewBio] = useState("");
   const token = localStorage.getItem('jwtToken');
 
@@ -32,9 +32,11 @@ const Bio = () => {
     };
 
     fetchUserInfo();
-  }, [userId]);
+  }, [userId,isSetting]);
 
   const handleSetting = () => {
+    console.log("userInfo", userInfo.bio);
+    setNewBio(userInfo.bio);
     setIsSetting(!isSetting);
   };
 
@@ -44,8 +46,7 @@ const Bio = () => {
 
   const handleSave = async () => {
     try {
-      console.log(userId)
-      const response = await fetch(`http://localhost:8080/api/user/${userId}/bio`, {
+      const response = await fetch(`http://localhost:8080/api/user/${Number(userId)}/bio`, {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -53,15 +54,12 @@ const Bio = () => {
         },
         body: JSON.stringify({ bio: newBio }),
       });
-      console.log("response", response)
 
       if (!response.ok) {
         throw new Error("Failed to update bio");
       }
-      console.log("hit")
-
-      setBio(newBio); 
-      setIsEditing(!isSetting); 
+      setNewBio(newBio); 
+      setIsSetting(!isSetting);
     } catch (error) {
       console.error("Error updating bio:", error);
     }
@@ -73,7 +71,9 @@ const Bio = () => {
         <div className="bioContainer">
           <div className="bioHeader">
             <h2 className="username">{userInfo.username}</h2>
-            <span onClick={handleSetting} className="settings">Settings</span>
+            <span onClick={handleSetting} className="settings">
+              {isSetting ? "Cancel" : "Settings"}
+            </span>
           </div>
           <div className="stats">
             <div className="statsGrid">

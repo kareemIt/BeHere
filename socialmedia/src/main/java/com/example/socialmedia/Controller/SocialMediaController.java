@@ -120,7 +120,7 @@ public class SocialMediaController {
         }
     }
 
-    @PostMapping("/user/{id}/bio")
+    @PostMapping("/user/{userId}/bio")
     public ResponseEntity<?> updateBio(@PathVariable Long userId, @RequestBody BioUpdateRequest bio) {
         Optional<User> user = socialMediaService.getUser(userId);
         if (user == null) {

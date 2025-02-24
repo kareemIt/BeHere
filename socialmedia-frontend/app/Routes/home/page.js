@@ -19,6 +19,7 @@ const Home = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
+  const [postMade , setPostMade] = useState(null);
 
   useEffect(() => {
     const localToken = localStorage.getItem('jwtToken');
@@ -40,7 +41,7 @@ const Home = () => {
         router.push('/routes/login');
       }
     }
-  }, [router]);
+  }, [router,setPostMade]);
 
   return (
     <div>
@@ -49,9 +50,9 @@ const Home = () => {
       <div className="homeContainer">
         <SideBar />
         <div className="postsContainer">
-          <MakePost />
-          {currentTab === 0 && <ForYouPage />}
-          {currentTab === 1 && <Trending />}
+          <MakePost setPostMade={setPostMade}/>
+          {currentTab === 0 && <ForYouPage setPostMade={setPostMade} />}
+          {currentTab === 1 && <Trending setPostMade={setPostMade} />}
         </div>
       </div>
     </div>
