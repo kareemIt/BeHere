@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
 import com.example.socialmedia.Models.Bio;
+import com.example.socialmedia.Models.FriendBio;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.User;
 import com.example.socialmedia.Models.UserFollowing;
 import com.example.socialmedia.Repository.PostRepository;
+import com.example.socialmedia.Repository.UserFollowingRepository;
 import com.example.socialmedia.Repository.UserRepository;
 
 @Service
@@ -43,6 +46,8 @@ public class SocialMediaService {
 
     @Autowired
     private UserFollowingService userFollowingService;
+    @Autowired
+    private UserFollowingRepository userFollowingRepository;
 
     public User createUser(User user) throws UserAlreadyExistsException {
         Optional<User> userDB = userRepository.findByUsername(user.getUsername());
@@ -99,6 +104,35 @@ public class SocialMediaService {
             bio.setBio(user.getBio());
             return bio;
         }
+        return null;
+    }
+
+    public FriendBio getFriendBio(Long userId, Long friendId) {
+        // Get the list of friend IDs that the current user is following.
+        Set<Long> followingUserIds = userFollowingRepository.findByUserId(userId)
+                .stream()
+                .map(userFollowing -> userFollowing.getFollowerId())
+                .collect(Collectors.toSet());
+        boolean isFollowing = followingUserIds.contains(friendId);
+        Optional<User> optionalFriend = userRepository.findById(friendId);
+
+        if (optionalFriend.isPresent()) {
+            User friend = optionalFriend.get();
+            int totalLikes = likeService.getLikeCountForUser(friendId);
+            Set<UserFollowing> friendFollowers = userFollowingService.getFollowers(friendId);
+            Set<UserFollowing> friendFollowing = userFollowingService.getFollowing(friendId);
+
+            FriendBio bio = new FriendBio();
+            bio.setUsername(friend.getUsername());
+            bio.setFollowersCount(friendFollowers.size());
+            bio.setFollowingCount(friendFollowing.size());
+            bio.setTotalLikes(totalLikes);
+            bio.setPostingStreak(friend.getPostingStreak());
+            bio.setBio(friend.getBio());
+            bio.setFollowing(isFollowing);
+            return bio;
+        }
+
         return null;
     }
 

@@ -1,39 +1,86 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import "./style.css";
 
 const FriendBio = ({ profileId }) => {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const token = localStorage.getItem("jwtToken");
+  const currentUserId = localStorage.getItem("userId");
 
   useEffect(() => {
-    if(!profileId) {
-        return;
-    }
+    if (!profileId) return;
+
     const fetchUserInfo = async () => {
-        const token = localStorage.getItem('jwtToken');
-        const response = await fetch(`http://localhost:8080/api/user/${profileId}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          credentials: "include"
-        });
-        console.log("FriendBio: fetch response status:", response.status);
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/user/${currentUserId}/friendsbio/${profileId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"
+            },
+            credentials: "include"
+          }
+        );
+
         if (response.ok) {
           const data = await response.json();
-          console.log("FriendBio: fetched data:", data);
           setUserInfo(data);
+          setIsFollowing(data.following);
         } else {
           const errorText = await response.text();
-          console.error("FriendBio: Error fetching friend info:", response.status, errorText);
-        } 
+          console.error(
+            "FriendBio: Error fetching friend info:",
+            response.status,
+            errorText
+          );
+        }
+      } catch (error) {
+        console.error("FriendBio: Error fetching friend info:", error);
+      }
     };
+
     fetchUserInfo();
-  }, [profileId]);
+  }, [profileId, currentUserId, token]); // Only re-run if profileId changes
+
+  const handleFollow = async () => {
+    console.log("isfollowing", isFollowing);
+    // Set the endpoint based on current follow state
+    const action = isFollowing ? "unfollow" : "follow";
+    const method = isFollowing ? "DELETE" : "POST";
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/${currentUserId}/${action}/${profileId}`,
+        {
+          method: method,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          credentials: "include"
+        }
+      );
+
+      if (response.ok) {
+        setIsFollowing(!isFollowing);
+      } else {
+        const errorText = await response.text();
+        console.error(
+          "FriendBio: Error updating follow status:",
+          response.status,
+          errorText
+        );
+      }
+    } catch (error) {
+      console.error("FriendBio: Error updating follow status:", error);
+    }
+  };
 
   if (!userInfo) {
     return <div>Loading Friend Bio...</div>;
@@ -44,6 +91,9 @@ const FriendBio = ({ profileId }) => {
       <div className="bioContainer">
         <div className="bioHeader">
           <h2 className="username">{userInfo.username}</h2>
+          <button onClick={handleFollow} className="settings">
+            {isFollowing ? "Unfollow" : "Follow"}
+          </button>
         </div>
         <div className="stats">
           <div className="statsGrid">

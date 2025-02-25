@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 "/auth/**", // Covers all authentication-related endpoints
                                 "/user/**",
                                 "/api/user/**",
+                                "/api/*/follow/**",
                                 "/secured-endpoint" // Specific secured endpoint
                         ).permitAll()
                         .anyRequest().authenticated()

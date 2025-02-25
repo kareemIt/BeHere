@@ -19,7 +19,6 @@ const FriendProfile = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const userIdFromQuery = searchParams.get('userId');
     setProfileUserId(userIdFromQuery);
-    //route back to profi
     if(userIdFromQuery == userid){
       router.push('/routes/profile/')
     }

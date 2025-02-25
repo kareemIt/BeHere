@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.socialmedia.DTO.BioUpdateRequest;
 import com.example.socialmedia.Exceptions.UserAlreadyExistsException;
 import com.example.socialmedia.Models.Bio;
+import com.example.socialmedia.Models.FriendBio;
 import com.example.socialmedia.Models.Post;
 import com.example.socialmedia.Models.PostRequest;
 import com.example.socialmedia.Models.User;
@@ -47,7 +48,6 @@ public class SocialMediaController {
     private UserRepository userRepository;
 
     @GetMapping("/users")
-
     public List<User> getAllUsers() {
         return socialMediaService.getAllUsers();
     }
@@ -56,6 +56,13 @@ public class SocialMediaController {
     public Bio getUser(@PathVariable Long id) {
         return socialMediaService.getAUser(id);
     }
+
+    @GetMapping("/user/{id}/friendsbio/{friendId}")
+    public ResponseEntity<FriendBio> getFriendBio(@PathVariable Long id, @PathVariable Long friendId) {
+        FriendBio bio = socialMediaService.getFriendBio(id, friendId);
+        return ResponseEntity.ok(bio);
+    }
+
 
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
