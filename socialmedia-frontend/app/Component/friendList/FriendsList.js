@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import UserContext from '../../context/UserContext';
 import removeFollower from '../../utils/removeFollower';
@@ -11,8 +11,8 @@ const FriendsList = () => {
   const [followingList, setFollowingList] = useState([]);
   const token = localStorage.getItem('jwtToken');
 
-  useEffect(() => {
-    const fetchPosts = async () => {
+  const fetchFollowingList = useCallback(async () => {
+    try {
       const response = await fetch(`http://localhost:8080/api/${userId}/followingList`, {
         method: 'GET',
         headers: {
@@ -20,25 +20,32 @@ const FriendsList = () => {
           'Content-Type': 'application/json',
         }
       });
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
         setFollowingList(data);
         console.log('friendsList fyp:', data);
       } else {
-        console.log("userId", userId);
+        console.log("Failed to fetch following list for userId:", userId);
       }
-    };
-
-    fetchPosts();
+    } catch (error) {
+      console.error(error);
+    }
   }, [userId, token]);
 
+  useEffect(() => {
+    if (userId) {
+      fetchFollowingList();
+    }
+  }, [userId, token, fetchFollowingList]);
+
   const handleRemoveFollower = async (friendId) => {
-    let removed = await removeFollower(userId, friendId);
-    if (removed === 200) {
-      setFollowingList((prevFriendsList) =>
-        prevFriendsList.filter((friend) => friend.id !== friendId)
-      );
+    setFollowingList((prevFriendsList) =>
+      prevFriendsList.filter((friend) => friend.id !== friendId)
+    );
+    
+    const removed = await removeFollower(userId, friendId);
+    if (removed !== 200) {
+      fetchFollowingList();
     }
   };
 
@@ -46,14 +53,14 @@ const FriendsList = () => {
     <div className="friendsList">
       <h2>Following</h2>
       {followingList.length > 0 ? (
-        followingList.map((friend, index) => (
-          <div key={index} className="friendItem">
+        followingList.map((friend) => (
+          <div key={friend.id} className="friendItem">
             <h3 className="friendName">{friend.username}</h3>
             <button onClick={() => handleRemoveFollower(friend.id)}>Remove</button>
           </div>
         ))
       ) : (
-        <p>No friends found</p>
+        <p>No followers found</p>
       )}
     </div>
   );

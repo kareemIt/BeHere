@@ -1,7 +1,10 @@
 package com.example.socialmedia.Models;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -63,8 +66,10 @@ public class User {
     @Column(name = "last_post_date")
     private Date lastPostDate;
 
-    // @OneToMany(mappedBy = "user")
-    // private List<Post> posts;
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Post> posts;
+
     public Long getId() {
         return id;
     }
@@ -161,12 +166,14 @@ public class User {
         this.lastPostDate = lastPostDate;
     }
 
-    // public List<Post> getPosts() {
-    //     return posts;
-    // }
-    // public void setPosts(List<Post> posts) {
-    //     this.posts = posts;
-    // }
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
     @Override
     public String toString() {
         return "User{"

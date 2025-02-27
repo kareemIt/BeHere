@@ -1,29 +1,133 @@
-*{
-    font-size: 20px;
+/* CSS Variables for theme */
+:root {
+  --primary: #0070f3;
+  --primary-dark: #005bb5;
+  --accent: #00a6fa;
+  --accent-dark: #008cd1;
+  --light: #ffffff;
+  --text: #333333;
+  --error: #dc3545;
+  --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.form{
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+/* Reset global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
 }
-.heading{
-    text-align: center;
-    margin-bottom: 1rem;
+
+/* Overall register page styling */
+.register-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  padding: 20px;
 }
-.container{
-    border: solid;
-    width: 500px;
-    height: 500px;
-    margin: auto;
+
+/* Register container styling */
+.register-container {
+  background: var(--light);
+  border-radius: 16px;
+  padding: 50px 40px;
+  width: 480px;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-input{
-    margin: 3px;
-    width: 50%;
-    align-self: center;
+
+.register-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
 }
-.title{
-    text-align: center;
-    margin-bottom: 1rem;
+
+/* Heading styling for branding */
+.heading {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  color: var(--primary);
+  letter-spacing: 1.5px;
+}
+
+/* Title styling */
+.title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Form styling */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Input fields styling */
+.form input {
+  width: 100%;
+  padding: 18px 22px;
+  font-size: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 8px rgba(0, 112, 243, 0.5);
+}
+
+/* Button styling for setup account and login */
+.form button {
+  width: 100%;
+  padding: 18px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Setup account button styling */
+.setup-button {
+  background-color: #28a745; /* Green */
+  color: var(--light);
+}
+
+.setup-button:hover {
+  background-color: #218838; /* Darker green */
+  transform: translateY(-2px);
+}
+
+/* Login button styling */
+.login-button {
+  background-color: #f39c12; /* Warm orange */
+  color: var(--light);
+}
+
+.login-button:hover {
+  background-color: #d35400; /* Darker orange */
+  transform: translateY(-2px);
+}
+
+/* Message styling */
+.message {
+  margin-top: 20px;
+  color: var(--error);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* Container styling */
+.container {
+  border: solid;
+  width: 500px;
+  height: 500px;
+  margin: auto;
 }

@@ -63,7 +63,6 @@ public class SocialMediaController {
         return ResponseEntity.ok(bio);
     }
 
-
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
@@ -112,13 +111,11 @@ public class SocialMediaController {
         Post existingPost = socialMediaService.getActivePost(userId);
 
         if (existingPost != null) {
-            // Check if the existing post is expired
             if (!existingPost.isExpired()) {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Post already created today");
             }
         }
 
-        // Create a new post if no active post is found or if the existing post is expired
         Post newPost = socialMediaService.createPost(userId, content);
         if (newPost != null) {
             return ResponseEntity.ok(newPost);

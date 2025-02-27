@@ -42,7 +42,7 @@ const archivedPosts = () => {
        <Post key={index} username={post.username} content={post.content} postid={post.id}
        expirationTime = {post.expirationTime}
        remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
-       likes={post.likeCount} liked={post.liked} 
+       likes={post.likeCount} liked={post.liked}  expiration={post.expirationTime}
        />
       ))}
     </div>

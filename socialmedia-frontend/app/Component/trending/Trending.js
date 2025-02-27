@@ -13,7 +13,7 @@ const Trending = ({setPostMade}) => {
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
     const fetchTrendingPosts = async () => {
-      const response = await fetch(`http://localhost:8080/api/trending`, {
+      const response = await fetch(`http://localhost:8080/api/trending/${userId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -26,19 +26,20 @@ const Trending = ({setPostMade}) => {
         const data = await response.json();
         console.log("trending", data);
         setPosts(data);
+        setPostMade(true);
       } else {
         console.log("response failed", response);
       }
     };
     fetchTrendingPosts();
-  }, [[], setPostMade]);
+  }, [ setPostMade]);
 
   return (
     <div className='Posts'>
     {posts.length > 0 && posts.map((post, index) => (
       <Post key={index} username={post.username} content={post.content} postid={post.id}
       remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
-      likes={post.likeCount} liked={post.liked}
+      likes={post.likeCount} liked={post.liked} expiration={post.expirationTime}
       
       />
     ))}

@@ -2,28 +2,25 @@
 
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import NavBar from '../../component/navBar/NavBar';
-import SideBar from '../../component/sideBar/SideBar';
 import MakePost from '../../component/makePost/MakePost';
 import ContentBar from '../../component/contentBar/ContentBar';
 import ForYouPage from '../../component/FYP/ForYouPage';
 import Trending from '../../component/trending/Trending';
 import withAuth from '../../utils/withAuth';
-import checkTokenExpiration from '../../utils/checkTokenExpiration';
 import { jwtDecode } from "jwt-decode";
+import './style.css';
 
 const Home = () => {
   const router = useRouter();
-  const { userId } = useContext(UserContext);
+  // Added 'username' from context
+  const { userId, username } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
-  const [postMade , setPostMade] = useState(null);
+  const [postMade, setPostMade] = useState(false);
+  const localToken = localStorage.getItem('jwtToken');
 
   useEffect(() => {
-    const localToken = localStorage.getItem('jwtToken');
-    
     if (!localToken) {
       console.log('No token found');
       router.push('/routes/login');
@@ -41,17 +38,18 @@ const Home = () => {
         router.push('/routes/login');
       }
     }
-  }, [router,setPostMade]);
+  }, [router, postMade]);
 
   return (
     <div>
       <NavBar />
       <ContentBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <div className="homeContainer">
-        <SideBar />
         <div className="postsContainer">
-          <MakePost setPostMade={setPostMade}/>
-          {currentTab === 0 && <ForYouPage setPostMade={setPostMade} />}
+          <MakePost setPostMade={setPostMade} username={username} />
+          {currentTab === 0 && (
+            <ForYouPage postMade={postMade} setPostMade={setPostMade} />
+          )}
           {currentTab === 1 && <Trending setPostMade={setPostMade} />}
         </div>
       </div>

@@ -59,17 +59,36 @@ public class SocialMediaService {
         return userRepository.save(user);
     }
 
+    private void updateUserPostingStreak(User user, Date now) {
+        if (user.getLastPostDate() != null) {
+            long diffMillis = now.getTime() - user.getLastPostDate().getTime();
+            long diffDays = diffMillis / (1000 * 60 * 60 * 24);
+
+            if (diffDays == 1) {
+                user.setPostingStreak(user.getPostingStreak() + 1);
+            } else if (diffDays > 1) {
+                user.setPostingStreak(1);
+            }
+        } else {
+            user.setPostingStreak(1);
+        }
+
+        user.setLastPostDate(now);
+    }
+
     public Post createPost(Long userId, String content) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Date now = new Date();
         Post post = new Post();
         post.setUser(user);
         post.setContent(content);
-        post.setDateCreated(new Date());
-        post.setExpirationTime(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)); // 24 hours from now
+        post.setDateCreated(now);
+        post.setExpirationTime(new Date(now.getTime() + 24 * 60 * 60 * 1000));
         post.setArchived(false);
-        // if (postService.isPostStreaking(userId)) {
-        //     user.setPostingStreak(user.getPostingStreak() + 1);
-        // }
+
+        updateUserPostingStreak(user, now);
+
         return postRepository.save(post);
     }
 

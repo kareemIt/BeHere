@@ -82,13 +82,13 @@ public class LikeService {
         return likeRepository.countByUserId(userId);
     }
 
-    // UPDATED: Now using PostRepository directly to obtain active posts instead of SocialMediaService
-    public List<PostResponse> getTrendingPosts() {
+    public List<PostResponse> getTrendingPosts(Long userId) {
         List<Post> allActivePosts = postRepository.findAllByExpirationTimeAfterAndArchivedFalse(new Date());
+
         List<PostResponse> trendingList = allActivePosts.stream().map(post -> {
             int likeCount = getLikeCountForPost(post.getId());
-            boolean isLiked = postService.isPostLikedByUser(post.getUser().getId(), post.getId());
-            boolean isFollowed = postService.isUserFollowedByUser(post.getUser().getId(), post.getUser().getId());
+            boolean isLiked = postService.isPostLikedByUser(userId, post.getId());
+            boolean isFollowed = postService.isUserFollowedByUser(userId, post.getUser().getId());
 
             PostResponse postResponse = new PostResponse(
                     post.getId(),
@@ -106,6 +106,7 @@ public class LikeService {
             return postResponse;
         }).collect(Collectors.toList());
 
+        // Sort the trending posts in descending order by like count
         return trendingList.stream()
                 .sorted((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()))
                 .collect(Collectors.toList());

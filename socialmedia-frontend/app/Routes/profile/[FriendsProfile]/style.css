@@ -1,34 +1,40 @@
 /* Layout for the profile page */
 .profileContainer {
-    display: grid;
-    grid-template-columns: 250px 1fr 250px; /* left sidebar, content, right friends list */
-    gap: 20px;
-    margin: 20px;
-  }
-  
-  /* Style for the main profile content with a border */
-  .profileContent {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border: 2px solid #00A6FA;   /* Border around content */
-    border-radius: 8px;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Optionally style the friends list like the sidebar */
-  .friendsList {
-    /* if your FriendsList component's container has class "friendsList" */
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
-  
-  /* Ensure the userId is on its own line and spaced out */
-  .userIdContainer {
-    margin-top: 20px;
-    text-align: center;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Style for the main profile content with a border */
+.profileContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 2px solid #00A6FA;   /* Border around content */
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;       /* adjust as needed */
+}
+
+/* Optionally style the friends list like the sidebar */
+.friendsList {
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 300px;  /* adjust width as needed */
+}
+
+/* Ensure the userId is on its own line and spaced out */
+.userIdContainer {
+  margin-top: 20px;
+  text-align: center;
+}

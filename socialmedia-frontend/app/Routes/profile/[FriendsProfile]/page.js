@@ -3,7 +3,6 @@
 import React,{ useState, useEffect} from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import NavBar from '../../../component/navBar/NavBar';
-import SideBar from '../../../component/sideBar/SideBar';
 import ContentBarProfileFriend from '../../../component/ContentBarProfileFriend/ContentBarProfileFriend';
 import FriendBio from '../../../friendBio/friendBio';
 import FriendPost from '../../../friendPost/friendPost';
@@ -30,7 +29,6 @@ const FriendProfile = () => {
     <div>
       <NavBar />
       <div className="profileContainer">
-        <SideBar />
         <div className="profileContent">
           <FriendBio profileId={profileUserId} />
           <ContentBarProfileFriend currentTab={0} />

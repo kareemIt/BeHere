@@ -47,6 +47,7 @@ const FriendPost = ({ profileId }) => {
             isfollowing={post.followed}
             likes={post.likeCount}
             liked={post.liked}
+            expiration={post.expirationTime} 
           />
         ))
       ) : (

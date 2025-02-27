@@ -2,31 +2,77 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
   padding: 10px 20px;
+  background-color: #f8f9fa; /* light background */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 1.5px solid grey; /* Border bottom kept */
+  flex-wrap: wrap;
 }
 
+/* BeHere logo with hover effect */
 .navBar h1 {
-  font-size: 40px;
   margin: 0;
-  color: #00A6FA;
-}
-
-.navBar .logout {
-  background-color: #00A6FA;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 16px;
+  font-size: 40px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-family: Arial, sans-serif;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.navBar .logout:hover {
-  background-color: #008ace;
+.navBar h1:hover {
+  transform: scale(1.05);
+  color: #0070f3;
+}
+
+/* Container group for profile and logout buttons */
+.navBar .nav-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Style for search bar */
+.navBar .searchBar {
+  flex: 1;
+  margin: 0 20px;
+}
+
+/* Common button style */
+.navBar button {
+  margin-left: 10px;
+  padding: 5px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Profile button style */
+.navBar button.profile {
+  background-color: #28a745; /* green */
+  color: white;
+}
+
+.navBar button.profile:hover {
+  transform: translateY(-2px);
+  background-color: #218838;
+}
+
+/* Logout button style */
+.navBar button.logout {
+  background-color: #dc3545; /* red */
+  color: white;
+}
+
+.navBar button.logout:hover {
+  transform: translateY(-2px);
+  background-color: #c82333;
+}
+
+/* Link style */
+.navBar a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Adds spacing between the search component and logout button */
@@ -42,9 +88,44 @@
   width: 300px;           /* Adjust the width as needed */
   font-size: 16px;
   transition: border-color 0.3s ease;
+  margin-left: 20px;
 }
 
 .searchBar:focus {
   outline: none;
   border-color: #008ace;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 768px) {
+  .navBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+  }
+
+  .navBar h1 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  /* Allow nav-right to wrap below logo */
+  .navBar .nav-right {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  /* Reduce margin between elements */
+  .navBar > *:not(h1) {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  /* Expand search bar to full width with a max-width */
+  .navBar .searchBar {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
 }

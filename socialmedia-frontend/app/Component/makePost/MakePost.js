@@ -2,15 +2,13 @@
 
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import styles from './style.css';
 import UserContext from '../../context/UserContext';
-import { currentDate as getCurrentDate, expirationDate as getExpirationDate } from "../../utils/date";
+import './style.css';
 
-const MakePost = ({setPostMade}) => {
+const MakePost = ({ setPostMade, username }) => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
-  const [content, setContent] = useState("words");
+  const [content, setContent] = useState("");
   const [hasPost, setHasPost] = useState(false);
   const token = localStorage.getItem('jwtToken');
 
@@ -24,12 +22,11 @@ const MakePost = ({setPostMade}) => {
       body: JSON.stringify({ userId: userId, content: content }),
     });
 
-    console.log("response", response)
     if (response.ok) {
       const data = await response.json();
       setHasPost(true);
       setPostMade(true);
-      console.log('setPostMade'); 
+      console.log('Post created successfully');
     } else {
       const errorData = await response.text();
       console.error('Error creating post:', errorData);
@@ -45,29 +42,33 @@ const MakePost = ({setPostMade}) => {
           'Content-Type': 'application/json',
         }
       });
-      console.log(response);
       if (response.ok) {
         setHasPost(true);
       } else {
         setHasPost(false);
       }
     };
-    postCheck();
-  }, [userId, token,hasPost]);
+    if (userId) postCheck();
+  }, [userId, token]);
+
+  // Render nothing if a post already exists
+  if (hasPost) return null;
 
   return (
-    <div>
-      {!hasPost && (
-        <div className='createPost'>
-          <input
-            type="text"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your post here..."
-          />
-          <button onClick={makeAPost}>Post</button>
-        </div>
-      )}
+    <div className="makePostContainer">
+      <div className="makePostHeader">Hello, {username}!</div>
+      <input
+        type="text"
+        className="postInput"
+        maxLength={256}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder="Write your post here..."
+      />
+      <div className="charLimit">
+        {256 - content.length} characters remaining
+      </div>
+      <button className="postButton" onClick={makeAPost}>Post</button>
     </div>
   );
 };

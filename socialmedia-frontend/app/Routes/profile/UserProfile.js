@@ -6,7 +6,6 @@ import Link from 'next/link';
 import styles from './style.css';
 import UserContext from '../../context/UserContext'; 
 import NavBar from '../../component/navBar/NavBar';
-import SideBar from '../../component/sideBar/SideBar';
 import ContentBarProfile from '../../component/contentBarProfile/contentBarProfile';
 import ArchivedPosts from '../../component/archivedPosts/archivedPosts';
 import UserPost from '../../component/userPost/userPost';
@@ -17,6 +16,7 @@ const UserProfile = () => {
   const router = useRouter();
   const { userId } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
+  const [postMade, setPostMade] = useState(false);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -43,7 +43,6 @@ const UserProfile = () => {
     <div>
       <NavBar/>
       <div className="profileContainer">
-        <SideBar />
         <div className="profileContent">
           <Bio/>
           <ContentBarProfile currentTab={currentTab} setCurrentTab={setCurrentTab} />

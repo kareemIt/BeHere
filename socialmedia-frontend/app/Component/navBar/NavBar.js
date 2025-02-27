@@ -1,12 +1,11 @@
 "use client";
 
-import React from 'react';
-import { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import Search from '../Search/Search';
+import './style.css';
 
 const NavBar = () => {
   const router = useRouter();
@@ -14,15 +13,24 @@ const NavBar = () => {
 
   const logout = () => {
     localStorage.removeItem('jwtToken');
-    setUserId(null); // Clear the user ID from context
-    router.push('/routes/login'); // Redirect to login page
+    setUserId(null);
+    router.push('/routes/login');
   };
 
   return (
     <div className='navBar'>
-      <h1 style={{ fontSize: '40px' }}>BeHere</h1>
-      <Search className="searchBar"/>
-      <button onClick={logout} className='logout'>Logout</button>
+      <Link href="/routes/home">
+        <h1>BeHere</h1>
+      </Link>
+
+      <Search className="searchBar" />
+
+      <div className="nav-right">
+        <Link href="/routes/profile">
+          <button className='profile'>Profile</button>
+        </Link>
+        <button onClick={logout} className='logout'>Logout</button>
+      </div>
     </div>
   );
 };

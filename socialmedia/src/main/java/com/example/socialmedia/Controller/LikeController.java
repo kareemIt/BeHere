@@ -47,9 +47,9 @@ public class LikeController {
         return ResponseEntity.ok(totalLikeCount);
     }
 
-    @GetMapping("/trending")
-    public ResponseEntity<List<PostResponse>> getTrendingPosts() {
-        List<PostResponse> trendingPosts = likeService.getTrendingPosts();
+    @GetMapping("/trending/{userId}")
+    public ResponseEntity<List<PostResponse>> getTrendingPosts(@PathVariable Long userId) {
+        List<PostResponse> trendingPosts = likeService.getTrendingPosts(userId);
         return ResponseEntity.ok(trendingPosts);
     }
 }

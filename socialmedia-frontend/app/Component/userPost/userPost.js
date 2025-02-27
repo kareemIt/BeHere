@@ -8,10 +8,11 @@ import Post from "../post/post";
 import MakePost from '../../component/makePost/MakePost';
 
 const userPost = () => {
-  const { userId } = useContext(UserContext);
+  const { userId, username } = useContext(UserContext);
   const [post, setPosts] = useState();
 
   useEffect(() => {
+    if (!userId) return; // wait until userId is available
     const token = localStorage.getItem('jwtToken');
     const fetchPosts = async () => {
       const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
@@ -21,31 +22,27 @@ const userPost = () => {
           'Content-Type': 'application/json',
         }
       });
-   
-
+  
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
         console.log("posts", data);
-        console.log(data)
       } else {
-        console.log("userId", userId)
-        console.error('no content');
+        console.error('No content for userId:', userId);
       }
     };
-        fetchPosts();
-
-  }, []); 
+    fetchPosts();
+  }, [userId]);
 
   return (
     <div className='Posts'>
       {post != null && 
        <Post username={post.username} content={post.content} postid={post.id}
        remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
-       likes={post.likeCount} liked={post.liked} 
+       likes={post.likeCount} liked={post.liked} expiration={post.expirationTime} 
        />
       }
-         {post == null && <MakePost/> }
+         {post == null && <MakePost username={username}/> }
     </div>
   );
 };

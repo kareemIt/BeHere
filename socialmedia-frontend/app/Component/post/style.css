@@ -1,27 +1,50 @@
 .post-container {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin: auto;
+    border: 0.5px solid;
     margin-bottom: 1rem;
     padding: 10px 15px;
     background-color: #fff;
     border-radius: 8px;
     text-align: left;
+    width: 100%;
+    max-width: 100%;  /* Ensures container does not extend beyond parent's width */
+    box-sizing: border-box;
+    overflow-wrap: break-word;  /* Wraps long words */
+    word-break: break-word;
+    /* For flex items to allow proper shrinking */
+    min-width: 0;
 }
 
+/* Header styles */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Ensure the header title uses your theme color */
 .header h1 {
     color: #00A6FA;
     font-size: 20px;
     margin: 0;
 }
 
-/* This container groups any inner header details */
+/* Make the username more prominent */
+.post-container .header h1 > button {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Style the follow/following text and follow button */
+.post-container .header h1 span,
+.post-container .header h1 > button + button {
+  font-size: 0.9rem;
+  font-weight: normal;
+  margin-left: 5px;
+}
+
+/* Inner header details */
 .inner-container {
     display: flex;
     align-items: center;
@@ -30,12 +53,14 @@
     padding: 2px;
 }
 
-/* Styling of the post content */
+/* Post content styling */
 .postContent p {
     margin: 10px 0;
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 1.2rem;
+    line-height: 1.6;
     color: #333;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 /* Like section */
@@ -53,17 +78,17 @@
     padding: 5px 10px;
 }
 
-/* Base styles for the like button */
+/* Like button base styles */
 .like-button {
     transition: transform 0.3s ease, background-color 0.3s ease;
     border: none;
     padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
-    background-color: transparent;  /* clear default background */
+    background-color: transparent;
 }
 
-/* Unliked state: outlined with theme color */
+/* Unliked state */
 .like-button.unliked {
     border: 2px solid #00A6FA;
     color: #00A6FA;
@@ -71,7 +96,7 @@
     align-items: center;
 }
 
-/* Liked state: filled with theme color */
+/* Liked state */
 .like-button.liked {
     display: flex;
     background-color: #00A6FA;
@@ -80,12 +105,12 @@
     align-items: center;
 }
 
-/* Hover effect */
+/* Hover effect for like button */
 .like-button:hover {
     transform: scale(1.05);
 }
 
-/* Ensure any image inside the button has a transparent background */
+/* Image inside like button */
 .like-button img {
     background: transparent;
     display: block;
@@ -97,6 +122,7 @@
     color: #333;
 }
 
+/* Time display styles */
 .time-unit {
     color: #888;
     font-size: 16px;
