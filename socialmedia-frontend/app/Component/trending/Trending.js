@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import Post from "../post/post";

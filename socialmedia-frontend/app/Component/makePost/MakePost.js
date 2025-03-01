@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import UserContext from '../../context/UserContext';
 import './style.css';
 
 const MakePost = ({ setPostMade, username }) => {
-  const router = useRouter();
   const { userId } = useContext(UserContext);
   const [content, setContent] = useState("");
   const [hasPost, setHasPost] = useState(false);

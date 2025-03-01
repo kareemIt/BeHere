@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import UserContext from '../../context/UserContext';
-import NavBar from '../../component/navBar/NavBar';
 import MakePost from '../../component/makePost/MakePost';
 import ContentBar from '../../component/contentBar/ContentBar';
 import ForYouPage from '../../component/FYP/ForYouPage';

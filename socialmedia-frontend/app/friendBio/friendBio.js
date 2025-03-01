@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import "./style.css";
 
 const FriendBio = ({ profileId }) => {
-  const router = useRouter();
   const [userInfo, setUserInfo] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const token = localStorage.getItem("jwtToken");

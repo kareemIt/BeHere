@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import UserContext from '../../context/UserContext';
 import Post from "../post/post";
 import './style.css';
@@ -9,7 +8,6 @@ import './style.css';
 const ForYouPage = ({ postMade, setPostMade }) => {
   const { userId } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');

@@ -1,8 +1,5 @@
 "use client";
 
-import React, { use } from 'react';
-import { useEffect, useState, useContext } from 'react';
-
 const follow = async (userId,followerId) => {
     const token = localStorage.getItem('jwtToken');
 

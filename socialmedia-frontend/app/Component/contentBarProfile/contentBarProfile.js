@@ -1,14 +1,9 @@
 "use client";
 
 import React from 'react';
-import { useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './style.css';
-import UserContext from '../../context/UserContext';
-import './style.css';
 
 const ContentBarProfile = ({ currentTab, setCurrentTab }) => {
-  const router = useRouter();
 
   const handleCurrentPostTab = () => {
     setCurrentTab(0);

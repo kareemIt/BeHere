@@ -1,8 +1,5 @@
 "use client";
 
-import React, { use } from 'react';
-import { useEffect, useState, useContext } from 'react';
-
 const like = async (userId, postId) => {
   const token = localStorage.getItem('jwtToken');
   const response = await fetch(`http://localhost:8080/api/${userId}/like/${postId}`, {

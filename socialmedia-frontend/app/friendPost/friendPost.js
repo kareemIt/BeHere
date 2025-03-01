@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './style.css';
 import Post from "/app/component/post/post";
-import MakePost from '/app/component/makePost/MakePost';
 
 const FriendPost = ({ profileId }) => {
   const [posts, setPosts] = useState([]);

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import UserContext from "../../context/UserContext";
 import follow from "../../utils/follow";
 import like from "../../utils/like";
-import Clock from "../../Icons/clock.svg";
+import Clock from "../../Icons/Clock.svg";
 import Like from "../../Icons/Like.svg";
 import Image from "next/image";
 import "./style.css";

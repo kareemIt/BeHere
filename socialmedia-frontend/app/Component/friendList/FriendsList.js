@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import UserContext from '../../context/UserContext';
 import removeFollower from '../../utils/removeFollower';
 import './style.css';

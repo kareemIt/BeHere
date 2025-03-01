@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import './style.css';
-import UserContext from '../../context/UserContext';
 
 const Search = () => {
-  const router = useRouter();
-  const { userId } = useContext(UserContext);
   const [userInput, setUserInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const containerRef = useRef(null);

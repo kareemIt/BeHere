@@ -1,11 +1,8 @@
 "use client";
 
 import React, { useState, useContext, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import styles from './style.css';
 import UserContext from '../../context/UserContext'; 
-import NavBar from '../../component/navBar/NavBar';
 import ContentBarProfile from '../../component/contentBarProfile/contentBarProfile';
 import ArchivedPosts from '../../component/archivedPosts/archivedPosts';
 import UserPost from '../../component/userPost/userPost';
@@ -13,10 +10,8 @@ import Bio from '../../component/bio/bio';
 import FriendsList from '../../component/friendList/FriendsList';
 
 const UserProfile = () => {
-  const router = useRouter();
   const { userId } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
-  const [postMade, setPostMade] = useState(false);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {

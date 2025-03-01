@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import UserContext from '../../context/UserContext';
 import Search from '../Search/Search';
@@ -10,7 +9,6 @@ import Image from 'next/image';
 import './style.css';
 
 const NavBar = () => {
-  const router = useRouter();
   const { userId, setUserId } = useContext(UserContext);
 
   const logout = () => {
