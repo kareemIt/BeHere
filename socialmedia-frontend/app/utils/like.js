@@ -12,10 +12,8 @@ const like = async (userId, postId) => {
       'Content-Type': 'application/json',
     },
   });
-  console.log('response like:', response);
   if (response.ok) {
     const data = await response.json();
-    console.log('data like:', data);
     return data; // Return the JSON response
   } else {
     const errorData = await response.text();

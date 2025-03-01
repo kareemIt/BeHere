@@ -25,7 +25,6 @@ const archivedPosts = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("posts arachieved", data);
         setPosts(data);
       } else {
         console.error('Failed to fetch posts');

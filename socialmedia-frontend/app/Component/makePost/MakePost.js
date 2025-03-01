@@ -13,6 +13,7 @@ const MakePost = ({ setPostMade, username }) => {
   const token = localStorage.getItem('jwtToken');
 
   const makeAPost = async () => {
+    if (!content) return;
     const response = await fetch('http://localhost:8080/api/posts', {
       method: 'POST',
       headers: {
@@ -26,7 +27,6 @@ const MakePost = ({ setPostMade, username }) => {
       const data = await response.json();
       setHasPost(true);
       setPostMade(true);
-      console.log('Post created successfully');
     } else {
       const errorData = await response.text();
       console.error('Error creating post:', errorData);
@@ -51,13 +51,12 @@ const MakePost = ({ setPostMade, username }) => {
     if (userId) postCheck();
   }, [userId, token]);
 
-  // Render nothing if a post already exists
   if (hasPost) return null;
 
   return (
     <div className="makePostContainer">
       <div className="makePostHeader">Hello, {username}!</div>
-      <input
+      <textarea
         type="text"
         className="postInput"
         maxLength={256}

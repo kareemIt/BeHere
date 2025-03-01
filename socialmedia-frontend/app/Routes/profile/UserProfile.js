@@ -41,7 +41,6 @@ const UserProfile = () => {
 
   return (
     <div>
-      <NavBar/>
       <div className="profileContainer">
         <div className="profileContent">
           <Bio/>

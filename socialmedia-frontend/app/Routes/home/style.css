@@ -15,18 +15,6 @@
   font-family: var(--font);
 }
 
-/* Overall home container with blue border around the “big background” */
-.homeContainer {
-  display: flex;
-  gap: var(--gap);
-  margin: auto;
-  width: 60%; /* Wider on desktop */
-  padding: 20px;
-  background: var(--light);
-  border: 2px solid var(--primary);
-  border-radius: 8px;
-}
-
 /* Sidebar styling remains unchanged */
 .homeContainer .sideBar {
   flex-shrink: 0;
@@ -69,6 +57,7 @@
     grid-template-columns: 1fr 1fr;
     gap: var(--gap);
     justify-items: center;
+    flex-direction: column;
   }
 }
 
@@ -84,10 +73,6 @@
   max-width: 600px; /* Constrain each post's width */
 }
 
-.post-container:hover {
-  transform: translateY(-3px);
-}
-
 /* Optional: Body background if needed */
 body {
   background: linear-gradient(135deg, #f0f4ff 0%, #e0ecff 100%);
@@ -99,9 +84,8 @@ nav {
 }
 
 /* Responsive adjustments for mobile */
-@media (max-width: 768px) {
+@media (max-width: 565px) {
   .homeContainer {
-    width: 90%; /* Constrain container to most of the viewport */
     padding: 10px;
     flex-direction: column;
   }

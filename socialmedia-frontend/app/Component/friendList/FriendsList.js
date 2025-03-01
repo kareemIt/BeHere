@@ -23,7 +23,6 @@ const FriendsList = () => {
       if (response.ok) {
         const data = await response.json();
         setFollowingList(data);
-        console.log('friendsList fyp:', data);
       } else {
         console.log("Failed to fetch following list for userId:", userId);
       }

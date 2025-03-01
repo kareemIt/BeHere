@@ -9,7 +9,7 @@ const removeFollower = async (userId,followerId) => {
     });
 
     if (response.ok) {
-        // console.log(response.ok);
+        return response.status;
     } else {
         console.log("userId wasnt unfollowed", userId);
     }

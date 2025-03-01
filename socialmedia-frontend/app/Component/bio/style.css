@@ -9,65 +9,57 @@
     height: auto;
 }
 
-/* Bio wrapper styles */
+/* Container wrapper */
 .bioWrapper {
   padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
-.bioWrapper h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Layout container for the bio */
+/* Main bio container */
 .bioContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background-color: #ffffff;
+  background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-/* Header row with username and settings */
+/* Header styles */
 .bioHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-/* Username styling with extra importance */
 .username {
-  font-size: 24px;
+  font-size: 1.8rem;
   font-weight: bold;
-  color: #333;
-  margin: 0;
+  color: #0070f3;
 }
 
-/* Settings styling */
 .settings {
-  font-size: 16px;
-  color: #00A6FA;
+  font-size: 1rem;
+  color: #0070f3;
   cursor: pointer;
+  padding: 5px;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
 }
 
-/* Stats container */
+.settings:hover {
+  border-color: #0070f3;
+}
+
+/* Stats styling */
 .stats {
-  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Grid for individual stats */
 .statsGrid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 /* Each stat item: label and number inline */
@@ -78,15 +70,15 @@
 }
 
 .stat h3 {
-  margin: 0;
-  font-size: 14px;
-  color: #666;
+  font-size: 1.1rem;
+  margin: 0 0 5px;
+  color: #333;
 }
 
 .stat p {
+  font-size: 1rem;
   margin: 0;
-  font-size: 16px;
-  font-weight: bold;
+  color: #666;
 }
 
 /* Bio section styles */
@@ -96,11 +88,72 @@
 }
 
 .bioSection h3 {
-  text-align: center;
-  margin-top: 0;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
 }
 
 .bioSection p {
   margin: 10px 0 0;
   text-align: justify;
+}
+
+/* Display mode styling */
+.bioDisplay p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+/* Edit mode styling */
+.bioEdit {
+  display: flex;
+  flex-direction: column;
+}
+
+.bioTextArea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.bioEditButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.saveBtn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.saveBtn:hover {
+  background-color: #218838;
+}
+
+.cancelBtn {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.cancelBtn:hover {
+  background-color: #c82333;
 }

@@ -8,7 +8,7 @@ import './style.css';
 const Bio = () => {
   const { userId } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState(null);
-  const [isSetting, setIsSetting] = useState(false)
+  const [isSetting, setIsSetting] = useState(false);
   const [newBio, setNewBio] = useState("");
   const token = localStorage.getItem('jwtToken');
 
@@ -21,27 +21,24 @@ const Bio = () => {
           'Content-Type': 'application/json',
         },
       });
-
       if (response.ok) {
         const data = await response.json();
-        console.log("bio", data);
         setUserInfo(data);
       } else {
         console.log("response failed", response);
       }
     };
 
-    fetchUserInfo();
-  }, [userId,isSetting]);
+    if (userId) fetchUserInfo();
+  }, [userId, isSetting, token]);
 
   const handleSetting = () => {
-    console.log("userInfo", userInfo.bio);
     setNewBio(userInfo.bio);
     setIsSetting(!isSetting);
   };
 
   const handleChange = (e) => {
-    setNewBio(e.target.value); 
+    setNewBio(e.target.value);
   };
 
   const handleSave = async () => {
@@ -58,8 +55,8 @@ const Bio = () => {
       if (!response.ok) {
         throw new Error("Failed to update bio");
       }
-      setNewBio(newBio); 
-      setIsSetting(!isSetting);
+      // Optionally update local userInfo if needed
+      setIsSetting(false);
     } catch (error) {
       console.error("Error updating bio:", error);
     }
@@ -97,18 +94,24 @@ const Bio = () => {
           </div>
           <div className="bioSection">
             <h3>Bio</h3>
-            {isSetting == 1 && <div>
-             <input
-                type="text"
-                value={newBio}
-                onChange={handleChange}
-                className="border rounded p-2"
-               />
-              <button onClick={handleSave}>Save</button>
-              </div>}
-              {isSetting == 0 && <div>
+            {isSetting ? (
+              <div className="bioEdit">
+                <textarea
+                  value={newBio}
+                  onChange={handleChange}
+                  placeholder="Update your bio..."
+                  className="bioTextArea"
+                />
+                <div className="bioEditButtons">
+                  <button onClick={handleSave} className="btn saveBtn">Save</button>
+                  <button onClick={handleSetting} className="btn cancelBtn">Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div className="bioDisplay">
                 <p>{userInfo.bio}</p>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       )}

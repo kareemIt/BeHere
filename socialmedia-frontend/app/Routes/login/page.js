@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useContext } from 'react';
 import UserContext from '../../context/UserContext';
-import './style.css';
+import styles from './style.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');

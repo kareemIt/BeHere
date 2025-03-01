@@ -14,7 +14,6 @@ const follow = async (userId,followerId) => {
           },
         });
 
-        console.log('response follow:', response);
         if (response.ok) {
           return 200;
       } else {

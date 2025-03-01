@@ -27,7 +27,6 @@ const FriendProfile = () => {
 
   return (
     <div>
-      <NavBar />
       <div className="profileContainer">
         <div className="profileContent">
           <FriendBio profileId={profileUserId} />

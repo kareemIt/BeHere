@@ -85,7 +85,7 @@ const Post = (props) => {
             className={liked ? "like-button liked" : "like-button unliked"}
           >
             {liked ? (
-              <Image priority src={Like} height={20} width={20} alt={"like icon"} />
+              <Image priority src={Like} height={40} width={40} alt={"like icon"} />
             ) : (
               "Like"
             )}

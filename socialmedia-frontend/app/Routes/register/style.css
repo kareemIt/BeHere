@@ -106,13 +106,13 @@
 }
 
 /* Login button styling */
-.login-button {
-  background-color: #f39c12; /* Warm orange */
+.login-button-register {
+  background-color: #00A6FA; /* Warm orange */
   color: var(--light);
 }
 
-.login-button:hover {
-  background-color: #d35400; /* Darker orange */
+.login-button-register:hover {
+  background-color: #0073ad; /* Darker orange */
   transform: translateY(-2px);
 }
 

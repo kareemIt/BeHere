@@ -26,7 +26,6 @@ const userPost = () => {
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
-        console.log("posts", data);
       } else {
         console.error('No content for userId:', userId);
       }

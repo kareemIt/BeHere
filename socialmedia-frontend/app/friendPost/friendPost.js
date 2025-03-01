@@ -26,7 +26,6 @@ const FriendPost = ({ profileId }) => {
       if (response.ok) {
         const data = await response.json();
         setPosts([data]);
-        console.log("posts", [data]);
       }
     };
 

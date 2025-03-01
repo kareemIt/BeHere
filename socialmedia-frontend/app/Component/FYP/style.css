@@ -3,3 +3,11 @@
     width: 500px;
     margin: auto;
 }
+
+@media (max-width: 565px) {
+    .Posts {
+        height: auto;
+        width: 100%;
+        margin: auto;
+    }
+  }

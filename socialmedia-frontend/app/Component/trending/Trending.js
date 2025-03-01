@@ -24,7 +24,6 @@ const Trending = ({setPostMade}) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("trending", data);
         setPosts(data);
         setPostMade(true);
       } else {

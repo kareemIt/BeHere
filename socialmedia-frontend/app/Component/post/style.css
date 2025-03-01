@@ -78,48 +78,56 @@
     padding: 5px 10px;
 }
 
-/* Like button base styles */
+/* Base like button styling with fixed width and height */
 .like-button {
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px; /* Fixed width */
+  height: 40px; /* Fixed height */
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: transparent;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  white-space: nowrap; /* Prevent wrapping */
 }
 
-/* Unliked state */
-.like-button.unliked {
-    border: 2px solid #00A6FA;
-    color: #00A6FA;
-    display: flex;
-    align-items: center;
-}
-
-/* Liked state */
-.like-button.liked {
-    display: flex;
-    background-color: #00A6FA;
-    color: #fff;
-    border: 2px solid #00A6FA;
-    align-items: center;
-}
-
-/* Hover effect for like button */
-.like-button:hover {
-    transform: scale(1.05);
-}
-
-/* Image inside like button */
+/* Ensure the like icon size stays consistent */
 .like-button img {
-    background: transparent;
-    display: block;
+  width: 30px;
+  height: 25px;
+  margin-right: 4px; /* Space between icon and text, if text is present */
 }
 
+/* Hover state for unliked */
+.like-button:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Styles when the post is liked */
+.like-button.liked {
+  background-color: #00A6FA;
+  border-color: #00A6FA;
+  color: #fff;
+}
+
+/* Hover state when liked */
+.like-button.liked:hover {
+  background-color: #008aca;
+  border-color: #008aca;
+}
+
+/* Adjust like count spacing and font. */
 .like-count {
-    margin-left: 10px;
-    font-size: 16px;
-    color: #333;
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 /* Time display styles */

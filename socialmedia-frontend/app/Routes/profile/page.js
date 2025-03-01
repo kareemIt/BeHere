@@ -17,15 +17,6 @@ const ProfilePage = ({ params }) => {
     const searchParams = new URLSearchParams(window.location.search);
     const userIdFromQuery = searchParams.get('userId');
     setProfileUserId(userIdFromQuery);
-    console.log("searchParams userId:", userIdFromQuery);
-
-    console.log("profileUserId:", params);
-    console.log("searchParams:", searchParams);
-    console.log("router:", router.asPath);
-
-    console.log("profileUserId:", String(profileUserId) === String(currentUserId));
-    console.log("profileUserId:", String(profileUserId));
-    console.log("currentUserId:", String(currentUserId));
   }, [searchParams]);
 
 

@@ -20,7 +20,6 @@ export const UserProvider = ({ children }) => {
             'Content-Type': 'application/json',
           },
         });
-        console.log('responses:', response);
         if (response.ok) {
           // Retrieve userId and username from localStorage
           setUserId(localStorage.getItem('userId'));

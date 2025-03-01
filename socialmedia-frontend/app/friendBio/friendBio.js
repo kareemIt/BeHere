@@ -49,8 +49,6 @@ const FriendBio = ({ profileId }) => {
   }, [profileId, currentUserId, token]); // Only re-run if profileId changes
 
   const handleFollow = async () => {
-    console.log("isfollowing", isFollowing);
-    // Set the endpoint based on current follow state
     const action = isFollowing ? "unfollow" : "follow";
     const method = isFollowing ? "DELETE" : "POST";
 

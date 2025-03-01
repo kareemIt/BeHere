@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import "./style.css";
+import styles from "./style.css";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -55,7 +55,7 @@ const Register = () => {
             Setup Account
           </button>
           <Link href="/routes/login">
-            <button type="button" className="login-button">
+            <button type="button" className="login-button-register">
               Login
             </button>
           </Link>

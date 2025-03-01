@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import UserContext from '../../context/UserContext';
 import Search from '../Search/Search';
+import Profile from '../../Icons/Profile.svg';
+import Image from 'next/image';
 import './style.css';
 
 const NavBar = () => {
@@ -27,8 +29,9 @@ const NavBar = () => {
 
       <div className="nav-right">
         <Link href="/routes/profile">
-          <button className='profile'>Profile</button>
+          <Image priority src={Profile} alt='profile' className='profile'/>
         </Link>
+        <span className="divider" />
         <button onClick={logout} className='logout'>Logout</button>
       </div>
     </div>

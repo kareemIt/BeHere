@@ -1,19 +1,44 @@
-import { useRouter } from 'next/navigation';
-import { useEffect, useContext } from 'react';
-import UserContext from '../context/UserContext';
+"use client";
+
+import { useEffect, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import UserContext from "../context/UserContext";
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
     const router = useRouter();
-    const { userId } = useContext(UserContext);
+    const { userId, setUserId } = useContext(UserContext);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+      const localToken = localStorage.getItem("jwtToken");
       if (!userId) {
-        router.push('/routes/login');
+        if (localToken) {
+          try {
+            const decoded = jwtDecode(localToken);
+            if (decoded && decoded.userId) {
+              setUserId(decoded.userId);
+              setLoading(false);
+            } else {
+              router.push("/routes/login");
+            }
+          } catch (error) {
+            router.push("/routes/login");
+          }
+        } else {
+          router.push("/routes/login");
+        }
+      } else {
+        setLoading(false);
       }
-    }, [userId, router]);
+    }, [userId, router, setUserId]);
 
-    return userId ? <WrappedComponent {...props} /> : null;
+    if (loading) {
+      return null; // or a loading spinner
+    }
+
+    return <WrappedComponent {...props} />;
   };
 };
 
