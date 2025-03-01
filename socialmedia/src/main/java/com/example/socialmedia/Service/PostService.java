@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -129,7 +128,7 @@ public class PostService {
     public ResponseEntity<PostResponse> getUserPost(Long userId) {
         Post post = postRepository.findFirstByUserIdAndArchivedFalseAndExpirationTimeAfter(userId, new Date()).orElse(null);
         if (post == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.ok(new PostResponse());
         }
         int likeCount = getLikeCountForPost(post.getId());
         boolean isLiked = isPostLikedByUser(userId, post.getId());
@@ -149,22 +148,4 @@ public class PostService {
         return ResponseEntity.ok(postResponse);
     }
 
-    // public boolean isPostStreaking(Long userId) {
-    //     Post lastPost = postRepository.findTopByUserIdOrderByCreatedAtDesc(userId);
-    //     if (lastPost == null) {
-    //         return false;
-    //     }
-    //     Date lastPostDate = lastPost.getDateCreated();
-    //     Date today = new Date();
-    //     Calendar lastPostCalendar = Calendar.getInstance();
-    //     lastPostCalendar.setTime(lastPostDate);
-    //     Calendar todayCalendar = Calendar.getInstance();
-    //     todayCalendar.setTime(today);
-    //     todayCalendar.add(Calendar.DAY_OF_YEAR, -1);
-    //     return isSameDay(lastPostCalendar, todayCalendar);
-    // }
-    // private boolean isSameDay(Calendar calendar1, Calendar calendar2) {
-    //     return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
-    //             && calendar1.get(Calendar.DAY_OF_YEAR) == calendar2.get(Calendar.DAY_OF_YEAR);
-    // }
 }

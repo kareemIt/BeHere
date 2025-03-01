@@ -1,15 +1,18 @@
 "use client";
 
-import React, { useContext } from 'react';
-import Link from 'next/link';
+import React, {useContext } from 'react';
+import Link from 'next/link'; 
 import UserContext from '../../context/UserContext';
 import Search from '../Search/Search';
 import Profile from '../../Icons/Profile.svg';
 import Image from 'next/image';
 import './style.css';
+import { useRouter } from "next/navigation";
+
 
 const NavBar = () => {
   const { userId, setUserId } = useContext(UserContext);
+  const router = useRouter();
 
   const logout = () => {
     localStorage.removeItem('jwtToken');

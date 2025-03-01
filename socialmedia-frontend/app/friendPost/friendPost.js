@@ -32,7 +32,7 @@ const FriendPost = ({ profileId }) => {
 
   return (
     <div className='Posts'>
-      {posts.length > 0 ? (
+      {posts.length > 0 && posts.username ? (
         posts.map((post) => (
           <Post
             key={post.id}

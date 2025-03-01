@@ -1,5 +1,5 @@
 # Use Java 21 (recommended) or Java 22 if needed
-FROM eclipse-temurin:21-jdk AS build
+FROM eclipse-temurin:22-jdk AS build
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 RUN ./mvnw clean package
 
 # Run stage
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:22-jre
 WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar

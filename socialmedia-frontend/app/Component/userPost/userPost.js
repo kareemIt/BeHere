@@ -26,7 +26,6 @@ const userPost = () => {
         const data = await response.json();
         setPosts(data);
       } else {
-        console.error('No content for userId:', userId);
       }
     };
     fetchPosts();
@@ -34,7 +33,7 @@ const userPost = () => {
 
   return (
     <div className='Posts'>
-      {post != null && 
+      {post != null && post.username != null && 
        <Post username={post.username} content={post.content} postid={post.id}
        remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
        likes={post.likeCount} liked={post.liked} expiration={post.expirationTime} 

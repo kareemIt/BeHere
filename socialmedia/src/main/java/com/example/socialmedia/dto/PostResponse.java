@@ -16,6 +16,9 @@ public class PostResponse {
     private boolean isLiked;
     private int likes;
 
+    public PostResponse() {
+    }
+
     public PostResponse(Long id, String content, Date dateCreated, Date expirationTime, String username, long remainingHours, boolean isFollowed, Long userId, int likeCount, boolean isLiked) {
         this.id = id;
         this.content = content;
