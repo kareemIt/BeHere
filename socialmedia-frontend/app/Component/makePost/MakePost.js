@@ -5,49 +5,48 @@ import UserContext from '../../context/UserContext';
 import './style.css';
 
 const MakePost = ({ setPostMade, username }) => {
-  const { userId } = useContext(UserContext);
+  const { userId, fetchWithToken } = useContext(UserContext);
   const [content, setContent] = useState("");
   const [hasPost, setHasPost] = useState(false);
-  const token = localStorage.getItem('jwtToken');
 
   const makeAPost = async () => {
     if (!content) return;
-    const response = await fetch('http://localhost:8080/api/posts', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId: userId, content: content }),
-    });
+    try {
+      const response = await fetchWithToken('http://localhost:8080/api/posts', {
+        method: 'POST',
+        body: JSON.stringify({ userId: userId, content: content }),
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      setHasPost(true);
-      setPostMade(true);
-    } else {
-      const errorData = await response.text();
-      console.error('Error creating post:', errorData);
+      if (response.ok) {
+        const data = await response.json();
+        setHasPost(true);
+        setPostMade(true);
+      } else {
+        const errorData = await response.text();
+        console.error('Error creating post:', errorData);
+      }
+    } catch (error) {
+      console.error('Failed to create post:', error);
     }
   };
 
   useEffect(() => {
     const postCheck = async () => {
-      const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      try {
+        const response = await fetchWithToken(`http://localhost:8080/api/posts/active/${userId}`);
+        const data = await response.json();
+        if (response.ok && data.id != null) {
+          setHasPost(true);
+        } else {
+          setHasPost(false);
         }
-      });
-      if (response.ok) {
-        setHasPost(true);
-      } else {
+      } catch (error) {
+        console.error('Failed to check post status:', error);
         setHasPost(false);
       }
     };
     if (userId) postCheck();
-  }, [userId, token]);
+  }, [userId, fetchWithToken]);
 
   if (hasPost) return null;
 

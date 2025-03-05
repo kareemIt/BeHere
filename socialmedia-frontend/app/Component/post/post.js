@@ -12,27 +12,35 @@ import "./style.css";
 
 const Post = (props) => {
   const router = useRouter();
-  const { userId } = useContext(UserContext);
+  const { userId: currentUserId, fetchWithToken } = useContext(UserContext);
   const [isFollowing, setIsFollowing] = useState(props.isfollowing);
   const [liked, setLiked] = useState(props.liked);
   const [currentLike, setCurrentLike] = useState(props.likes);
   const [timeLeft, setTimeLeft] = useState("");
 
   const handleFollow = async () => {
-    let followed = await follow(userId, props.userId);
-    if (followed === 200) {
-      setIsFollowing(true);
+    try {
+      const result = await follow(currentUserId, props.userId, fetchWithToken);
+      if (result === 200) {
+        setIsFollowing(true);
+      }
+    } catch (error) {
+      console.error('Follow failed:', error);
     }
   };
 
   const handleLike = async () => {
-    let response = await like(userId, props.postid);
-    if (response) {
-      setLiked((prevLiked) => {
-        const newLiked = !prevLiked;
-        setCurrentLike(response.likeCount);
-        return newLiked;
-      });
+    try {
+      const result = await like(currentUserId, props.postid, fetchWithToken);
+      if (result) {
+        setLiked((prevLiked) => {
+          const newLiked = !prevLiked;
+          setCurrentLike(result.likeCount);
+          return newLiked;
+        });
+      }
+    } catch (error) {
+      console.error('Like failed:', error);
     }
   };
 
@@ -63,7 +71,7 @@ const Post = (props) => {
           >
             {props.username}
           </button>
-          {String(userId) !== String(props.userId) &&
+          {String(currentUserId) !== String(props.userId) &&
             (isFollowing ? (
               <span>Following</span>
             ) : (

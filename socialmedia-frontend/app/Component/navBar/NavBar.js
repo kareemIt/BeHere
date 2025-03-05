@@ -15,7 +15,6 @@ const NavBar = () => {
   const router = useRouter();
 
   const logout = () => {
-    localStorage.removeItem('jwtToken');
     setUserId(null);
     router.push('/routes/login');
   };

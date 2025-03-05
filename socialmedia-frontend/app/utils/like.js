@@ -1,20 +1,22 @@
 "use client";
 
-const like = async (userId, postId) => {
-  const token = localStorage.getItem('jwtToken');
-  const response = await fetch(`http://localhost:8080/api/${userId}/like/${postId}`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  });
-  if (response.ok) {
-    const data = await response.json();
-    return data; // Return the JSON response
-  } else {
-    const errorData = await response.text();
-    console.error('Error Liking post:', errorData);
+const like = async (userId, postId, fetchWithToken) => {
+  try {
+    const response = await fetchWithToken(`http://localhost:8080/api/users/${userId}/like/${postId}`, {
+      method: 'POST'
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Post liked:', data);
+      return data;
+    } else {
+      const errorData = await response.json();
+      console.error('Error liking post:', errorData);
+      return null;
+    }
+  } catch (error) {
+    console.error('Like operation failed:', error);
     return null;
   }
 };

@@ -6,19 +6,12 @@ import removeFollower from '../../utils/removeFollower';
 import './style.css';
 
 const FriendsList = () => {
-  const { userId } = useContext(UserContext);
+  const { userId,fetchWithToken  } = useContext(UserContext);
   const [followingList, setFollowingList] = useState([]);
-  const token = localStorage.getItem('jwtToken');
 
   const fetchFollowingList = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/${userId}/followingList`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      });
+      const response = await fetchWithToken(`http://localhost:8080/api/${userId}/followingList`);
       if (response.ok) {
         const data = await response.json();
         setFollowingList(data);
@@ -28,20 +21,20 @@ const FriendsList = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [userId, token]);
+  }, [userId, fetchWithToken]);
 
   useEffect(() => {
     if (userId) {
       fetchFollowingList();
     }
-  }, [userId, token, fetchFollowingList]);
+  }, [userId, fetchWithToken, fetchFollowingList]);
 
   const handleRemoveFollower = async (friendId) => {
     setFollowingList((prevFriendsList) =>
       prevFriendsList.filter((friend) => friend.id !== friendId)
     );
     
-    const removed = await removeFollower(userId, friendId);
+    const removed = await removeFollower(userId, friendId, fetchWithToken);
     if (removed !== 200) {
       fetchFollowingList();
     }

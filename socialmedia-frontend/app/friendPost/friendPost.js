@@ -1,38 +1,54 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from './style.css';
-import Post from "/app/component/post/post";
+import Post from '../component/post/post'; // Corrected import path
+import UserContext from '../context/UserContext';
 
 const FriendPost = ({ profileId }) => {
   const [posts, setPosts] = useState([]);
+  const { fetchWithToken } = useContext(UserContext);
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    if (!profileId) {
+    if (!profileId || !userId) {
       return;
     }
-    const token = localStorage.getItem('jwtToken');
-    const fetchPosts = async () => {
-      const response = await fetch(`http://localhost:8080/api/posts/active/${profileId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        setPosts([data]);
+    const fetchPosts = async () => {
+      try {
+        const response = await fetchWithToken(`http://localhost:8080/api/posts/active/${profileId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (response.ok) {
+          const text = await response.text();
+          if (text) {
+            const data = JSON.parse(text);
+            if (data.id != null) {
+              setPosts([data]);
+            }
+          } else {
+            console.error('Empty response');
+          }
+        } else {
+          const errorText = await response.text();
+          console.error('Error fetching posts:', response.status, errorText);
+        }
+      } catch (error) {
+        console.error('Fetch posts operation failed:', error);
       }
     };
 
     fetchPosts();
-  }, [profileId]);
+  }, [profileId, userId, fetchWithToken]);
 
   return (
     <div className='Posts'>
-      {posts.length > 0 && posts.username ? (
+      {posts.length > 0 ? (
         posts.map((post) => (
           <Post
             key={post.id}

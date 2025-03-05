@@ -6,33 +6,31 @@ import Post from "../post/post";
 import './style.css';
 
 const ForYouPage = ({ postMade, setPostMade }) => {
-  const { userId } = useContext(UserContext);
+  const { userId, fetchWithToken } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
     const fetchPosts = async () => {
-      const response = await fetch(`http://localhost:8080/api/posts/allActivePosts/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      try {
+        const response = await fetchWithToken(`http://localhost:8080/api/posts/allActivePosts/${userId}`);
+    
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data);
+          if(postMade) {
+            setPostMade(false);
+          }
+        } else {
+          const errorData = await response.text();
+          console.error('Failed to fetch posts:', errorData);
         }
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-        if(postMade) {
-          setPostMade(false);
-        }
-      } else {
-        console.error('Failed to fetch posts');
+      } catch (error) {
+        console.error('Failed to fetch posts:', error);
       }
     };
 
-    fetchPosts();
-  }, [userId, postMade, setPostMade]);
+    if (userId) fetchPosts();
+  }, [userId, postMade, setPostMade, fetchWithToken]);
   
   return (
     <div className='Posts'>

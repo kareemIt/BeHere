@@ -1,29 +1,33 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import Link from 'next/link';
 import './style.css';
+import UserContext from '../../context/UserContext';
 
 const Search = () => {
   const [userInput, setUserInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const containerRef = useRef(null);
+  const { fetchWithToken } = useContext(UserContext);
 
   const handleSearch = async () => {
-    const token = localStorage.getItem('jwtToken');
-    const response = await fetch(`http://localhost:8080/api/search/${userInput}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    try {
+      const response = await fetchWithToken(`http://localhost:8080/api/search/${userInput}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      setSearchResults(data);
-    } else {
-      console.error('Error fetching search results');
+      if (response.ok) {
+        const data = await response.json();
+        setSearchResults(data);
+      } else {
+        console.error('Error fetching search results');
+      }
+    } catch (error) {
+      console.error('Search operation failed:', error);
     }
   };
 

@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./style.css";
+import UserContext from "../context/UserContext";
 
 const FriendBio = ({ profileId }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
-  const token = localStorage.getItem("jwtToken");
+  const { fetchWithToken } = useContext(UserContext);
   const currentUserId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -14,12 +15,11 @@ const FriendBio = ({ profileId }) => {
 
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch(
+        const response = await fetchWithToken(
           `http://localhost:8080/api/user/${currentUserId}/friendsbio/${profileId}`,
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json"
             },
             credentials: "include"
@@ -44,19 +44,18 @@ const FriendBio = ({ profileId }) => {
     };
 
     fetchUserInfo();
-  }, [profileId, currentUserId, token]); // Only re-run if profileId changes
+  }, [profileId, currentUserId, fetchWithToken]);
 
   const handleFollow = async () => {
     const action = isFollowing ? "unfollow" : "follow";
     const method = isFollowing ? "DELETE" : "POST";
 
     try {
-      const response = await fetch(
+      const response = await fetchWithToken(
         `http://localhost:8080/api/${currentUserId}/${action}/${profileId}`,
         {
           method: method,
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
           },
           credentials: "include"

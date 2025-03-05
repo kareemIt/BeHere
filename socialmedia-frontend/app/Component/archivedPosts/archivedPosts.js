@@ -5,45 +5,63 @@ import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import Post from "../post/post";
 
-const archivedPosts = () => {
-  const { userId } = useContext(UserContext);
-  const [posts, setPosts] = useState();
+const ArchivedPosts = () => {
+  const { fetchWithToken } = useContext(UserContext);
+  const userId = localStorage.getItem('userId');
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-    const token = localStorage.getItem('jwtToken');
-    const response = await fetch(`http://localhost:8080/api/posts/archived/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      });
-   
+    if (!userId) {
+      return;
+    }
 
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-      } else {
-        console.error('Failed to fetch posts');
+    const fetchPosts = async () => {
+      try {
+        const response = await fetchWithToken(`http://localhost:8080/api/posts/archived/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data);
+        } else {
+          const errorText = await response.text();
+          console.error('Failed to fetch posts:', response.status, errorText);
+        }
+      } catch (error) {
+        console.error('Fetch posts operation failed:', error);
       }
     };
 
-
     fetchPosts();
-  }, []); 
+  }, [userId, fetchWithToken]);
 
   return (
     <div className='Posts'>
-      {posts != null && posts.map((post, index) => (
-       <Post key={index} username={post.username} content={post.content} postid={post.id}
-       expirationTime = {post.expirationTime}
-       remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
-       likes={post.likeCount} liked={post.liked}  expiration={post.expirationTime}
-       />
-      ))}
+      {posts.length > 0 ? (
+        posts.map((post, index) => (
+          <Post
+            key={index}
+            username={post.username}
+            content={post.content}
+            postid={post.id}
+            expirationTime={post.expirationTime}
+            remainingHours={post.remainingHours}
+            userId={post.userId}
+            isfollowing={post.followed}
+            likes={post.likeCount}
+            liked={post.liked}
+            expiration={post.expirationTime}
+          />
+        ))
+      ) : (
+        <p>No archived posts found.</p>
+      )}
     </div>
   );
 };
 
-export default archivedPosts;
+export default ArchivedPosts;

@@ -10,27 +10,53 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const { setUserId, setToken } = useContext(UserContext);
+  const { setAccessToken, setUsername: setContextUsername, setUserId } = useContext(UserContext);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:8080/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
+    setMessage('');
+    
+    try {
+      const response = await fetch('http://localhost:8080/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (response.ok) {
-      const token = await response.json(); 
-      setUserId(token.userId);
-      localStorage.setItem('jwtToken', token.token);
-      setToken(token.token);
-      localStorage.setItem('userId', token.userId);
-      localStorage.setItem('username', username);  
-      router.push('/routes/home'); 
-    } else {
-      setMessage('Invalid credentials');
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage(data.message || 'Login failed');
+        return;
+      }
+
+      // Validate all required fields
+      if (!data.accessToken || !data.userId || !data.username) {
+        console.error('Invalid response structure:', data);
+        setMessage('Server response missing required data');
+        return;
+      }
+
+      // Update context
+      setAccessToken(data.accessToken);
+      setContextUsername(data.username);
+      setUserId(data.userId);
+
+      // Store in localStorage
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+      localStorage.setItem('username', data.username);
+      localStorage.setItem('userId', data.userId.toString());
+
+      router.push('/routes/home');
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      setMessage(error.message || 'Network error occurred during login');
     }
   };
 

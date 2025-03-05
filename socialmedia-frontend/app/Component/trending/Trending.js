@@ -6,31 +6,29 @@ import UserContext from '../../context/UserContext';
 import Post from "../post/post";
 
 const Trending = ({setPostMade}) => {
-  const { userId } = useContext(UserContext);
+  const { userId, fetchWithToken } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
     const fetchTrendingPosts = async () => {
-      const response = await fetch(`http://localhost:8080/api/trending/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        credentials: "include",
-      });
+      try {
+        const response = await fetchWithToken(`http://localhost:8080/api/trending/${userId}`);
 
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-        setPostMade(true);
-      } else {
-        console.log("response failed", response);
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data);
+          setPostMade(true);
+        } else {
+          const errorData = await response.text();
+          console.error('Failed to fetch trending posts:', errorData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch trending posts:', error);
       }
     };
-    fetchTrendingPosts();
-  }, [ setPostMade]);
+
+    if (userId) fetchTrendingPosts();
+  }, [userId, setPostMade, fetchWithToken]);
 
   return (
     <div className='Posts'>

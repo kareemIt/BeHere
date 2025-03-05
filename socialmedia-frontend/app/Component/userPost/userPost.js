@@ -7,29 +7,26 @@ import Post from "../post/post";
 import MakePost from '../../component/makePost/MakePost';
 
 const userPost = () => {
-  const { userId, username } = useContext(UserContext);
+  const { userId, username, fetchWithToken } = useContext(UserContext);
   const [post, setPosts] = useState();
+  const [postMade, setPostMade] = useState(false);
 
   useEffect(() => {
     if (!userId) return; // wait until userId is available
-    const token = localStorage.getItem('jwtToken');
-    const fetchPosts = async () => {
-      const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      });
+
+      const fetchPosts = async () => {
+        const response = await fetchWithToken(`http://localhost:8080/api/posts/active/${userId}`, );
   
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-      } else {
-      }
-    };
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data);
+        } else {
+          const errorData = await response.text();
+          console.error('Failed to fetch posts:', errorData);
+        }
+      };
     fetchPosts();
-  }, [userId]);
+  }, [userId, fetchWithToken]);
 
   return (
     <div className='Posts'>
@@ -39,7 +36,7 @@ const userPost = () => {
        likes={post.likeCount} liked={post.liked} expiration={post.expirationTime} 
        />
       }
-         {post == null && <MakePost username={username}/> }
+         {post != null && <MakePost setPostMade={setPostMade} username={username}/> }
     </div>
   );
 };

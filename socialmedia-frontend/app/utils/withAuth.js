@@ -12,7 +12,7 @@ const withAuth = (WrappedComponent) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const localToken = localStorage.getItem("jwtToken");
+      const localToken = localStorage.getItem("accessToken");
       if (!userId) {
         if (localToken) {
           try {

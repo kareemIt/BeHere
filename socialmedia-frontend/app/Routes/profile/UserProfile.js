@@ -10,29 +10,39 @@ import Bio from '../../component/bio/bio';
 import FriendsList from '../../component/friendList/FriendsList';
 
 const UserProfile = () => {
-  const { userId } = useContext(UserContext);
+  const { fetchWithToken } = useContext(UserContext);
+  const userId = localStorage.getItem('userId');
   const [currentTab, setCurrentTab] = useState(0);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
+    if (!userId) return; 
+
     const fetchPosts = async () => {
-      const response = await fetch(`http://localhost:8080/api/posts/active/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      try {
+        const response = await fetchWithToken(`http://localhost:8080/api/posts/active/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.id != null) {
+            setPosts([data]);
+          }
+        } else {
+          const errorText = await response.text();
+          console.error('Error fetching posts:', response.status, errorText);
         }
-      });
-   
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-      } 
+      } catch (error) {
+        console.error('Fetch posts operation failed:', error);
+      }
     };
 
     fetchPosts();
-  }, [userId]); 
+  }, [userId, fetchWithToken]); 
 
   return (
     <div>
