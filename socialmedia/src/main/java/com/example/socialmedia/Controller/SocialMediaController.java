@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,16 +48,19 @@ public class SocialMediaController {
     @Autowired
     private UserRepository userRepository;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return socialMediaService.getAllUsers();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/user/{id}")
     public Bio getUser(@PathVariable Long id) {
         return socialMediaService.getAUser(id);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/user/{id}/friendsbio/{friendId}")
     public ResponseEntity<FriendBio> getFriendBio(@PathVariable Long id, @PathVariable Long friendId) {
         FriendBio bio = socialMediaService.getFriendBio(id, friendId);
