@@ -17,7 +17,7 @@ const FriendPost = ({ profileId }) => {
 
     const fetchPosts = async () => {
       try {
-        const response = await fetchWithToken(`http://localhost:8080/api/posts/active/${profileId}`, {
+        const response = await fetchWithToken(`http://localhost:8080/api/posts/${userId}/friend/${profileId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
