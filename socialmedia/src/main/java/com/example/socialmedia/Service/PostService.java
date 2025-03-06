@@ -148,4 +148,27 @@ public class PostService {
         return ResponseEntity.ok(postResponse);
     }
 
+    public ResponseEntity<PostResponse> getFriendsUser(Long userId, Long friendId) {
+        Post post = postRepository.findFirstByUserIdAndArchivedFalseAndExpirationTimeAfter(friendId, new Date()).orElse(null);
+        if (post == null) {
+            return ResponseEntity.ok(new PostResponse());
+        }
+        int likeCount = getLikeCountForPost(post.getId());
+        boolean isLiked = isPostLikedByUser(userId, post.getId());
+        boolean isFollowed = isUserFollowedByUser(userId, post.getUser().getId());
+        PostResponse postResponse = new PostResponse(
+                post.getId(),
+                post.getContent(),
+                post.getDateCreated(),
+                post.getExpirationTime(),
+                post.getUser().getUsername(),
+                post.getRemainingHours(),
+                isFollowed,
+                post.getUser().getId(),
+                likeCount,
+                isLiked
+        );
+        return ResponseEntity.ok(postResponse);
+    }
+
 }

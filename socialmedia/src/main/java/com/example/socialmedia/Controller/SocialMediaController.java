@@ -95,6 +95,11 @@ public class SocialMediaController {
         return postService.getUserPost(id);
     }
 
+    @GetMapping("/posts/{id}/friend/{friendId}")
+    public ResponseEntity<PostResponse> getFriendsUser(@PathVariable Long id, @PathVariable Long friendId) {
+        return postService.getFriendsUser(id, friendId);
+    }
+
     @GetMapping("/posts/archived/{id}")
     public ResponseEntity<List<ArchievedResponse>> getArchivedPosts(@PathVariable Long id) {
         List<ArchievedResponse> ArchievedResponse = postService.getArchivedPosts(id);
