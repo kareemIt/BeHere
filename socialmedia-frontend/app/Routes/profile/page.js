@@ -1,26 +1,31 @@
 "use client";
 
-import React, { useEffect, useState, useContext, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import UserContext from '../../context/UserContext';
-import UserProfile from './UserProfile';
-import FriendProfile from './[FriendsProfile]/page';
+import React, { useContext, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+import UserContext from "../../context/UserContext";
+import UserProfile from "./UserProfile";
 
-const ProfilePage = ({ params }) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const { userId: currentUserId } = useContext(UserContext);
-  const [profileUserId, setProfileUserId] = useState(null);
+const FriendProfile = dynamic(() => import("./[FriendsProfile]/page"), {
+  ssr: false,
+});
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('userId');
-    setProfileUserId(id);
-  }, [searchParams]);
-
+const ProfilePage = () => {
   return (
     <Suspense fallback={<div>Loading profile...</div>}>
+      <ProfileContent />
+    </Suspense>
+  );
+};
+
+const ProfileContent = () => {
+  const searchParams = useSearchParams();
+  const profileUserId = searchParams.get("userId");
+
+  const { userId: currentUserId } = useContext(UserContext);
+
+  return (
+    <>
       {profileUserId && String(profileUserId) === String(currentUserId) ? (
         <UserProfile />
       ) : profileUserId ? (
@@ -28,7 +33,7 @@ const ProfilePage = ({ params }) => {
       ) : (
         <UserProfile />
       )}
-    </Suspense>
+    </>
   );
 };
 
