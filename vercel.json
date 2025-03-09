@@ -1,0 +1,15 @@
+{
+    "builds": [
+      {
+        "src": "socialmedia-frontend/package.json",
+        "use": "@vercel/next"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/socialmedia-frontend/$1"
+      }
+    ]
+  }
+  
