@@ -10,7 +10,7 @@ import Trending from '../../component/trending/Trending';
 import withAuth from '../../utils/withAuth';
 import './style.css';
 import { jwtDecode } from 'jwt-decode';
-
+ 
 const Home = () => {
   const router = useRouter();
   const { username, fetchWithToken, accessToken, userId } = useContext(UserContext);
