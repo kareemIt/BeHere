@@ -9,7 +9,7 @@
 .makePostContainer {
   width: 100%;
   max-width: 400px;
-  margin: 20px auto;
+  margin: auto;
   padding: 10px;
   background: #f9f9f9;
   border-radius: 8px;
