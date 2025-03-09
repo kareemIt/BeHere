@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "vercel-build": "npm run install && next build"
+    "vercel-build": "next build"
   },
   "dependencies": {
     "autoprefixer": "^10.4.19",
