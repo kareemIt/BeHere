@@ -3,10 +3,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import UserContext from '../../context/UserContext';
-import MakePost from '../../component/makePost/MakePost';
-import ContentBar from '../../component/contentBar/ContentBar';
-import ForYouPage from '../../component/FYP/ForYouPage';
-import Trending from '../../component/trending/Trending';
+import MakePost from '../../component/makePost/MakePost.js';
+import ContentBar from '../../component/contentBar/ContentBar.js';
+import ForYouPage from '../../component/FYP/ForYouPage.js';
+import Trending from '../../component/trending/Trending.js';
 import withAuth from '../../utils/withAuth';
 import './style.css';
 import { jwtDecode } from 'jwt-decode';
