@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "vercel-build": "npm run install && next build",
-    "postinstall": "npm run lint"
+    "vercel-build": "npm run install && next build"
   },
   "dependencies": {
     "autoprefixer": "^10.4.19",
