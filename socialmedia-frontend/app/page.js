@@ -1,4 +1,3 @@
-// pages/index.js
 "use client";
 
 import React from 'react';
@@ -7,7 +6,9 @@ import { useRouter } from "next/navigation";
 const Home = () => {
 
   const router = useRouter();
-  router.push('/routes/login');
+  useEffect(() => {
+    router.push('/routes/login');
+  }, []);
 
   return (
     <div>
