@@ -1,13 +1,17 @@
 // pages/index.js
+"use client";
 
 import React from 'react';
+import { useRouter } from "next/navigation";
 
 const Home = () => {
+
+  const router = useRouter();
+  router.push('/routes/login');
+
   return (
     <div>
-      <h1>Welcome to My Social Media App</h1>
-      <p>Explore posts, connect with friends, and more!</p>
-      <p>Start by registering or logging in.sss</p>
+      <p>Redirecting...</p>
     </div>
   );
 };

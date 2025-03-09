@@ -81,11 +81,11 @@ const Bio = () => {
             <div className="statsGrid">
               <div className="stat">
                 <h3>Following</h3>
-                <p>{userInfo.followingCount}</p>
+                <p>{userInfo.followersCount}</p>
               </div>
               <div className="stat">
                 <h3>Followers</h3>
-                <p>{userInfo.followersCount}</p>
+                <p>{userInfo.followingCount}</p>
               </div>
               <div className="stat">
                 <h3>Total Likes</h3>
