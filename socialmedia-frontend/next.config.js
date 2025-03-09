@@ -23,8 +23,4 @@ module.exports = {
   experimental: {
     externalDir: true, // This helps if you're using code outside the Next.js app directory
   },
-  // Optional: Specify Node.js version for Vercel
-  engines: {
-    node: ">=16.8.0" // Ensure compatibility with Vercel's environment
-  }
 };
