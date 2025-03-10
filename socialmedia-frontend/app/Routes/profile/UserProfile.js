@@ -3,11 +3,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styles from './style.css';
 import UserContext from '../../context/UserContext'; 
-import ContentBarProfile from '../../component/contentBarProfile/contentBarProfile';
-import ArchivedPosts from '../../component/archivedPosts/archivedPosts';
-import UserPost from '../../component/userPost/userPost';
-import Bio from '../../component/bio/bio';
-import FriendsList from '../../component/friendList/FriendsList';
+import ContentBarProfile from '../../components/contentBarProfile/contentBarProfile';
+import ArchivedPosts from '../../components/archivedPosts/archivedPosts';
+import UserPost from '../../components/userPost/userPost';
+import Bio from '../../components/bio/bio';
+import FriendsList from '../../components/friendList/FriendsList';
 
 const UserProfile = () => {
   const { fetchWithToken } = useContext(UserContext);

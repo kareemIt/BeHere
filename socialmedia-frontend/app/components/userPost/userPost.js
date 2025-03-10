@@ -4,7 +4,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import styles from './style.css';
 import UserContext from '../../context/UserContext';
 import Post from "../post/post";
-import MakePost from '../../component/makePost/MakePost';
+import MakePost from '../makePost/MakePost';
 
 const userPost = () => {
   const { userId, username, fetchWithToken } = useContext(UserContext);

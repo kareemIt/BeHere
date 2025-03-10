@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useContext } from 'react';
 import styles from './style.css';
-import Post from '../component/post/post'; // Corrected import path
+import Post from '../components/post/post'; // Corrected import path
 import UserContext from '../context/UserContext';
 
 const FriendPost = ({ profileId }) => {

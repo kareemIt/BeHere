@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import ContentBarProfileFriend from "../../../component/ContentBarProfileFriend/ContentBarProfileFriend";
+import ContentBarProfileFriend from "../../../components/ContentBarProfileFriend/ContentBarProfileFriend";
 import FriendBio from "../../../friendBio/friendBio";
 import FriendPost from "../../../friendPost/friendPost";
 import "./style.css";
