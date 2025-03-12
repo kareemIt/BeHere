@@ -10,9 +10,11 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/api/users", {
+    const response = await fetch(`${BACKEND_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

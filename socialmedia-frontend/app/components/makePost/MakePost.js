@@ -8,11 +8,12 @@ const MakePost = ({ setPostMade, username }) => {
   const { userId, fetchWithToken } = useContext(UserContext);
   const [content, setContent] = useState("");
   const [hasPost, setHasPost] = useState(false);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const makeAPost = async () => {
     if (!content) return;
     try {
-      const response = await fetchWithToken('http://localhost:8080/api/posts', {
+      const response = await fetchWithToken(`${BACKEND_URL}/posts`, {
         method: 'POST',
         body: JSON.stringify({ userId: userId, content: content }),
       });
@@ -33,7 +34,7 @@ const MakePost = ({ setPostMade, username }) => {
   useEffect(() => {
     const postCheck = async () => {
       try {
-        const response = await fetchWithToken(`http://localhost:8080/api/posts/active/${userId}`);
+        const response = await fetchWithToken(`${BACKEND_URL}/posts/active/${userId}`);
         const data = await response.json();
         if (response.ok && data.id != null) {
           setHasPost(true);

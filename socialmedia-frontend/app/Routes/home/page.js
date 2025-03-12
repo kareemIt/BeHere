@@ -16,6 +16,7 @@ const Home = () => {
   const { username, fetchWithToken, accessToken, userId } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
   const [postMade, setPostMade] = useState(false);
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -48,7 +49,7 @@ const Home = () => {
         }
 
         // Verify with backend
-        const response = await fetchWithToken('http://localhost:8080/api/secured-endpoint');
+        const response = await fetchWithToken(`${BACKEND_URL}/secured-endpoint`);
         
         if (!response.ok) {
           throw new Error(`Auth verification failed: ${response.status}`);

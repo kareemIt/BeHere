@@ -9,12 +9,13 @@ const Bio = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [isSetting, setIsSetting] = useState(false);
   const [newBio, setNewBio] = useState("");
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const response = await fetchWithToken(
-          `http://localhost:8080/api/user/${userId}`,
+          `${BACKEND_URL}/user/${userId}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -47,7 +48,7 @@ const Bio = () => {
   const handleSave = async () => {
     try {
       const response = await fetchWithToken(
-        `http://localhost:8080/api/user/${Number(userId)}/bio`,
+        `${BACKEND_URL}/user/${Number(userId)}/bio`,
         {
           method: "POST", // Ensure this is the correct method
           headers: { "Content-Type": "application/json" },
