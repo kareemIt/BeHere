@@ -9,6 +9,7 @@ const FriendPost = ({ profileId }) => {
   const [posts, setPosts] = useState([]);
   const { fetchWithToken } = useContext(UserContext);
   const userId = localStorage.getItem('userId');
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     if (!profileId || !userId) {

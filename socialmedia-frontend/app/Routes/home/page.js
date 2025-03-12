@@ -60,7 +60,7 @@ const Home = () => {
 
       } catch (error) {
         console.error('Auth verification error:', error);
-        router.push('/login');
+        router.push('/Routes/login');
       }
     };
 

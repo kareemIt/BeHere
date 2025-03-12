@@ -17,7 +17,7 @@ const withAuth = (WrappedComponent) => {
         if (localToken) {
           try {
             const decoded = jwtDecode(localToken);
-            if (decoded && decoded.userId) {
+            if (decoded && decoded.sub) {
               setUserId(decoded.userId);
               setLoading(false);
             } else {
