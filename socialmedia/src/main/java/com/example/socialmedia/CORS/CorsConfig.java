@@ -12,10 +12,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class CorsConfig {
 
-    @Value("${frontend.url:http://localhost:3000}")
+    @Value("${frontend.url}")
     private String frontendUrl;
 
     @Bean
+
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", frontendUrl));
