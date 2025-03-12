@@ -13,12 +13,17 @@ const Login = () => {
   const { setAccessToken, setUsername: setContextUsername, setUserId } = useContext(UserContext);
   const router = useRouter();
 
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  console.log('Logging',BACKEND_URL);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
-    
+
+    console.log('Logging',BACKEND_URL);
+
     try {
-      const response = await fetch('http://localhost:8080/api/login', {
+      const response = await fetch(`${BACKEND_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -10,7 +10,6 @@ services:
     networks:
       - app-network
 
-      # MOm2Jl7ggZB80nZK db pasword
 
   frontend:
     build: .\socialmedia-frontend\
