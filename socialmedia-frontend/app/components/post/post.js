@@ -66,7 +66,7 @@ const Post = (props) => {
         <h1>
           <button
             onClick={() =>
-              router.push(`/routes/profile/${props.username}?userId=${props.userId}`)
+              router.push(`/Routes/profile/${props.username}?userId=${props.userId}`)
             }
           >
             {props.username}

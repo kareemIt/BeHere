@@ -68,7 +68,7 @@ const Search = () => {
         {searchResults.slice(0, 5).map((result) => (
           <div key={result.userId}>
             <Link 
-              href={`/routes/profile/${result.username}?userId=${result.userId}`}
+              href={`/Routes/profile/${result.username}?userId=${result.userId}`}
               onClick={() => {
                 setSearchResults([]);
                 setUserInput('');

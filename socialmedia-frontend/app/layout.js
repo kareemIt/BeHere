@@ -13,7 +13,7 @@ const RootLayout = ({ children }) => {
     <html lang="en" style={{ height: "100%" }}>
       <body>
         <UserProvider>
-          {pathname !== "/routes/login" && pathname !== "/routes/register" && <NavBar />}
+          {pathname !== "/Routes/login" && pathname !== "/Routes/register" && <NavBar />}
           {children}
         </UserProvider>
       </body>

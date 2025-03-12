@@ -54,7 +54,7 @@ const Register = () => {
           <button className="setup-button" type="submit">
             Setup Account
           </button>
-          <Link href="/routes/login">
+          <Link href="/Routes/login">
             <button type="button" className="login-button-register">
               Login
             </button>

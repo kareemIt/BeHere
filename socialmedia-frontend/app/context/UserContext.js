@@ -47,7 +47,7 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.error('Token refresh error:', error);
       localStorage.clear(); // Clear all auth data
-      router.push('/routes/login');
+      router.push('/Routes/login');
       throw error;
     }
   };

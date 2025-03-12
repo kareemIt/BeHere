@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
 
 
   useEffect(() => {
-    router.push('/routes/login');
+    router.push('/Routes/login');
   }, []);
   return (
     <UserProvider>

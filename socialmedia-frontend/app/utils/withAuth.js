@@ -21,13 +21,13 @@ const withAuth = (WrappedComponent) => {
               setUserId(decoded.userId);
               setLoading(false);
             } else {
-              router.push("/routes/login");
+              router.push("/Routes/login");
             }
           } catch (error) {
-            router.push("/routes/login");
+            router.push("/Routes/login");
           }
         } else {
-          router.push("/routes/login");
+          router.push("/Routes/login");
         }
       } else {
         setLoading(false);

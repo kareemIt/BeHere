@@ -16,19 +16,19 @@ const NavBar = () => {
 
   const logout = () => {
     setUserId(null);
-    router.push('/routes/login');
+    router.push('/Routes/login');
   };
 
   return (
     <div className='navBar'>
-      <Link href="/routes/home">
+      <Link href="/Routes/home">
         <h1>BeHere</h1>
       </Link>
 
       <Search className="searchBar" />
 
       <div className="nav-right">
-        <Link href="/routes/profile">
+        <Link href="/Routes/profile">
           <Image priority src={Profile} alt='profile' className='profile'/>
         </Link>
         <span className="divider" />

@@ -13,7 +13,7 @@ const Login = () => {
   const { setAccessToken, setUsername: setContextUsername, setUserId } = useContext(UserContext);
   const router = useRouter();
 
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   console.log('Logging',BACKEND_URL);
 
   const handleSubmit = async (e) => {
@@ -57,7 +57,7 @@ const Login = () => {
       localStorage.setItem('username', data.username);
       localStorage.setItem('userId', data.userId.toString());
 
-      router.push('/routes/home');
+      router.push('/Routes/home');
       
     } catch (error) {
       console.error('Login error:', error);
@@ -86,7 +86,7 @@ const Login = () => {
             className="login-input"
           />
           <button type="submit" className="login-button">Login</button>
-          <Link href="/routes/register">
+          <Link href="/Routes/register">
             <button type="button" className="register-button">Register</button>
           </Link>
         </form>

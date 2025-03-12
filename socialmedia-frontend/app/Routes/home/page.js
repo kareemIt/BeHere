@@ -27,7 +27,7 @@ const Home = () => {
 
         if (!token || !storedUserId || !storedUsername) {
           console.error('Missing auth data:', { token: !!token, userId: !!storedUserId, username: !!storedUsername });
-          router.push('/routes/login');
+          router.push('/Routes/login');
           return;
         }
 
@@ -38,12 +38,12 @@ const Home = () => {
           
           if (decoded.exp < currentTime) {
             console.error('Token expired');
-            router.push('/routes/login');
+            router.push('/Routes/login');
             return;
           }
         } catch (e) {
           console.error('Token decode error:', e);
-          router.push('/routes/login');
+          router.push('/Routes/login');
           return;
         }
 
