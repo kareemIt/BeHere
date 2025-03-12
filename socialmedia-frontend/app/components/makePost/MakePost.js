@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState, useContext } from 'react';
 import UserContext from '../../context/UserContext';
 import './style.css';
@@ -7,7 +5,8 @@ import './style.css';
 const MakePost = ({ setPostMade, username }) => {
   const { userId, fetchWithToken } = useContext(UserContext);
   const [content, setContent] = useState("");
-  const [hasPost, setHasPost] = useState(false);
+  const [hasPost, setHasPost] = useState(null); // Null means loading
+  const [loading, setLoading] = useState(true); // To track loading state
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const makeAPost = async () => {
@@ -45,12 +44,18 @@ const MakePost = ({ setPostMade, username }) => {
       } catch (error) {
         console.error('Failed to check post status:', error);
         setHasPost(false);
+      } finally {
+        setLoading(false); // Finished loading
       }
     };
+
     if (userId) postCheck();
   }, [userId, fetchWithToken]);
 
-  if (hasPost) return null;
+  // Show a loading message or spinner while the check is in progress
+  if (loading) return <div>Loading...</div>;
+
+  if (hasPost) return null; // If user already has a post, don't show the form
 
   return (
     <div className="makePostContainer">
