@@ -7,8 +7,7 @@ import UserContext from "../context/UserContext";
 const FriendBio = ({ profileId }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
-  const { fetchWithToken } = useContext(UserContext);
-  const currentUserId = localStorage.getItem("userId");
+  const { fetchWithToken, userId } = useContext(UserContext);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
@@ -17,7 +16,7 @@ const FriendBio = ({ profileId }) => {
     const fetchUserInfo = async () => {
       try {
         const response = await fetchWithToken(
-          `${BACKEND_URL}/user/${currentUserId}/friendsbio/${profileId}`,
+          `${BACKEND_URL}/user/${userId}/friendsbio/${profileId}`,
           {
             method: "GET",
             headers: {
@@ -45,7 +44,7 @@ const FriendBio = ({ profileId }) => {
     };
 
     fetchUserInfo();
-  }, [profileId, currentUserId, fetchWithToken]);
+  }, [profileId, userId, fetchWithToken]);
 
   const handleFollow = async () => {
     const action = isFollowing ? "unfollow" : "follow";
@@ -53,7 +52,7 @@ const FriendBio = ({ profileId }) => {
 
     try {
       const response = await fetchWithToken(
-        `${BACKEND_URL}/${currentUserId}/${action}/${profileId}`,
+        `${BACKEND_URL}/${userId}/${action}/${profileId}`,
         {
           method: method,
           headers: {
@@ -83,9 +82,9 @@ const FriendBio = ({ profileId }) => {
   }
 
   return (
-    <div className="bioWrapper">
-      <div className="bioContainer">
-        <div className="bioHeader">
+    <div className="friendBioWrapper">
+      <div className="friendBioContainer">
+        <div className="friendBioHeader">
           <h2 className="username">{userInfo.username}</h2>
           <button onClick={handleFollow} className="settings">
             {isFollowing ? "Unfollow" : "Follow"}
@@ -111,7 +110,7 @@ const FriendBio = ({ profileId }) => {
             </div>
           </div>
         </div>
-        <div className="bioSection">
+        <div className="friendBioSection">
           <h3>Bio</h3>
           <p>{userInfo.bio}</p>
         </div>

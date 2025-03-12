@@ -14,13 +14,10 @@ const Login = () => {
   const router = useRouter();
 
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-  console.log('Logging',BACKEND_URL);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
-
-    console.log('Logging',BACKEND_URL);
 
     try {
       const response = await fetch(`${BACKEND_URL}/login`, {

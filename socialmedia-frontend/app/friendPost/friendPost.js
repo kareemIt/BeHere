@@ -64,7 +64,7 @@ const FriendPost = ({ profileId }) => {
           />
         ))
       ) : (
-        <p>The user hasn't made a post today yet!</p>
+        <p className='no-post'>The user hasn't made a post today yet!</p>
       )}
     </div>
   );

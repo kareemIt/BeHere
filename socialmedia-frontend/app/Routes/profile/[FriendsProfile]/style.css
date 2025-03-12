@@ -1,5 +1,5 @@
 /* Layout for the profile page */
-.profileContainer {
+.friendContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -10,8 +10,8 @@
   padding: 20px;
 }
 
-/* Style for the main profile content with a border */
-.profileContent {
+/* Style for the main friend content with a border */
+.friendContent {
   display: flex;
   flex-direction: column;
   gap: 20px;

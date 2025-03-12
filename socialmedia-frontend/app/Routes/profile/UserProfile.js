@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useContext, useEffect } from 'react';
-import styles from './style.css';
+import './style.css';
 import UserContext from '../../context/UserContext'; 
 import ContentBarProfile from '../../components/contentBarProfile/contentBarProfile';
 import ArchivedPosts from '../../components/archivedPosts/archivedPosts';
@@ -10,8 +10,7 @@ import Bio from '../../components/bio/bio';
 import FriendsList from '../../components/friendList/FriendsList';
 
 const UserProfile = () => {
-  const { fetchWithToken } = useContext(UserContext);
-  const userId = localStorage.getItem('userId');
+  const { fetchWithToken, userId } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState(0);
   const [posts, setPosts] = useState([]);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;

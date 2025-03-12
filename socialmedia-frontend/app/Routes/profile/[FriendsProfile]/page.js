@@ -29,8 +29,8 @@ const FriendProfile = () => {
   if (!profileUserId) return <div>Loading...</div>; // Handle loading state
 
   return (
-    <div className="profileContainer">
-      <div className="profileContent">
+    <div className="friendContainer">
+      <div className="friendContent">
         <FriendBio profileId={profileUserId} />
         <ContentBarProfileFriend currentTab={0} />
         <FriendPost profileId={profileUserId} />
