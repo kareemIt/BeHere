@@ -10,7 +10,7 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState([]);
   const containerRef = useRef(null);
   const { fetchWithToken } = useContext(UserContext);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleSearch = async () => {
     try {

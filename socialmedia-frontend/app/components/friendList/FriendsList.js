@@ -8,7 +8,7 @@ import './style.css';
 const FriendsList = () => {
   const { userId,fetchWithToken  } = useContext(UserContext);
   const [followingList, setFollowingList] = useState([]);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const fetchFollowingList = useCallback(async () => {
     try {

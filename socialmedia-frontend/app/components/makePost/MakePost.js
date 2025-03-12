@@ -8,10 +8,11 @@ const MakePost = ({ setPostMade, username }) => {
   const { userId, fetchWithToken } = useContext(UserContext);
   const [content, setContent] = useState("");
   const [hasPost, setHasPost] = useState(false);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const makeAPost = async () => {
     if (!content) return;
+    console.log('Making a post:', BACKEND_URL);
     try {
       const response = await fetchWithToken(`${BACKEND_URL}/posts`, {
         method: 'POST',

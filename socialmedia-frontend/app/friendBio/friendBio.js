@@ -9,7 +9,7 @@ const FriendBio = ({ profileId }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const { fetchWithToken } = useContext(UserContext);
   const currentUserId = localStorage.getItem("userId");
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     if (!profileId) return;

@@ -1,6 +1,6 @@
 const removeFollower = async (userId, followerId, fetchWithToken) => {
     try {
-        const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+        const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetchWithToken(
             `${BACKEND_URL}/${userId}/unfollow/${followerId}`,
             {

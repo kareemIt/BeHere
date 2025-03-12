@@ -8,7 +8,7 @@ import Post from "../post/post";
 const Trending = ({setPostMade}) => {
   const { userId, fetchWithToken } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const fetchTrendingPosts = async () => {

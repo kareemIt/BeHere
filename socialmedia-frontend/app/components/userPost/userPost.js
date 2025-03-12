@@ -10,7 +10,7 @@ const userPost = () => {
   const { userId, username, fetchWithToken } = useContext(UserContext);
   const [post, setPosts] = useState();
   const [postMade, setPostMade] = useState(false);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     if (!userId) return; // wait until userId is available

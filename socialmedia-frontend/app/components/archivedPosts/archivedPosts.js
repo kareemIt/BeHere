@@ -9,7 +9,7 @@ const ArchivedPosts = () => {
   const { fetchWithToken } = useContext(UserContext);
   const userId = localStorage.getItem('userId');
   const [posts, setPosts] = useState([]);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     if (!userId) {

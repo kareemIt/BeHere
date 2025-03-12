@@ -14,7 +14,7 @@ const UserProfile = () => {
   const userId = localStorage.getItem('userId');
   const [currentTab, setCurrentTab] = useState(0);
   const [posts, setPosts] = useState([]);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     if (!userId) return; 
