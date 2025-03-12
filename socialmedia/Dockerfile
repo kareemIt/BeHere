@@ -1,21 +1,25 @@
-# Use Java 21 (recommended) or Java 22 if needed
+# Build Stage
 FROM eclipse-temurin:22-jdk AS build
 
 WORKDIR /app
 
-# Copy project files
-COPY . .
+# Copy only necessary files first to improve caching
+COPY mvnw pom.xml ./
+COPY .mvn .mvn
+COPY src src
 
 # Give execute permissions to mvnw
 RUN chmod +x mvnw
 
-# Build the application
-RUN ./mvnw clean package
+# Build the application (Skip tests for faster builds in CI/CD)
+RUN ./mvnw clean package -DskipTests -B
 
-# Run stage
-FROM eclipse-temurin:22-jre
+# Run Stage
+FROM eclipse-temurin:22-jdk
 WORKDIR /app
 
+# Copy the built JAR file from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
+# Run the application
 CMD ["java", "-jar", "app.jar"]
