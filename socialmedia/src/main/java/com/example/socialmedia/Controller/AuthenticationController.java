@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.socialmedia.Models.AuthResponse;
 import com.example.socialmedia.Models.LoginRequest;
@@ -28,7 +29,7 @@ import com.example.socialmedia.service.AuthService;
 import com.example.socialmedia.util.JwtUtil;
 
 @RestController
-// @RequestMapping("/api")
+@RequestMapping("/api")
 public class AuthenticationController {
 
     private final AuthService authService;
