@@ -8,11 +8,12 @@ import Post from "../post/post";
 const Trending = ({setPostMade}) => {
   const { userId, fetchWithToken } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
+  cosnt BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     const fetchTrendingPosts = async () => {
       try {
-        const response = await fetchWithToken(`http://localhost:8080/api/trending/${userId}`);
+        const response = await fetchWithToken(`${BACKEND_URL}/trending/${userId}`);
 
         if (response.ok) {
           const data = await response.json();

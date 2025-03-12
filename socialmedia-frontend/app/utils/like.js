@@ -2,7 +2,8 @@
 
 const like = async (userId, postId, fetchWithToken) => {
   try {
-    const response = await fetchWithToken(`http://localhost:8080/api/users/${userId}/like/${postId}`, {
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const response = await fetchWithToken(`${BACKEND_URL}/users/${userId}/like/${postId}`, {
       method: 'POST'
     });
 

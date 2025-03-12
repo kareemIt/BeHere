@@ -2,7 +2,8 @@
 
 const follow = async (userId, followerId, fetchWithToken) => {
   try {
-    const response = await fetchWithToken(`http://localhost:8080/api/${userId}/follow/${followerId}`, {
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const response = await fetchWithToken(`${BACKEND_URL}/${userId}/follow/${followerId}`, {
       method: 'POST'
     });
 

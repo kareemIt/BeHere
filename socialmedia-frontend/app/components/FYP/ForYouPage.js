@@ -8,11 +8,12 @@ import './style.css';
 const ForYouPage = ({ postMade, setPostMade }) => {
   const { userId, fetchWithToken } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetchWithToken(`http://localhost:8080/api/posts/allActivePosts/${userId}`);
+        const response = await fetchWithToken(`${BACKEND_URL}/posts/allActivePosts/${userId}`);
     
         if (response.ok) {
           const data = await response.json();

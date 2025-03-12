@@ -11,6 +11,7 @@ export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
   const [userId, setUserId] = useState(null);
   const router = useRouter();
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const refreshToken = async () => {
     try {
@@ -21,7 +22,7 @@ export const UserProvider = ({ children }) => {
         throw new Error('No refresh token available');
       }
 
-      const response = await fetch('http://localhost:8080/api/auth/refresh', {
+      const response = await fetch(`${BACKEND_URL}/auth/refresh`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

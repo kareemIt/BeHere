@@ -8,10 +8,11 @@ import './style.css';
 const FriendsList = () => {
   const { userId,fetchWithToken  } = useContext(UserContext);
   const [followingList, setFollowingList] = useState([]);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const fetchFollowingList = useCallback(async () => {
     try {
-      const response = await fetchWithToken(`http://localhost:8080/api/${userId}/followingList`);
+      const response = await fetchWithToken(`${BACKEND_URL}/${userId}/followingList`);
       if (response.ok) {
         const data = await response.json();
         setFollowingList(data);

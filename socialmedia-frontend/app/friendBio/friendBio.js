@@ -9,6 +9,7 @@ const FriendBio = ({ profileId }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const { fetchWithToken } = useContext(UserContext);
   const currentUserId = localStorage.getItem("userId");
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     if (!profileId) return;
@@ -16,7 +17,7 @@ const FriendBio = ({ profileId }) => {
     const fetchUserInfo = async () => {
       try {
         const response = await fetchWithToken(
-          `http://localhost:8080/api/user/${currentUserId}/friendsbio/${profileId}`,
+          `${BACKEND_URL}/user/${currentUserId}/friendsbio/${profileId}`,
           {
             method: "GET",
             headers: {
@@ -52,7 +53,7 @@ const FriendBio = ({ profileId }) => {
 
     try {
       const response = await fetchWithToken(
-        `http://localhost:8080/api/${currentUserId}/${action}/${profileId}`,
+        `${BACKEND_URL}/${currentUserId}/${action}/${profileId}`,
         {
           method: method,
           headers: {

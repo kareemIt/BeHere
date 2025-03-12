@@ -10,10 +10,11 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState([]);
   const containerRef = useRef(null);
   const { fetchWithToken } = useContext(UserContext);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const handleSearch = async () => {
     try {
-      const response = await fetchWithToken(`http://localhost:8080/api/search/${userInput}`, {
+      const response = await fetchWithToken(`${BACKEND_URL}/search/${userInput}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -14,13 +14,14 @@ const UserProfile = () => {
   const userId = localStorage.getItem('userId');
   const [currentTab, setCurrentTab] = useState(0);
   const [posts, setPosts] = useState([]);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     if (!userId) return; 
 
     const fetchPosts = async () => {
       try {
-        const response = await fetchWithToken(`http://localhost:8080/api/posts/active/${userId}`, {
+        const response = await fetchWithToken(`${BACKEND_URL}/posts/active/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
