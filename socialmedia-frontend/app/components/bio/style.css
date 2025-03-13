@@ -47,6 +47,12 @@
   color: #0070f3;
 }
 
+.charLimit {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: right;
+}
+
 .settings {
   font-size: 1rem;
   color: #0070f3;

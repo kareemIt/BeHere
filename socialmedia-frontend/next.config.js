@@ -1,11 +1,8 @@
-// next.config.js
-
 module.exports = {
   reactStrictMode: true,
   async headers() {
     return [
       {
-        // Apply these headers to all routes in your application.
         source: '/(.*)',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
@@ -19,8 +16,37 @@ module.exports = {
       }
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/home',
+        destination: '/Routes/home',
+      },
+      {
+        source: '/profile',
+        destination: '/Routes/profile',
+      },
+      {
+        source: '/search',
+        destination: '/Routes/search',
+      },
+      {
+        source: '/login',
+        destination: '/Routes/login',
+      },
+      {
+        source: '/register',
+        destination: '/Routes/register',
+      },
+      {
+        source: '/:username',
+        destination: '/Routes/profile?username=:username',
+      },
+      // Add more routes if needed
+    ];
+  },
   productionBrowserSourceMaps: false,
   experimental: {
-    externalDir: true, // This helps if you're using code outside the Next.js app directory
+    externalDir: true,
   },
 };

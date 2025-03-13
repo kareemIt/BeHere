@@ -54,7 +54,7 @@ const Login = () => {
       localStorage.setItem('username', data.username);
       localStorage.setItem('userId', data.userId.toString());
 
-      router.push('/Routes/home');
+      router.push('/home');
       
     } catch (error) {
       console.error('Login error:', error);
@@ -83,7 +83,7 @@ const Login = () => {
             className="login-input"
           />
           <button type="submit" className="login-button">Login</button>
-          <Link href="/Routes/register">
+          <Link href="/register">
             <button type="button" className="register-button">Register</button>
           </Link>
         </form>

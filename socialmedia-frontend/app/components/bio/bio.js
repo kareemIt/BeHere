@@ -104,10 +104,14 @@ const Bio = () => {
               <div className="bioEdit">
                 <textarea
                   value={newBio}
+                  maxLength={255}
                   onChange={handleChange}
                   placeholder="Update your bio..."
                   className="bioTextArea"
                 />
+                <div className="charLimit">
+                  {255 - newBio.length} characters remaining
+                </div>
                 <div className="bioEditButtons">
                   <button onClick={handleSave} className="btn saveBtn">
                     Save

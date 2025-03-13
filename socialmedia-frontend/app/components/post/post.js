@@ -66,16 +66,16 @@ const Post = (props) => {
         <h1>
           <button
             onClick={() =>
-              router.push(`/Routes/profile/${props.username}?userId=${props.userId}`)
+              router.push(`/${props.username}?userId=${props.userId}`)
             }
           >
             {props.username}
           </button>
           {String(currentUserId) !== String(props.userId) &&
             (isFollowing ? (
-              <span>Following</span>
+              <span  className='follow-color'> Following</span>
             ) : (
-              <button onClick={handleFollow}>Follow</button>
+              <button className='follow-color'onClick={handleFollow}>Follow</button>
             ))}
         </h1>
         <h1 className='inner-container'>

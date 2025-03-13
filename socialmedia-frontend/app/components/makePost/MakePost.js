@@ -11,7 +11,6 @@ const MakePost = ({ setPostMade, username }) => {
 
   const makeAPost = async () => {
     if (!content) return;
-    console.log('Making a post:', BACKEND_URL);
     try {
       const response = await fetchWithToken(`${BACKEND_URL}/posts`, {
         method: 'POST',
@@ -63,13 +62,13 @@ const MakePost = ({ setPostMade, username }) => {
       <textarea
         type="text"
         className="postInput"
-        maxLength={256}
+        maxLength={255}
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Write your post here..."
       />
       <div className="charLimit">
-        {256 - content.length} characters remaining
+        {255 - content.length} characters remaining
       </div>
       <button className="postButton" onClick={makeAPost}>Post</button>
     </div>

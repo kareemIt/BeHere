@@ -20,7 +20,7 @@ const FriendProfile = () => {
       if (userIdFromQuery) {
         setProfileUserId(userIdFromQuery);
         if (userIdFromQuery === storedUserId) {
-          router.push("/Routes/profile/");
+          router.push("/profile/");
         }
       }
     }

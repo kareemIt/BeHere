@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import UserContext from '../../context/UserContext';
 import removeFollower from '../../utils/removeFollower';
 import './style.css';
+import Link from 'next/link';
 
 const FriendsList = () => {
   const { userId,fetchWithToken  } = useContext(UserContext);
@@ -47,8 +48,10 @@ const FriendsList = () => {
       {followingList.length > 0 ? (
         followingList.map((friend) => (
           <div key={friend.id} className="friendItem">
-            <h3 className="friendName">{friend.username}</h3>
-            <button onClick={() => handleRemoveFollower(friend.id)}>Remove</button>
+            <Link href={`/${friend.username}?userId=${friend.id}`}>
+             <h3 className="friendName">{friend.username}</h3>
+            </Link>
+            <button className="remove" onClick={() => handleRemoveFollower(friend.id)}>Remove</button>
           </div>
         ))
       ) : (

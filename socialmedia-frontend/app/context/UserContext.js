@@ -16,7 +16,6 @@ export const UserProvider = ({ children }) => {
   const refreshToken = async () => {
     try {
       const refreshTokenValue = localStorage.getItem('refreshToken');
-      console.log('Attempting token refresh');
       
       if (!refreshTokenValue) {
         throw new Error('No refresh token available');
@@ -33,7 +32,6 @@ export const UserProvider = ({ children }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Token refresh successful');
         localStorage.setItem('accessToken', data.accessToken);
         setAccessToken(data.accessToken);
         if (data.refreshToken) {
@@ -47,8 +45,8 @@ export const UserProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Token refresh error:', error);
-      localStorage.clear(); // Clear all auth data
-      router.push('/Routes/login');
+      localStorage.clear(); 
+      router.push('/login');
       throw error;
     }
   };

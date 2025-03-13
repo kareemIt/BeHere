@@ -13,8 +13,16 @@ const Search = () => {
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleSearch = async () => {
+    const trimmedInput = userInput.trim();
+    
+    // Prevent API call if input is empty or only spaces
+    if (trimmedInput.length === 0) {
+      setSearchResults([]);
+      return;
+    }
+
     try {
-      const response = await fetchWithToken(`${BACKEND_URL}/search/${userInput}`, {
+      const response = await fetchWithToken(`${BACKEND_URL}/search/${trimmedInput}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -33,7 +41,7 @@ const Search = () => {
   };
 
   useEffect(() => {
-    if (userInput) {
+    if (userInput.trim().length > 0) {
       handleSearch();
     } else {
       setSearchResults([]);
@@ -60,7 +68,7 @@ const Search = () => {
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
         onFocus={() => {
-          if (userInput) {
+          if (userInput.trim().length > 0) {
             handleSearch();
           }
         }}
@@ -69,7 +77,7 @@ const Search = () => {
         {searchResults.slice(0, 5).map((result) => (
           <div key={result.userId}>
             <Link 
-              href={`/Routes/profile/${result.username}?userId=${result.userId}`}
+              href={`/${result.username}?userId=${result.userId}`}
               onClick={() => {
                 setSearchResults([]);
                 setUserInput('');

@@ -9,7 +9,6 @@ const like = async (userId, postId, fetchWithToken) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('Post liked:', data);
       return data;
     } else {
       const errorData = await response.json();
