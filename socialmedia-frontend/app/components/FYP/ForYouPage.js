@@ -14,13 +14,13 @@ const ForYouPage = ({ postMade, setPostMade }) => {
     const fetchPosts = async () => {
       try {
         const now = new Date();
-        console.log("start of call: "+ now.getMinutes + "" + now.getSeconds)
+        console.log("start of call: "+ now.getMinutes() + " " + now.getSeconds())
         const response = await fetchWithToken(`${BACKEND_URL}/posts/allActivePosts/${userId}`);
     
         if (response.ok) {
           const data = await response.json();
           setPosts(data);
-          console.log("end of call: "+ now.getMinutes + "" + now.getSeconds)
+          console.log("end of call: "+ now.getMinutes() + " " + now.getSeconds())
           if(postMade) {
             setPostMade(false);
           }
