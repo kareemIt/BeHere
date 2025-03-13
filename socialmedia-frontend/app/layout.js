@@ -10,7 +10,7 @@ const RootLayout = ({ children }) => {
   const pathname = usePathname();
 
   return (
-    <html lang="en" style={{ height: "100%" }}>
+    <html lang="en">
       <body>
         <UserProvider>
           {pathname !== "/login" && pathname !== "/register" && pathname !== "/"&&
