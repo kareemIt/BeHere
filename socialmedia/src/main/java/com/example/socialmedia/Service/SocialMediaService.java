@@ -55,7 +55,7 @@ public class SocialMediaService {
             throw new UserAlreadyExistsException("User with username " + user.getUsername() + " already exists.");
         }
         user.setDateCreated(new Date());
-        user.setBio("Hello i'm new");
+        user.setBio("Hello I'm new");
         return userRepository.save(user);
     }
 
