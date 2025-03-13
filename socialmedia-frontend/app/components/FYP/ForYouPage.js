@@ -20,6 +20,7 @@ const ForYouPage = ({ postMade, setPostMade }) => {
         if (response.ok) {
           const data = await response.json();
           setPosts(data);
+          console.log(data)
           console.log("end of call: "+ now.getMinutes() + " " + now.getSeconds())
           if(postMade) {
             setPostMade(false);
