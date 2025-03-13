@@ -36,7 +36,7 @@ const Search = () => {
         console.error('Error fetching search results');
       }
     } catch (error) {
-      console.error('Search operation failed:', error);
+      console.error('Search operation failed');
     }
   };
 

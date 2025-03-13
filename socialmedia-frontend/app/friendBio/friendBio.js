@@ -9,6 +9,7 @@ const FriendBio = ({ profileId }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const { fetchWithToken, userId } = useContext(UserContext);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const [isDisabledFollow, setIsDisabledFollow] = useState(false)
 
   useEffect(() => {
     if (!profileId) return;
@@ -30,16 +31,11 @@ const FriendBio = ({ profileId }) => {
           const data = await response.json();
           setUserInfo(data);
           setIsFollowing(data.following);
-        } else {
-          const errorText = await response.text();
-          console.error(
-            "FriendBio: Error fetching friend info:",
-            response.status,
-            errorText
-          );
+        } else {;
+          console.error("FriendBio: Error fetching friend info");
         }
       } catch (error) {
-        console.error("FriendBio: Error fetching friend info:", error);
+        console.error("FriendBio: Error fetching friend info");
       }
     };
 
@@ -47,10 +43,12 @@ const FriendBio = ({ profileId }) => {
   }, [profileId, userId, fetchWithToken]);
 
   const handleFollow = async () => {
+    if(isDisabledFollow) return
     const action = isFollowing ? "unfollow" : "follow";
     const method = isFollowing ? "DELETE" : "POST";
 
     try {
+      setIsDisabledFollow(true)
       const response = await fetchWithToken(
         `${BACKEND_URL}/${userId}/${action}/${profileId}`,
         {
@@ -64,16 +62,12 @@ const FriendBio = ({ profileId }) => {
 
       if (response.ok) {
         setIsFollowing(!isFollowing);
+        setTimeout(() => setIsDisabledFollow(false), 2500);
       } else {
-        const errorText = await response.text();
-        console.error(
-          "FriendBio: Error updating follow status:",
-          response.status,
-          errorText
-        );
+        console.error("FriendBio: Error updating follow status");
       }
     } catch (error) {
-      console.error("FriendBio: Error updating follow status:", error);
+      console.error("FriendBio: Error updating follow status");
     }
   };
 

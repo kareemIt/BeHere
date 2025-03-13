@@ -29,11 +29,10 @@ const ArchivedPosts = () => {
           const data = await response.json();
           setPosts(data);
         } else {
-          const errorText = await response.text();
-          console.error('Failed to fetch posts:', response.status, errorText);
+          console.error('Failed to fetch posts:');
         }
       } catch (error) {
-        console.error('Fetch posts operation failed:', error);
+        console.error('Fetch posts operation failed');
       }
     };
 

@@ -1,5 +1,6 @@
 package com.example.socialmedia.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -111,7 +112,7 @@ public class SocialMediaService {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            int totalLikes = likeService.getLikeCountForUser(id);
+            int totalLikes = getLikeCountForUser(id);
             Set<UserFollowing> followers = userFollowingService.getFollowers(id);
             Set<UserFollowing> following = userFollowingService.getFollowing(id);
             Bio bio = new Bio();
@@ -137,7 +138,7 @@ public class SocialMediaService {
 
         if (optionalFriend.isPresent()) {
             User friend = optionalFriend.get();
-            int totalLikes = likeService.getLikeCountForUser(friendId);
+            int totalLikes = getLikeCountForUser(friendId);
             Set<UserFollowing> friendFollowers = userFollowingService.getFollowers(friendId);
             Set<UserFollowing> friendFollowing = userFollowingService.getFollowing(friendId);
 
@@ -168,6 +169,10 @@ public class SocialMediaService {
 
     public List<Post> getAllPosts() {
         return postRepository.findAll();
+    }
+
+    public List<Post> getAllPostsForUser(Long userId) {
+        return postRepository.findAllByUserId(userId);
     }
 
     public List<Post> getAllActivePosts() {
@@ -229,7 +234,17 @@ public class SocialMediaService {
     }
 
     public int getLikeCountForUser(Long userId) {
-        return likeService.getLikeCountForUser(userId);
+        int totalLike = 0;
+        List<Post> userPosts = getAllPostsForUser(userId);
+        List<Long> listOfPostIds = new ArrayList<>();
+        for (Post post : userPosts) {
+            listOfPostIds.add(post.getId());
+        }
+        for (Long postId : listOfPostIds) {
+            totalLike += likeService.getLikeCountForPost(postId);
+        }
+
+        return totalLike;
     }
 
     public Optional<User> getUser(Long id) {

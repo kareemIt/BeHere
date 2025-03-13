@@ -33,11 +33,10 @@ const UserProfile = () => {
             setPosts([data]);
           }
         } else {
-          const errorText = await response.text();
-          console.error('Error fetching posts:', response.status, errorText);
+          console.error('Error fetching posts');
         }
       } catch (error) {
-        console.error('Fetch posts operation failed:', error);
+        console.error('Fetch posts operation failed');
       }
     };
 

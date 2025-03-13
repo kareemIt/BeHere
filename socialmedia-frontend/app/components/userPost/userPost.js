@@ -22,8 +22,7 @@ const userPost = () => {
           const data = await response.json();
           setPosts(data);
         } else {
-          const errorData = await response.text();
-          console.error('Failed to fetch posts:', errorData);
+          console.error('Failed to fetch posts');
         }
       };
     fetchPosts();

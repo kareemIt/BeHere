@@ -11,12 +11,11 @@ const like = async (userId, postId, fetchWithToken) => {
       const data = await response.json();
       return data;
     } else {
-      const errorData = await response.json();
-      console.error('Error liking post:', errorData);
+      console.error('Error liking post');
       return null;
     }
   } catch (error) {
-    console.error('Like operation failed:', error);
+    console.error('Like operation failed');
     return null;
   }
 };

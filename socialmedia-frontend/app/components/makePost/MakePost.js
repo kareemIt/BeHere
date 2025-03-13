@@ -22,11 +22,10 @@ const MakePost = ({ setPostMade, username }) => {
         setHasPost(true);
         setPostMade(true);
       } else {
-        const errorData = await response.text();
-        console.error('Error creating post:', errorData);
+        console.error('Error creating post');
       }
     } catch (error) {
-      console.error('Failed to create post:', error);
+      console.error('Failed to create post');
     }
   };
 

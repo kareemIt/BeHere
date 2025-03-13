@@ -38,7 +38,7 @@ const Login = () => {
 
       // Validate all required fields
       if (!data.accessToken || !data.userId || !data.username) {
-        console.error('Invalid response structure:', data);
+        console.error('Invalid response structure');
         setMessage('Server response missing required data');
         return;
       }
@@ -57,7 +57,7 @@ const Login = () => {
       router.push('/home');
       
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error');
       setMessage(error.message || 'Network error occurred during login');
     }
   };

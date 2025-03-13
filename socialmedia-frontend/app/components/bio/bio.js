@@ -21,15 +21,16 @@ const Bio = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
+        
 
         if (response.ok) {
           const data = await response.json();
           setUserInfo(data);
         } else {
-          console.error("Failed to fetch user info", response);
+          console.error("Failed to fetch user info");
         }
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("Error fetching user info");
       }
     };
 

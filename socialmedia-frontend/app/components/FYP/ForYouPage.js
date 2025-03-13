@@ -13,20 +13,22 @@ const ForYouPage = ({ postMade, setPostMade }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        const now = new Date();
+        console.log("start of call: "+ now.getMinutes + "" + now.getSeconds)
         const response = await fetchWithToken(`${BACKEND_URL}/posts/allActivePosts/${userId}`);
     
         if (response.ok) {
           const data = await response.json();
           setPosts(data);
+          console.log("end of call: "+ now.getMinutes + "" + now.getSeconds)
           if(postMade) {
             setPostMade(false);
           }
         } else {
-          const errorData = await response.text();
-          console.error('Failed to fetch posts:', errorData);
+          console.error('Failed to fetch posts');
         }
       } catch (error) {
-        console.error('Failed to fetch posts:', error);
+        console.error('Failed to fetch posts');
       }
     };
 

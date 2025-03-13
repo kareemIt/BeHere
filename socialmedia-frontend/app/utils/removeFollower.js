@@ -12,13 +12,13 @@ const removeFollower = async (userId, followerId, fetchWithToken) => {
         );
 
         if (!response.ok) {
-            console.error(`Failed to unfollow user ${followerId}`, response.status);
+            console.error(`Failed to unfollow user`);
             return null; // Indicate failure
         }
 
         return response.status; // Return status for success handling
     } catch (error) {
-        console.error("Error removing follower:", error);
+        console.error("Error removing follower");
         return null; // Indicate failure
     }
 };

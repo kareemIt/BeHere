@@ -27,7 +27,7 @@ const Home = () => {
         const storedUsername = localStorage.getItem('username');
 
         if (!token || !storedUserId || !storedUsername) {
-          console.error('Missing auth data:', { token: !!token, userId: !!storedUserId, username: !!storedUsername });
+          console.error('Missing auth data');
           router.push('/login');
           return;
         }
@@ -43,7 +43,7 @@ const Home = () => {
             return;
           }
         } catch (e) {
-          console.error('Token decode error:', e);
+          console.error('Token decode error:');
           router.push('/login');
           return;
         }
@@ -52,14 +52,10 @@ const Home = () => {
         const response = await fetchWithToken(`${BACKEND_URL}/secured-endpoint`);
         
         if (!response.ok) {
-          throw new Error(`Auth verification failed: ${response.status}`);
+          throw new Error(`Auth verification failed`);
         }
-
-        // If we get here, auth is valid
-        console.log('Auth verified successfully');
-
       } catch (error) {
-        console.error('Auth verification error:', error);
+        console.error('Auth verification error');
         router.push('/login');
       }
     };

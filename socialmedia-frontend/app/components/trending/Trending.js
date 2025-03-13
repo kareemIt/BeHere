@@ -20,11 +20,10 @@ const Trending = ({setPostMade}) => {
           setPosts(data);
           setPostMade(true);
         } else {
-          const errorData = await response.text();
-          console.error('Failed to fetch trending posts:', errorData);
+          console.error('Failed to fetch trending posts');
         }
       } catch (error) {
-        console.error('Failed to fetch trending posts:', error);
+        console.error('Failed to fetch trending posts');
       }
     };
 

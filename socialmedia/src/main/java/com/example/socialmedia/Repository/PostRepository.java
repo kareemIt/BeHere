@@ -31,6 +31,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByArchivedTrue();
 
+    List<Post> findAllByUserId(Long userId);
+
     Optional<Post> findFirstByUserIdAndDateCreatedAndArchivedFalse(Long userId, Date dateCreated);
 
     List<Post> findByUserIdAndArchivedTrue(Long userId);

@@ -18,10 +18,10 @@ const FriendsList = () => {
         const data = await response.json();
         setFollowingList(data);
       } else {
-        console.log("Failed to fetch following list for userId:", userId);
+        console.log("Failed to fetch following list ");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Failed to fetch following list");
     }
   }, [userId, fetchWithToken]);
 

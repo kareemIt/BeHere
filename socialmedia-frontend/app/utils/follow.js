@@ -10,12 +10,11 @@ const follow = async (userId, followerId, fetchWithToken) => {
     if (response.ok) {
       return 200;
     } else {
-      const errorData = await response.text();
-      console.error('Follow operation failed:', errorData);
+      console.error('Follow operation failed');
       return 400;
     }
   } catch (error) {
-    console.error('Follow operation failed:', error);
+    console.error('Follow operation failed');
     return 400;
   }
 };
