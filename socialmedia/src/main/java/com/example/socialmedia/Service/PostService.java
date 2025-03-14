@@ -35,7 +35,6 @@ public class PostService {
                 .map(userFollowing -> userFollowing.getFollowerId())
                 .collect(Collectors.toSet());
 
-        System.out.println(posts);
         return posts.stream().map(post -> {
             int likeCount = likeRepository.countByPostId(post.getId());
             boolean isLiked = likeRepository.findByUserIdAndPostId(userId, post.getId()).isPresent();
