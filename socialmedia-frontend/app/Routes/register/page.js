@@ -49,8 +49,8 @@ const Register = () => {
         body: JSON.stringify({ username: trimmedUsername, email: trimmedEmail, password: trimmedPassword }),
       }).catch(() => null); // Prevents fetch errors from being logged
   
-      if (!response || !response.ok) {
-        setMessage("Account already exists");
+      if (!response) {
+        setMessage("Network error occurred during login try again in a minute");
         return;
       }
   
