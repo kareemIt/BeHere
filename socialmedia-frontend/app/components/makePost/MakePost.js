@@ -58,7 +58,7 @@ const MakePost = ({ setPostMade, username }) => {
   });
 
   // **Show loading message while checking if user has an active post**
-  if (isCheckingPost) return <div>Loading...</div>;
+  if (isCheckingPost) return <div></div>;
 
   // **If user already has a post, don't show the form**
   if (hasPost) return null;
