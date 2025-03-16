@@ -51,7 +51,8 @@ const ForYouPage = ({ postMade, setPostMade }) => {
           />
         ))
       ) : (
-        <p>No posts available</p>
+        
+        isLoading == false && <p>No posts available</p>
       )}
     </div>
   );
