@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useContext } from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link'; 
 import UserContext from '../../context/UserContext';
 import Search from '../Search/Search';
@@ -9,16 +9,27 @@ import Image from 'next/image';
 import './style.css';
 import { useRouter } from "next/navigation";
 
-
 const NavBar = () => {
-  const { userId, setUserId } = useContext(UserContext);
+  const { userId, setUserId, setAccessToken, setContextUsername } = useContext(UserContext); // Access setContextUsername here
   const router = useRouter();
 
   const logout = () => {
+    console.log("Logging out, clearing session...");
+  
+    // Clear localStorage
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
+  
+    // Reset context state
     setUserId(null);
+    setAccessToken(null);
+  
+    console.log("Redirecting to login...");
     router.push('/login');
   };
-
+  
   return (
     <div className='navBar'>
       <Link href="/home">

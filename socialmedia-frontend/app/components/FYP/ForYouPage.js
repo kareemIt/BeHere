@@ -1,53 +1,59 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from 'react';
-import UserContext from '../../context/UserContext';
+import React, { useContext, useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import UserContext from "../../context/UserContext";
 import Post from "../post/post";
-import './style.css';
+import "./style.css";
 
 const ForYouPage = ({ postMade, setPostMade }) => {
   const { userId, fetchWithToken } = useContext(UserContext);
-  const [posts, setPosts] = useState([]);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetchWithToken(`${BACKEND_URL}/posts/allActivePosts/${userId}`);
-    
-        if (response.ok) {
-          const data = await response.json();
-          setPosts(data);
-          if(postMade) {
-            setPostMade(false);
-          }
-        } else {
-          console.error('Failed to fetch posts');
-        }
-      } catch (error) {
-        console.error('Failed to fetch posts');
-      }
-    };
+  // Fetch posts using React Query
+  const { data: posts = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["posts", userId],
+    queryFn: async () => {
+      const response = await fetchWithToken(`${BACKEND_URL}/posts/allActivePosts/${userId}`);
+      return response.json();
+    },
+    enabled: !!userId, // Ensure fetching happens only when userId is available
+    staleTime: 0, // Prevent stale data
+    cacheTime: 0, // Prevent caching of old posts
+  });
 
-    if (userId) fetchPosts();
-  }, [userId, postMade, setPostMade, fetchWithToken]);
   
+  useEffect(() => {
+    if (postMade) {
+      queryClient.invalidateQueries(["posts", userId]); // Mark the query as stale and refetch
+      refetch(); // Force fetch
+      setPostMade(false); // Reset after fetching new posts
+    }
+  }, [postMade, queryClient, refetch, setPostMade, userId]);
+
   return (
-    <div className='Posts'>
-      {posts.length > 0 && posts.map((post, index) => (
-        <Post
-          key={index}
-          username={post.username}
-          content={post.content}
-          postid={post.id}
-          remainingHours={post.remainingHours}
-          userId={post.userId}
-          isfollowing={post.followed}
-          likes={post.likeCount}
-          liked={post.liked}
-          expiration={post.expirationTime}
-        />
-      ))}
+    <div className="Posts">
+      {isLoading && <p>Loading posts...</p>}
+      {error && <p>Error fetching posts</p>}
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <Post
+            key={post.id}
+            username={post.username}
+            content={post.content}
+            postid={post.id}
+            remainingHours={post.remainingHours}
+            userId={post.userId}
+            isfollowing={post.followed}
+            likes={post.likeCount}
+            liked={post.liked}
+            expiration={post.expirationTime}
+          />
+        ))
+      ) : (
+        <p>No posts available</p>
+      )}
     </div>
   );
 };

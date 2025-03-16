@@ -1,45 +1,53 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from 'react';
-import styles from './style.css';
-import UserContext from '../../context/UserContext';
+import React, { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import styles from "./style.css";
+import UserContext from "../../context/UserContext";
 import Post from "../post/post";
 
-const Trending = ({setPostMade}) => {
+const Trending = ({ setPostMade }) => {
   const { userId, fetchWithToken } = useContext(UserContext);
-  const [posts, setPosts] = useState([]);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  useEffect(() => {
-    const fetchTrendingPosts = async () => {
-      try {
-        const response = await fetchWithToken(`${BACKEND_URL}/trending/${userId}`);
+  // **Fetch trending posts using React Query**
+  const { data: posts = [], isLoading, error } = useQuery({
+    queryKey: ["trendingPosts", userId],
+    queryFn: async () => {
+      const response = await fetchWithToken(`${BACKEND_URL}/trending/${userId}`);
+      if (!response.ok) throw new Error("Failed to fetch trending posts");
+      return response.json();
+    },
+    enabled: !!userId, // Only fetch when userId is available
+    staleTime: 0, // Ensures fresh data
+    cacheTime: 0, // Prevents caching old results
+    onSuccess: () => setPostMade(true), // Update parent state when posts load
+  });
 
-        if (response.ok) {
-          const data = await response.json();
-          setPosts(data);
-          setPostMade(true);
-        } else {
-          console.error('Failed to fetch trending posts');
-        }
-      } catch (error) {
-        console.error('Failed to fetch trending posts');
-      }
-    };
-
-    if (userId) fetchTrendingPosts();
-  }, [userId, setPostMade, fetchWithToken]);
+  if (isLoading) return <div>Loading trending posts...</div>;
+  if (error) return <div>Error loading trending posts.</div>;
 
   return (
-    <div className='Posts'>
-    {posts.length > 0 && posts.map((post, index) => (
-      <Post key={index} username={post.username} content={post.content} postid={post.id}
-      remainingHours={post.remainingHours} userId={post.userId} isfollowing={post.followed}
-      likes={post.likeCount} liked={post.liked} expiration={post.expirationTime}
-      
-      />
-    ))}
-  </div>
+    <div className="Posts">
+      {posts.length > 0 ? (
+        posts.map((post, index) => (
+          <Post
+            key={index}
+            username={post.username}
+            content={post.content}
+            postid={post.id}
+            remainingHours={post.remainingHours}
+            userId={post.userId}
+            isfollowing={post.followed}
+            likes={post.likeCount}
+            liked={post.liked}
+            expiration={post.expirationTime}
+          />
+        ))
+      ) : (
+        <div>No trending posts available.</div>
+      )}
+    </div>
   );
 };
 

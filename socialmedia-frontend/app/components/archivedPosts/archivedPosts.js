@@ -1,46 +1,37 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from 'react';
-import styles from './style.css';
-import UserContext from '../../context/UserContext';
+import React, { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import styles from "./style.css";
+import UserContext from "../../context/UserContext";
 import Post from "../post/post";
+
+const fetchArchivedPosts = async ({ queryKey }) => {
+  const [, userId, fetchWithToken, BACKEND_URL] = queryKey;
+  const response = await fetchWithToken(`${BACKEND_URL}/posts/archived/${userId}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  return response.json();
+};
 
 const ArchivedPosts = () => {
   const { fetchWithToken } = useContext(UserContext);
-  const userId = localStorage.getItem('userId');
-  const [posts, setPosts] = useState([]);
+  const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : null;
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  useEffect(() => {
-    if (!userId) {
-      return;
-    }
+  const { data: posts = [], isLoading, error } = useQuery({
+    queryKey: ["archivedPosts", userId, fetchWithToken, BACKEND_URL],
+    queryFn: fetchArchivedPosts,
+    enabled: !!userId, // Only fetch if userId exists
+  });
 
-    const fetchPosts = async () => {
-      try {
-        const response = await fetchWithToken(`${BACKEND_URL}/posts/archived/${userId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setPosts(data);
-        } else {
-          console.error('Failed to fetch posts:');
-        }
-      } catch (error) {
-        console.error('Fetch posts operation failed');
-      }
-    };
-
-    fetchPosts();
-  }, [userId, fetchWithToken]);
+  if (isLoading) return <p>Loading archived posts...</p>;
+  if (error) return <p>Error loading posts: {error.message}</p>;
 
   return (
-    <div className='Posts'>
+    <div className="Posts">
       {posts.length > 0 ? (
         posts.map((post, index) => (
           <Post

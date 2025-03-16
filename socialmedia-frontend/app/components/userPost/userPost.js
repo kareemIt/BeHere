@@ -3,30 +3,27 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styles from './style.css';
 import UserContext from '../../context/UserContext';
+import { useQuery } from "@tanstack/react-query";
 import Post from "../post/post";
 import MakePost from '../makePost/MakePost';
 
 const userPost = () => {
   const { userId, username, fetchWithToken } = useContext(UserContext);
-  const [post, setPosts] = useState();
   const [postMade, setPostMade] = useState(false);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  useEffect(() => {
-    if (!userId) return; // wait until userId is available
-
-      const fetchPosts = async () => {
-        const response = await fetchWithToken(`${BACKEND_URL}/posts/active/${userId}`, );
-  
-        if (response.ok) {
-          const data = await response.json();
-          setPosts(data);
-        } else {
-          console.error('Failed to fetch posts');
-        }
-      };
-    fetchPosts();
-  }, [userId, fetchWithToken]);
+  const { data: post = [], isLoading, error } = useQuery({
+    queryKey: ["userPost", userId],
+    queryFn: async () => {
+      const response = await fetchWithToken(`${BACKEND_URL}/posts/active/${(userId)}`,);
+      if (!response.ok) throw new Error("Failed to fetch trending posts");
+      return response.json();
+    },
+    enabled: !!userId, // Only fetch when userId is available
+    staleTime: 0, // Ensures fresh data
+    cacheTime: 0, // Prevents caching old results
+    onSuccess: () => setPostMade(true), // Update parent state when posts load
+  });
 
   return (
     <div className='Posts'>
