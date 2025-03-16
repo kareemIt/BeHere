@@ -35,7 +35,6 @@ const ForYouPage = ({ postMade, setPostMade }) => {
   return (
     <div className="Posts">
       {isLoading && <p>Loading posts...</p>}
-      {error && <p>Error fetching posts</p>}
       {posts.length > 0 ? (
         posts.map((post) => (
           <Post
